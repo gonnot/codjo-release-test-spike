@@ -1,0 +1,16 @@
+package net.codjo.spike.crts;
+import net.codjo.spike.crts.Node;
+import org.apache.log4j.Logger;
+
+function void debug(String text) {
+    Logger.getLogger(RuleEngine.class).debug(text);
+}
+
+rule "First stupid rule"
+when
+    node1: Node( state == State.NEW )
+then
+    node1.setState(State.WAITING);
+    update(node1);
+end
+

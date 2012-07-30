@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+     | POM Relationships
+     -->
+    <parent>
+        <groupId>net.codjo.pom</groupId>
+        <artifactId>codjo-pom-external</artifactId>
+        <version>SNAPSHOT</version>
+    </parent>
+    <groupId>net.codjo.spike</groupId>
+    <artifactId>codjo-release-test-spike</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.test</groupId>
+            <artifactId>codjo-test-common</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+     | Build Settings
+     -->
+    <!--
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-idea-plugin</artifactId>
+                <configuration>
+                    <jdkLevel>1.5</jdkLevel>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+     -->
+
+    <!--
+    | Project Information
+    -->
+
+    <name>Prototype &gt; codjo-release-test (syntax)</name>
+    <description>SPIKE codjo-release-test - syntax tree aspects</description>
+    <inceptionYear>2012</inceptionYear>
+
+</project>
