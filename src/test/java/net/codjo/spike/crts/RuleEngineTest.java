@@ -19,7 +19,8 @@ public class RuleEngineTest {
     public void test_defaultRulesFile() throws Exception {
         engine.start();
 
-        Node node= new Node(State.NEW);
+        Node node = new Node("node");
+        node.setState(State.NEW);
 
         engine.insert(node);
 
