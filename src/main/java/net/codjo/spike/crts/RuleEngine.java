@@ -33,19 +33,29 @@ import org.drools.rule.Package;
 @SuppressWarnings({"NullableProblems"})
 public class RuleEngine {
     private WorkingMemory workingMemory;
+    private Node rootNode = new Node("root");
 
 
     public RuleEngine() {
         RuleBase rules = createRuleBase();
         workingMemory = rules.newStatefulSession();
+        workingMemory.setGlobal("rootNode", rootNode);
     }
 
 
     public void insert(Node... nodes) {
         for (Node node : nodes) {
-            workingMemory.insert(node);
+            insertImpl(node);
         }
         workingMemory.fireAllRules();
+    }
+
+
+    private void insertImpl(Node node) {
+        workingMemory.insert(node);
+        for (Node subNode : node.getNodes()) {
+            insertImpl(subNode);
+        }
     }
 
 
@@ -73,5 +83,10 @@ public class RuleEngine {
     private String extractFileName(URL rulesUrl) {
         String path = rulesUrl.getPath();
         return path.substring(path.lastIndexOf("/") + 1);
+    }
+
+
+    public Node getRootNode() {
+        return rootNode;
     }
 }

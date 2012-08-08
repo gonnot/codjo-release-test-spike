@@ -1,16 +1,18 @@
 package net.codjo.spike.crts;
 import net.codjo.spike.crts.Node;
-import org.apache.log4j.Logger;
+
+global Node rootNode;
 
 function void debug(String text) {
-    Logger.getLogger(RuleEngine.class).debug(text);
+    System.out.println("> " + text);
 }
 
-rule "First stupid rule"
+rule "Assign orphan nodes to root"
 when
-    node1: Node( state == State.NEW )
+    orphan: Node()
+    not( Node( nodes contains orphan ) )
 then
-    node1.setState(State.WAITING);
-    update(node1);
+    debug(" orphan node " + orphan.getName());
+    rootNode.add(orphan);
 end
 

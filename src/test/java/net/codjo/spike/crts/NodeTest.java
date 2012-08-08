@@ -76,29 +76,23 @@ public class NodeTest {
     }
 
 
-    private static void assertNode(Node node, String expected) {
+    static void assertNode(Node node, String expected) {
         String result = node.accept(new StringNodeVisitor());
         assertThat(result, is(expected.replaceAll("(\\w) ", "$1\n ").trim() + "\n"));
     }
 
 
-    private static NodeBuilder node(final String name) {
+    public static NodeBuilder node(final String name) {
         return new NodeBuilder(name);
     }
 
 
-    private static class NodeBuilder {
+    public static class NodeBuilder {
         private final Node node;
 
 
         private NodeBuilder(String name) {
             node = new Node(name);
-        }
-
-
-        NodeBuilder add(Node subNode) {
-            node.add(subNode);
-            return this;
         }
 
 

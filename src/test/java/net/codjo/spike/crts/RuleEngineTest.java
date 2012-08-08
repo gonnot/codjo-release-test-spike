@@ -20,7 +20,8 @@
 package net.codjo.spike.crts;
 import org.junit.Before;
 import org.junit.Test;
-import static net.codjo.test.common.matcher.JUnitMatchers.*;
+import static net.codjo.spike.crts.NodeTest.assertNode;
+import static net.codjo.spike.crts.NodeTest.node;
 /**
  *
  */
@@ -35,12 +36,23 @@ public class RuleEngineTest {
 
 
     @Test
-    public void test_defaultRulesFile() throws Exception {
-        Node node = new Node("node");
-        node.setState(State.NEW);
+    public void testOrphanNodeAreAttachedToRoot() throws Exception {
+        engine.insert(new Node("gui-test"));
 
-        engine.insert(node);
+        assertNode(engine.getRootNode(),
+                   "root" +
+                   " *-- gui-test");
+    }
 
-        assertThat(node.getState(), is(State.WAITING));
+
+    @Test
+    public void testOrphanedSubTreeIsAttachedToRoot() throws Exception {
+        engine.insert(node("gui-test")
+                            .add(node("click")).get());
+
+        assertNode(engine.getRootNode(),
+                   "root" +
+                   " *-- gui-test" +
+                   "      *-- click");
     }
 }

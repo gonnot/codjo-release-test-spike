@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    private State state = State.UNKNOWN;
     private final String name;
     private List<Node> nodes = new ArrayList<Node>();
 
@@ -43,22 +42,12 @@ public class Node {
     }
 
 
-    void add(Node node) {
+    public void add(Node node) {
         nodes.add(node);
     }
 
 
-    List<Node> getNodes() {
+    public List<Node> getNodes() {
         return nodes;
-    }
-
-
-    public State getState() {
-        return state;
-    }
-
-
-    public void setState(State state) {
-        this.state = state;
     }
 }
