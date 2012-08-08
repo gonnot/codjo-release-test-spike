@@ -17,8 +17,6 @@ public class RuleEngineTest {
 
     @Test
     public void test_defaultRulesFile() throws Exception {
-        engine.start();
-
         Node node = new Node("node");
         node.setState(State.NEW);
 
