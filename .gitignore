@@ -3,6 +3,7 @@
 *.iml
 target
 .svn
+.idea
 APDescription.txt
 MTPs-*.*
 pom.xml.*
