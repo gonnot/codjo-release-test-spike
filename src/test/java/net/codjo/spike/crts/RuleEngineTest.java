@@ -21,8 +21,8 @@ package net.codjo.spike.crts;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import static net.codjo.spike.crts.NodeBuilder.node;
 import static net.codjo.spike.crts.NodeTest.assertNode;
-import static net.codjo.spike.crts.NodeTest.node;
 /**
  *
  */
@@ -38,96 +38,77 @@ public class RuleEngineTest {
 
     @Test
     public void testOrphanNodeAreAttachedToRoot() throws Exception {
-        engine.insert(new Node("gui-test"));
+        engine.insert(node("gui-test"));
 
-        assertNode(engine.getRootNode(),
-                   "root" +
-                   " *-- gui-test");
+        assertRootNode("root" +
+                       " *-- gui-test");
     }
 
 
     @Test
     public void testOrphanedSubTreeIsAttachedToRoot() throws Exception {
         engine.insert(node("gui-test")
-                            .add(node("click")).get());
+                            .add(node("click")));
 
-        assertNode(engine.getRootNode(),
-                   "root" +
-                   " *-- gui-test" +
-                   "      *-- click");
+        assertRootNode("root" +
+                       " *-- gui-test" +
+                       "      *-- click");
     }
 
 
     @Test
     @Ignore
     public void testInsertCommentInOneParentNode() {
-        Node node =
-              node("gui-test")
-                    .add(node("click"))
-                    .add(node("assertButton"))
-                    .get();
+        engine.insert(node("gui-test")
+                            .add(node("click"))
+                            .add(node("assertButton")));
 
-        engine.insert(node);
+        engine.insert(node("comment").asChildOf("assertButton"));
 
-        // Insert comment
-        //to-do voir comment ajouter la feuille commentaire
-
-        assertNode(engine.getRootNode(),
-                   "root" +
-                   " *-- gui-test" +
-                   "      *-- click" +
-                   "      *-- assertButton" +
-                   "           *-- comment");
+        assertRootNode("root" +
+                       " *-- gui-test" +
+                       "      *-- click" +
+                       "      *-- assertButton" +
+                       "           *-- comment");
     }
 
 
     @Test
     @Ignore
     public void testInsertCommentInAllNodes() {
-        Node node =
-              node("gui-test")
-                    .add(node("click"))
-                    .add(node("assertButton"))
-                    .get();
-
-        engine.insert(node);
+        engine.insert(node("gui-test")
+                            .add(node("click"))
+                            .add(node("assertButton")));
 
         // Insert comment
         //to-do voir comment ajouter la feuille commentaire
 
-        assertNode(engine.getRootNode(),
-                   "root" +
-                   " *-- gui-test" +
-                   "      *-- comment" +
-                   "      *-- click" +
-                   "           *-- comment" +
-                   "      *-- assertButton" +
-                   "           *-- comment");
+        assertRootNode("root" +
+                       " *-- gui-test" +
+                       "      *-- comment" +
+                       "      *-- click" +
+                       "           *-- comment" +
+                       "      *-- assertButton" +
+                       "           *-- comment");
     }
 
 
     @Test
     @Ignore
     public void testInsertGroupInOneParentNode() {
-        Node node =
-              node("gui-test")
-                    .add(node("click"))
-                    .add(node("assertButton"))
-                    .get();
-
-        engine.insert(node);
+        engine.insert(node("gui-test")
+                            .add(node("click"))
+                            .add(node("assertButton")));
 
         // Insert group
         //to-do voir comment ajouter le group
 
-        assertNode(engine.getRootNode(),
-                   "root" +
-                   " *-- gui-test" +
-                   "      *-- click" +
-                   "      *-- assertButton" +
-                   "      *-- group" +
-                   "           *-- gui-test.children"
-        );
+        assertRootNode("root" +
+                       " *-- gui-test" +
+                       "      *-- click" +
+                       "      *-- assertButton" +
+                       "      *-- group" +
+                       "           *-- gui-test.children");
     }
 
 
@@ -136,27 +117,25 @@ public class RuleEngineTest {
     public void testInsertGroupNodeInParentNodes() {
         engine.insert(node("gui-test")
                             .add(node("click"))
-                            .add(node("assertButton")).get(),
+                            .add(node("assertButton")),
                       node("web-test")
                             .add(node("clickLink"))
-                            .add(node("refreshPage")).get());
+                            .add(node("refreshPage")));
 
         // Insert group
         //to-do voir comment ajouter le group
 
-        assertNode(engine.getRootNode(),
-                   "root" +
-                   " *-- gui-test" +
-                   "      *-- click" +
-                   "      *-- assertButton" +
-                   "      *-- group" +
-                   "           *-- gui-test.children" +
-                   " *-- web-test" +
-                   "      *-- clickLink" +
-                   "      *-- refreshPage" +
-                   "      *-- group" +
-                   "           *-- web-test.children"
-        );
+        assertRootNode("root" +
+                       " *-- gui-test" +
+                       "      *-- click" +
+                       "      *-- assertButton" +
+                       "      *-- group" +
+                       "           *-- gui-test.children" +
+                       " *-- web-test" +
+                       "      *-- clickLink" +
+                       "      *-- refreshPage" +
+                       "      *-- group" +
+                       "           *-- web-test.children");
     }
 
 
@@ -165,23 +144,25 @@ public class RuleEngineTest {
     public void testInsertIfInOneParentNode() {
         engine.insert(node("gui-test")
                             .add(node("click"))
-                            .add(node("assertButton"))
-                            .get());
+                            .add(node("assertButton")));
 
         // Insert if
         //to-do voir comment ajouter le if then else
 
-        assertNode(engine.getRootNode(),
-                   "root" +
-                   " *-- gui-test" +
-                   "      *-- click" +
-                   "      *-- assertButton" +
-                   "      *-- if" +
-                   "           *-- then" +
-                   "                *-- gui-test.children" +
-                   "           *-- else" +
-                   "                *-- gui-test.children"
+        assertRootNode("root" +
+                       " *-- gui-test" +
+                       "      *-- click" +
+                       "      *-- assertButton" +
+                       "      *-- if" +
+                       "           *-- then" +
+                       "                *-- gui-test.children" +
+                       "           *-- else" +
+                       "                *-- gui-test.children");
+    }
 
-        );
+
+    private void assertRootNode(String expectedGraph) {
+        engine.start();
+        assertNode(engine.getRootNode(), expectedGraph);
     }
 }

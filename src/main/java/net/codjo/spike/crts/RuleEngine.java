@@ -43,11 +43,10 @@ public class RuleEngine {
     }
 
 
-    public void insert(Node... nodes) {
-        for (Node node : nodes) {
-            insertImpl(node);
+    public void insert(NodeBuilder... nodes) {
+        for (NodeBuilder node : nodes) {
+            insertImpl(node.get());
         }
-        workingMemory.fireAllRules();
     }
 
 
@@ -56,6 +55,11 @@ public class RuleEngine {
         for (Node subNode : node.getNodes()) {
             insertImpl(subNode);
         }
+    }
+
+
+    public void start() {
+        workingMemory.fireAllRules();
     }
 
 
