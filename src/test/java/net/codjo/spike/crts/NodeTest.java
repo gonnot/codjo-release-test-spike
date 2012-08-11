@@ -19,11 +19,9 @@
 
 package net.codjo.spike.crts;
 
-import org.junit.Ignore;
 import org.junit.Test;
-
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 // @RunWith(Enclosed.class)
 public class NodeTest {
@@ -37,171 +35,46 @@ public class NodeTest {
     @Test
     public void testVisitWithOneSubNode() throws Exception {
         Node node =
-                node("root")
-                        .add(node("gui-test"))
-                        .get();
+              node("root")
+                    .add(node("gui-test"))
+                    .get();
         assertNode(node, "root" +
-                " *-- gui-test");
+                         " *-- gui-test");
     }
 
 
     @Test
     public void testVisitWithSubNode() throws Exception {
         Node node =
-                node("root")
-                        .add(node("gui-test"))
-                        .add(node("web-test"))
-                        .get();
+              node("root")
+                    .add(node("gui-test"))
+                    .add(node("web-test"))
+                    .get();
         assertNode(node, "root" +
-                " *-- gui-test" +
-                " *-- web-test");
+                         " *-- gui-test" +
+                         " *-- web-test");
     }
 
 
     @Test
     public void testVisitWithDeepSubNode() throws Exception {
         Node node =
-                node("root")
-                        .add(node("gui-test")
-                                .add(node("assertButton")
-                                        .add(node("documentation")))
-                                .add(node("click")))
-                        .add(node("web-test"))
-                        .get();
+              node("root")
+                    .add(node("gui-test")
+                               .add(node("assertButton")
+                                          .add(node("documentation")))
+                               .add(node("click")))
+                    .add(node("web-test"))
+                    .get();
 
         assertNode(node, "root" +
-                " *-- gui-test" +
-                "      *-- assertButton" +
-                "           *-- documentation" +
-                "      *-- click" +
-                " *-- web-test");
+                         " *-- gui-test" +
+                         "      *-- assertButton" +
+                         "           *-- documentation" +
+                         "      *-- click" +
+                         " *-- web-test");
     }
 
-    @Test
-    @Ignore
-    public void testInsertCommentInOneParentNode() {
-        Node node =
-                node("gui-test")
-                        .add(node("click"))
-                        .add(node("assertButton"))
-                        .get();
-
-
-        // Insert comment
-        //TODO voir comment ajouter la feuille commentaire
-
-        assertNode(node, "root" +
-                " *-- gui-test" +
-                "      *-- click" +
-                "      *-- assertButton" +
-                "           *-- comment");
-
-    }
-
-    @Test
-    @Ignore
-    public void testInsertCommentInAllNodes() {
-        Node node =
-                node("gui-test")
-                        .add(node("click"))
-                        .add(node("assertButton"))
-                        .get();
-
-
-        // Insert comment
-        //TODO voir comment ajouter la feuille commentaire
-
-        assertNode(node, "root" +
-                " *-- gui-test" +
-                "      *-- comment" +
-                "      *-- click" +
-                "           *-- comment" +
-                "      *-- assertButton" +
-                "           *-- comment");
-
-    }
-
-
-    @Test
-    @Ignore
-    public void testInsertGroupInOneParentNode() {
-        Node node =
-                node("gui-test")
-                        .add(node("click"))
-                        .add(node("assertButton"))
-                        .get();
-
-
-        // Insert group
-        //TODO voir comment ajouter le group
-
-        assertNode(node, "root" +
-                " *-- gui-test" +
-                "      *-- click" +
-                "      *-- assertButton" +
-                "      *-- group" +
-                "           *-- gui-test.children"
-        );
-
-    }
-
-    @Test
-    @Ignore
-    public void testInsertGroupNodeInParentNodes() {
-        Node node = node("root")
-                .add(node("gui-test")
-                        .add(node("click"))
-                        .add(node("assertButton")))
-                .add(node("web-test")
-                        .add(node("clickLink"))
-                        .add(node("refreshPage")))
-                .get();
-
-
-        // Insert group
-        //TODO voir comment ajouter le group
-
-        assertNode(node, "root" +
-                " *-- gui-test" +
-                "      *-- click" +
-                "      *-- assertButton" +
-                "      *-- group" +
-                "           *-- gui-test.children" +
-                " *-- web-test" +
-                "      *-- clickLink" +
-                "      *-- refreshPage" +
-                "      *-- group" +
-                "           *-- web-test.children"
-        );
-
-    }
-
-    @Test
-    @Ignore
-    public void testInsertIfInOneParentNode() {
-        Node node =
-                node("gui-test")
-                        .add(node("click"))
-                        .add(node("assertButton"))
-                        .get();
-
-
-        // Insert if
-        //TODO voir comment ajouter le if then else
-
-        assertNode(node, "root" +
-                " *-- gui-test" +
-                "      *-- click" +
-                "      *-- assertButton" +
-                "      *-- if" +
-                "           *-- then" +
-                "                *-- gui-test.children" +
-                "           *-- else" +
-                "                *-- gui-test.children"
-
-        );
-
-    }
 
     static void assertNode(Node node, String expected) {
         String result = node.accept(new StringNodeVisitor());
