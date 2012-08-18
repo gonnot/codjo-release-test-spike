@@ -2,7 +2,7 @@
  * codjo (Prototype)
  * =================
  *
- *    Copyright (C) 2012, $YEAR$ by codjo.net
+ *    Copyright (C) 2012, 2012 by codjo.net
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,36 +17,10 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
+package net.codjo.spike.crts.model.execution;
 /**
  *
  */
-public class NodeBuilder {
-    private final Node node;
-
-
-    public static NodeBuilder node(final String name) {
-        return new NodeBuilder(name);
-    }
-
-
-    private NodeBuilder(String name) {
-        node = new Node(name);
-    }
-
-
-    public NodeBuilder add(NodeBuilder subNodeBuilder) {
-        node.add(subNodeBuilder.get());
-        return this;
-    }
-
-
-    public Node get() {
-        return node;
-    }
-
-
-    public NodeBuilder asChildOf(String parentId) {
-        return this;
-    }
+public interface NodeBehaviour {
+    public void run(ExecutionContext context) throws Exception;
 }

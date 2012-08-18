@@ -2,7 +2,7 @@
  * codjo (Prototype)
  * =================
  *
- *    Copyright (C) 2012, $YEAR$ by codjo.net
+ *    Copyright (C) 2012, 2012 by codjo.net
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,19 +21,31 @@ package net.codjo.spike.crts;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.codjo.spike.crts.model.definition.NodeDefinition;
+import net.codjo.spike.crts.model.execution.EmptyBehaviour;
 
 public class Node {
-    private final String name;
     private List<Node> nodes = new ArrayList<Node>();
+    private NodeDefinition nodeDefinition;
 
 
     public Node(String name) {
-        this.name = name;
+        this(new NodeDefinition(name, EmptyBehaviour.class));
     }
 
 
-    public String getName() {
-        return name;
+    public Node(NodeDefinition nodeDefinition) {
+        this.nodeDefinition = nodeDefinition;
+    }
+
+
+    public String getId() {
+        return nodeDefinition.getId();
+    }
+
+
+    public NodeDefinition getNodeDefinition() {
+        return nodeDefinition;
     }
 
 

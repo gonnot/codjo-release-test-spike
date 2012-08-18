@@ -2,7 +2,7 @@
  * codjo (Prototype)
  * =================
  *
- *    Copyright (C) 2012, $YEAR$ by codjo.net
+ *    Copyright (C) 2012, 2012 by codjo.net
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ package net.codjo.spike.crts;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Properties;
+import net.codjo.spike.crts.model.definition.Definition;
+import net.codjo.spike.crts.model.definition.DefinitionBuilder;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;
@@ -43,17 +45,11 @@ public class RuleEngine {
     }
 
 
-    public void insert(NodeBuilder... nodes) {
-        for (NodeBuilder node : nodes) {
-            insertImpl(node.get());
-        }
-    }
-
-
-    private void insertImpl(Node node) {
-        workingMemory.insert(node);
-        for (Node subNode : node.getNodes()) {
-            insertImpl(subNode);
+    public void insert(DefinitionBuilder... builders) {
+        for (DefinitionBuilder builder : builders) {
+            for (Definition definition : builder.get()) {
+                workingMemory.insert(definition);
+            }
         }
     }
 

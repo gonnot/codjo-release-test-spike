@@ -2,7 +2,7 @@
  * codjo (Prototype)
  * =================
  *
- *    Copyright (C) 2012, $YEAR$ by codjo.net
+ *    Copyright (C) 2012, 2012 by codjo.net
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ package net.codjo.spike.crts;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import static net.codjo.spike.crts.NodeBuilder.node;
 import static net.codjo.spike.crts.NodeTest.assertNode;
+import static net.codjo.spike.crts.model.definition.DefinitionBuilder.node;
 /**
  *
  */
@@ -57,8 +57,7 @@ public class RuleEngineTest {
 
 
     @Test
-    @Ignore
-    public void testInsertCommentInOneParentNode() {
+    public void testInsertNodeInOneSpecificParentNode() {
         engine.insert(node("gui-test")
                             .add(node("click"))
                             .add(node("assertButton")));
@@ -67,9 +66,9 @@ public class RuleEngineTest {
 
         assertRootNode("root" +
                        " *-- gui-test" +
-                       "      *-- click" +
                        "      *-- assertButton" +
-                       "           *-- comment");
+                       "           *-- comment" +
+                       "      *-- click");
     }
 
 

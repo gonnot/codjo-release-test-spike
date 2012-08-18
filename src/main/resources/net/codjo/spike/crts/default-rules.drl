@@ -1,5 +1,6 @@
 package net.codjo.spike.crts;
 import net.codjo.spike.crts.Node;
+import net.codjo.spike.crts.model.definition.*;
 
 global Node rootNode;
 
@@ -7,12 +8,58 @@ function void debug(String text) {
     System.out.println("> " + text);
 }
 
+// TODO should probably use agenda-group over salience
+
+// ------------------------------------------------------------------------------------------------
+//   Initialisation
+//   --------------
+//     Apply direct definition (NodeDefinition and LinkDefinition)
+// ------------------------------------------------------------------------------------------------
+
+rule "Create a node for each NodeDefinition (aka 'Intermediate Node' in the original spec)"
+  salience 100
+when
+    definition: NodeDefinition()
+    not( Node( nodeDefinition == definition ) )
+then
+    debug(" create node for definition " + definition.getId());
+    retract( definition );
+    insert( new Node(definition) );
+end
+
+rule "Connect node using LinkDefinition"
+  salience 50
+when
+    nodeFrom: Node()
+    nodeTo: Node()
+    link: LinkDefinition( from == nodeFrom.id, to == nodeTo.id )
+then
+    debug(" Connect " + nodeFrom.getId() + " -> " + nodeTo.getId());
+    nodeFrom.add( nodeTo );
+    retract( link );
+    update( nodeFrom );
+end
+
+// ------------------------------------------------------------------------------------------------
+//   Connect Nodes
+//   --------------
+//
+// ------------------------------------------------------------------------------------------------
+
+
+// ------------------------------------------------------------------------------------------------
+//   Tear down
+//   --------------
+//   Apply inferred definition (e.g. every orphaned node is automatically connected to the root node)
+// ------------------------------------------------------------------------------------------------
+
 rule "Assign orphan nodes to root"
+  salience -100
 when
     orphan: Node()
     not( Node( nodes contains orphan ) )
 then
-    debug(" orphan node " + orphan.getName());
+    debug(" orphan node " + orphan.getId());
     rootNode.add(orphan);
 end
 

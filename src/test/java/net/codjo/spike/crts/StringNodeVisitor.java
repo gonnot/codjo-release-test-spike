@@ -2,7 +2,7 @@
  * codjo (Prototype)
  * =================
  *
- *    Copyright (C) 2012, $YEAR$ by codjo.net
+ *    Copyright (C) 2012, 2012 by codjo.net
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public class StringNodeVisitor implements NodeVisitor<String> {
             }
             builder.append(BRANCH);
         }
-        builder.append(node.getName()).append('\n');
+        builder.append(node.getId()).append('\n');
 
         level++;
         for (Node subNode : node.getNodes()) {
