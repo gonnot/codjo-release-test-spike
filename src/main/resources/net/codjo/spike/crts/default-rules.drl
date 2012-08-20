@@ -27,16 +27,32 @@ then
     insert( new Node(definition) );
 end
 
-rule "Connect node using LinkDefinition"
+rule "Connect node using LinkDefinition (via ID)"
   salience 50
 when
-    nodeFrom: Node()
-    nodeTo: Node()
-    link: LinkDefinition( from == nodeFrom.id, to == nodeTo.id )
+    link: LinkDefinition( type == LinkDefinition.Type.DIRECT )
+    nodeFrom: Node( id == link.from )
+    nodeTo: Node( id == link.to )
 then
     debug(" Connect " + nodeFrom.getId() + " -> " + nodeTo.getId());
     nodeFrom.add( nodeTo );
     retract( link );
+    update( nodeFrom );
+end
+
+rule "Connect node using LinkDefinition (via regexp)"
+  salience 50
+when
+    link: LinkDefinition( type == LinkDefinition.Type.REGEXP)
+    nodeFrom: Node( id matches ".*" )
+    nodeTo: Node( id == link.to, this != nodeFrom, this not memberOf nodeFrom.nodes )
+then
+    debug(" Connect (via regexp)  " + nodeFrom.getId() + " -> " + nodeTo.getId());
+    nodeFrom.add( nodeTo );
+    // TODO: maybe we should use collect mechanism ?
+    //      pros - we will be able to retract the link
+    //      cons - we will have to iterate through the collections
+    //  retract( link );
     update( nodeFrom );
 end
 

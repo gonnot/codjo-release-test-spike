@@ -22,22 +22,41 @@ package net.codjo.spike.crts.model.definition;
  *
  */
 public class LinkDefinition implements Definition {
+    private Type type;
     private final String from;
     private final String to;
 
 
-    public LinkDefinition(String from, String to) {
+    public LinkDefinition(Type type, String from, NodeDefinition to) {
+        this.type = type;
         this.from = from;
-        this.to = to;
+        this.to = to.getId();
     }
 
 
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public Type getType() {
+        return type;
+    }
+
+
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
     public String getFrom() {
         return from;
     }
 
 
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
     public String getTo() {
         return to;
+    }
+
+
+    public static enum Type {
+        DIRECT,
+        REGEXP
     }
 }

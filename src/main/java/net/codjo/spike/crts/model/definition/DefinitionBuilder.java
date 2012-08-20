@@ -20,7 +20,10 @@
 package net.codjo.spike.crts.model.definition;
 import java.util.ArrayList;
 import java.util.List;
+import net.codjo.spike.crts.model.definition.LinkDefinition.Type;
 import net.codjo.spike.crts.model.execution.EmptyBehaviour;
+import static net.codjo.spike.crts.model.definition.LinkDefinition.Type.DIRECT;
+import static net.codjo.spike.crts.model.definition.LinkDefinition.Type.REGEXP;
 /**
  *
  */
@@ -41,7 +44,7 @@ public class DefinitionBuilder {
 
 
     public DefinitionBuilder add(DefinitionBuilder subDefinitionBuilder) {
-        definitions.add(link().fromParent(nodeDefinition).to(subDefinitionBuilder.nodeDefinition));
+        definitions.add(link(DIRECT).fromParent(nodeDefinition).to(subDefinitionBuilder.nodeDefinition));
         definitions.addAll(subDefinitionBuilder.get());
         return this;
     }
@@ -53,34 +56,46 @@ public class DefinitionBuilder {
 
 
     public DefinitionBuilder asChildOf(String parentId) {
-        definitions.add(link().fromParent(parentId).to(nodeDefinition));
+        definitions.add(link(DIRECT).fromParent(parentId).to(nodeDefinition));
         return this;
     }
 
 
-    private static LinkBuilder link() {
-        return new LinkBuilder();
+    public DefinitionBuilder asChildOfMatchingNodes(String javaRegExp) {
+        definitions.add(link(REGEXP).fromParent(javaRegExp).to(nodeDefinition));
+        return this;
+    }
+
+
+    private static LinkBuilder link(Type direct) {
+        return new LinkBuilder(direct);
     }
 
 
     private static class LinkBuilder {
-        private String parentId;
+        private final Type type;
+        private String parentIdOrRegExp;
+
+
+        private LinkBuilder(Type type) {
+            this.type = type;
+        }
 
 
         LinkBuilder fromParent(NodeDefinition node) {
-            this.parentId = node.getId();
+            this.parentIdOrRegExp = node.getId();
             return this;
         }
 
 
         LinkBuilder fromParent(String nodeId) {
-            this.parentId = nodeId;
+            this.parentIdOrRegExp = nodeId;
             return this;
         }
 
 
         LinkDefinition to(NodeDefinition node) {
-            return new LinkDefinition(parentId, node.getId());
+            return new LinkDefinition(type, parentIdOrRegExp, node);
         }
     }
 }

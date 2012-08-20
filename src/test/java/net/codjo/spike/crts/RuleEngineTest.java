@@ -73,21 +73,19 @@ public class RuleEngineTest {
 
 
     @Test
-    @Ignore
-    public void testInsertCommentInAllNodes() {
+    public void testInsertNodeInAllNodes() {
         engine.insert(node("gui-test")
                             .add(node("click"))
                             .add(node("assertButton")));
 
-        // Insert comment
-        //to-do voir comment ajouter la feuille commentaire
+        engine.insert(node("comment").asChildOfMatchingNodes(".*"));
 
         assertRootNode("root" +
                        " *-- gui-test" +
                        "      *-- comment" +
-                       "      *-- click" +
-                       "           *-- comment" +
                        "      *-- assertButton" +
+                       "           *-- comment" +
+                       "      *-- click" +
                        "           *-- comment");
     }
 
