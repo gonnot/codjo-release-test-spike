@@ -17,11 +17,31 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
+package net.codjo.spike.crts.model.definition;
+/**
+ *
+ */
+public class LinkToChildrenDefinition implements Definition {
+    private final String from;
+    private final String to;
 
-public interface NodeVisitor<T> {
-    T visit(Node node);
+
+    public LinkToChildrenDefinition(String from, String to) {
+        this.from = from;
+        this.to = to;
+    }
 
 
-    T visitChildren(Node mainChildrenParentNode, NodeChildren children);
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public String getFrom() {
+        return from;
+    }
+
+
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public String getTo() {
+        return to;
+    }
 }

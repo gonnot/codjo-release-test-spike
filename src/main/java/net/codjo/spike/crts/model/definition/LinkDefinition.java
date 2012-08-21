@@ -56,7 +56,7 @@ public class LinkDefinition implements Definition {
 
 
     public static enum Type {
-        DIRECT,
+        BY_ID,
         REGEXP
     }
 }

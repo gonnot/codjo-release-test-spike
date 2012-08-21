@@ -16,7 +16,7 @@ function void debug(String text) {
 //     Apply direct definition (NodeDefinition and LinkDefinition)
 // ------------------------------------------------------------------------------------------------
 
-rule "Create a node for each NodeDefinition (aka 'Intermediate Node' in the original spec)"
+rule "Create a node for each NodeDefinition"
   salience 100
 when
     definition: NodeDefinition()
@@ -27,10 +27,10 @@ then
     insert( new Node(definition) );
 end
 
-rule "Connect node using LinkDefinition (via ID)"
+rule "Connect two nodes - using ID"
   salience 50
 when
-    link: LinkDefinition( type == LinkDefinition.Type.DIRECT )
+    link: LinkDefinition( type == LinkDefinition.Type.BY_ID )
     nodeFrom: Node( id == link.from )
     nodeTo: Node( id == link.to )
 then
@@ -40,7 +40,7 @@ then
     update( nodeFrom );
 end
 
-rule "Connect node using LinkDefinition (via regexp)"
+rule "Connect two nodes - using regexp"
   salience 50
 when
     link: LinkDefinition( type == LinkDefinition.Type.REGEXP)
@@ -53,6 +53,19 @@ then
     //      pros - we will be able to retract the link
     //      cons - we will have to iterate through the collections
     //  retract( link );
+    update( nodeFrom );
+end
+
+rule "Connect to node children"
+  salience 50
+when
+    link: LinkToChildrenDefinition( )
+    nodeFrom: Node( id == link.from )
+    nodeTo: Node( id == link.to )
+then
+    debug(" Connect to children  " + nodeFrom.getId() + " -> " + nodeTo.getId());
+    nodeFrom.add( nodeTo.getChildren() );
+    retract( link );
     update( nodeFrom );
 end
 

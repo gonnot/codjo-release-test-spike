@@ -38,7 +38,7 @@ public class RuleEngineTest {
 
     @Test
     public void testOrphanNodeAreAttachedToRoot() throws Exception {
-        engine.insert(node("gui-test"));
+        engine.declare(node("gui-test"));
 
         assertRootNode("root" +
                        " *-- gui-test");
@@ -47,8 +47,8 @@ public class RuleEngineTest {
 
     @Test
     public void testOrphanedSubTreeIsAttachedToRoot() throws Exception {
-        engine.insert(node("gui-test")
-                            .add(node("click")));
+        engine.declare(node("gui-test")
+                             .add(node("click")));
 
         assertRootNode("root" +
                        " *-- gui-test" +
@@ -58,11 +58,11 @@ public class RuleEngineTest {
 
     @Test
     public void testInsertNodeInOneSpecificParentNode() {
-        engine.insert(node("gui-test")
-                            .add(node("click"))
-                            .add(node("assertButton")));
+        engine.declare(node("gui-test")
+                             .add(node("click"))
+                             .add(node("assertButton")));
 
-        engine.insert(node("comment").asChildOf("assertButton"));
+        engine.declare(node("comment").asChildOf("assertButton"));
 
         assertRootNode("root" +
                        " *-- gui-test" +
@@ -74,11 +74,11 @@ public class RuleEngineTest {
 
     @Test
     public void testInsertNodeInAllNodes() {
-        engine.insert(node("gui-test")
-                            .add(node("click"))
-                            .add(node("assertButton")));
+        engine.declare(node("gui-test")
+                             .add(node("click"))
+                             .add(node("assertButton")));
 
-        engine.insert(node("comment").asChildOfMatchingNodes(".*"));
+        engine.declare(node("comment").asChildOfMatchingNodes(".*"));
 
         assertRootNode("root" +
                        " *-- gui-test" +
@@ -91,33 +91,33 @@ public class RuleEngineTest {
 
 
     @Test
-    @Ignore
     public void testInsertGroupInOneParentNode() {
-        engine.insert(node("gui-test")
-                            .add(node("click"))
-                            .add(node("assertButton")));
+        engine.declare(node("gui-test")
+                             .add(node("click"))
+                             .add(node("assertButton")));
 
         // Insert group
-        //to-do voir comment ajouter le group
+        engine.declare(node("group").asChildOf("gui-test")
+                             .addChildrenOf("gui-test"));
 
         assertRootNode("root" +
                        " *-- gui-test" +
-                       "      *-- click" +
-                       "      *-- assertButton" +
                        "      *-- group" +
-                       "           *-- gui-test.children");
+                       "           *-- gui-test.children" +
+                       "      *-- assertButton" +
+                       "      *-- click");
     }
 
 
     @Test
     @Ignore
     public void testInsertGroupNodeInParentNodes() {
-        engine.insert(node("gui-test")
-                            .add(node("click"))
-                            .add(node("assertButton")),
-                      node("web-test")
-                            .add(node("clickLink"))
-                            .add(node("refreshPage")));
+        engine.declare(node("gui-test")
+                             .add(node("click"))
+                             .add(node("assertButton")),
+                       node("web-test")
+                             .add(node("clickLink"))
+                             .add(node("refreshPage")));
 
         // Insert group
         //to-do voir comment ajouter le group
@@ -137,24 +137,27 @@ public class RuleEngineTest {
 
 
     @Test
-    @Ignore
     public void testInsertIfInOneParentNode() {
-        engine.insert(node("gui-test")
-                            .add(node("click"))
-                            .add(node("assertButton")));
+        engine.declare(node("gui-test")
+                             .add(node("click"))
+                             .add(node("assertButton")));
 
-        // Insert if
-        //to-do voir comment ajouter le if then else
+        engine.declare(node("if").asChildOf("gui-test")
+                             .add(node("then")
+                                        .addChildrenOf("gui-test"))
+                             .add(node("else")
+                                        .addChildrenOf("gui-test")));
 
         assertRootNode("root" +
                        " *-- gui-test" +
-                       "      *-- click" +
-                       "      *-- assertButton" +
                        "      *-- if" +
+                       "           *-- else" +
+                       "                *-- gui-test.children" +
                        "           *-- then" +
                        "                *-- gui-test.children" +
-                       "           *-- else" +
-                       "                *-- gui-test.children");
+                       "      *-- assertButton" +
+                       "      *-- click"
+        );
     }
 
 

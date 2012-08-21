@@ -45,7 +45,7 @@ public class RuleEngine {
     }
 
 
-    public void insert(DefinitionBuilder... builders) {
+    public void declare(DefinitionBuilder... builders) {
         for (DefinitionBuilder builder : builders) {
             for (Definition definition : builder.get()) {
                 workingMemory.insert(definition);

@@ -26,6 +26,25 @@ public class StringNodeVisitor implements NodeVisitor<String> {
 
 
     public String visit(Node node) {
+        StringBuilder builder = builder();
+        builder.append(node.getId()).append('\n');
+
+        level++;
+        for (Visitable subNode : node.getNodes()) {
+            builder.append(subNode.accept(this));
+        }
+        level--;
+
+        return builder.toString();
+    }
+
+
+    public String visitChildren(Node mainChildrenParentNode, NodeChildren children) {
+        return builder().append(mainChildrenParentNode.getId()).append(".children\n").toString();
+    }
+
+
+    private StringBuilder builder() {
         StringBuilder builder = new StringBuilder();
 
         if (level > 0) {
@@ -34,14 +53,6 @@ public class StringNodeVisitor implements NodeVisitor<String> {
             }
             builder.append(BRANCH);
         }
-        builder.append(node.getId()).append('\n');
-
-        level++;
-        for (Node subNode : node.getNodes()) {
-            builder.append(subNode.accept(this));
-        }
-        level--;
-
-        return builder.toString();
+        return builder;
     }
 }

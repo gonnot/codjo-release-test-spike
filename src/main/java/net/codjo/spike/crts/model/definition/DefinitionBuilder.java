@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.codjo.spike.crts.model.definition.LinkDefinition.Type;
 import net.codjo.spike.crts.model.execution.EmptyBehaviour;
-import static net.codjo.spike.crts.model.definition.LinkDefinition.Type.DIRECT;
+import static net.codjo.spike.crts.model.definition.LinkDefinition.Type.BY_ID;
 import static net.codjo.spike.crts.model.definition.LinkDefinition.Type.REGEXP;
 /**
  *
@@ -43,20 +43,13 @@ public class DefinitionBuilder {
     }
 
 
-    public DefinitionBuilder add(DefinitionBuilder subDefinitionBuilder) {
-        definitions.add(link(DIRECT).fromParent(nodeDefinition).to(subDefinitionBuilder.nodeDefinition));
-        definitions.addAll(subDefinitionBuilder.get());
-        return this;
-    }
-
-
     public List<Definition> get() {
         return definitions;
     }
 
 
     public DefinitionBuilder asChildOf(String parentId) {
-        definitions.add(link(DIRECT).fromParent(parentId).to(nodeDefinition));
+        definitions.add(link(BY_ID).fromParent(parentId).to(nodeDefinition));
         return this;
     }
 
@@ -67,8 +60,26 @@ public class DefinitionBuilder {
     }
 
 
+    public DefinitionBuilder add(DefinitionBuilder subDefinitionBuilder) {
+        definitions.add(link(BY_ID).fromParent(nodeDefinition).to(subDefinitionBuilder.nodeDefinition));
+        definitions.addAll(subDefinitionBuilder.get());
+        return this;
+    }
+
+
+    public DefinitionBuilder addChildrenOf(String parentNodeId) {
+        definitions.add(link().fromParent(nodeDefinition).toChildrenOf(parentNodeId));
+        return this;
+    }
+
+
     private static LinkBuilder link(Type direct) {
         return new LinkBuilder(direct);
+    }
+
+
+    private static LinkToChildrenBuilder link() {
+        return new LinkToChildrenBuilder();
     }
 
 
@@ -96,6 +107,20 @@ public class DefinitionBuilder {
 
         LinkDefinition to(NodeDefinition node) {
             return new LinkDefinition(type, parentIdOrRegExp, node);
+        }
+    }
+    private static class LinkToChildrenBuilder {
+        private String fromId;
+
+
+        LinkToChildrenBuilder fromParent(NodeDefinition node) {
+            this.fromId = node.getId();
+            return this;
+        }
+
+
+        LinkToChildrenDefinition toChildrenOf(String toId) {
+            return new LinkToChildrenDefinition(fromId, toId);
         }
     }
 }

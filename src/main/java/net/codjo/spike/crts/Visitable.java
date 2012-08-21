@@ -18,10 +18,9 @@
  */
 
 package net.codjo.spike.crts;
-
-public interface NodeVisitor<T> {
-    T visit(Node node);
-
-
-    T visitChildren(Node mainChildrenParentNode, NodeChildren children);
+/**
+ *
+ */
+public interface Visitable {
+    public <T> T accept(NodeVisitor<T> visitor);
 }

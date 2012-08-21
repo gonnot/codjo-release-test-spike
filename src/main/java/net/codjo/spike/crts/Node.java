@@ -19,14 +19,13 @@
 
 package net.codjo.spike.crts;
 
-import java.util.ArrayList;
 import java.util.List;
 import net.codjo.spike.crts.model.definition.NodeDefinition;
 import net.codjo.spike.crts.model.execution.EmptyBehaviour;
 
-public class Node {
-    private List<Node> nodes = new ArrayList<Node>();
-    private NodeDefinition nodeDefinition;
+public class Node implements Visitable {
+    private final NodeChildren children;
+    private final NodeDefinition nodeDefinition;
 
 
     public Node(String name) {
@@ -36,6 +35,7 @@ public class Node {
 
     public Node(NodeDefinition nodeDefinition) {
         this.nodeDefinition = nodeDefinition;
+        children = new NodeChildren(this);
     }
 
 
@@ -44,6 +44,8 @@ public class Node {
     }
 
 
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
     public NodeDefinition getNodeDefinition() {
         return nodeDefinition;
     }
@@ -54,12 +56,19 @@ public class Node {
     }
 
 
-    public void add(Node node) {
-        nodes.add(node);
+    public void add(Visitable node) {
+        children.add(node);
     }
 
 
-    public List<Node> getNodes() {
-        return nodes;
+    public List<Visitable> getNodes() {
+        return children.getNodes();
+    }
+
+
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public NodeChildren getChildren() {
+        return children;
     }
 }
