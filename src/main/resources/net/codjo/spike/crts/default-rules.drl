@@ -44,7 +44,7 @@ rule "Connect two nodes - using regexp"
   salience 50
 when
     link: LinkDefinition( type == LinkDefinition.Type.REGEXP)
-    nodeFrom: Node( id matches ".*" )
+    nodeFrom: Node( id matches link.from )
     nodeTo: Node( id == link.to, this != nodeFrom, this not memberOf nodeFrom.nodes )
 then
     debug(" Connect (via regexp)  " + nodeFrom.getId() + " -> " + nodeTo.getId());
