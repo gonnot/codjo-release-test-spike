@@ -17,12 +17,12 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
+package net.codjo.spike.crts.kernel;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import static net.codjo.spike.crts.NodeTest.assertNode;
-import static net.codjo.spike.crts.model.definition.DefinitionBuilder.node;
+import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
+import static net.codjo.spike.crts.kernel.NodeTest.assertNode;
 /**
  *
  */

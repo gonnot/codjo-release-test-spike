@@ -17,10 +17,9 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
+package net.codjo.spike.crts.kernel.definition;
 /**
  *
  */
-public interface Visitable {
-    public <T> T accept(NodeVisitor<T> visitor);
+public interface Definition {
 }

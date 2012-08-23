@@ -17,11 +17,17 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.model.execution;
+package net.codjo.spike.crts.api.execution;
 /**
  *
  */
-public class EmptyBehaviour implements NodeBehaviour {
-    public void run(ExecutionContext context) throws Exception {
+public class ExecutionContext {
+    public <T> void put(Class<T> key, T value) {
+
+    }
+
+
+    public <T> T get(Class<T> key) {
+        return null;
     }
 }

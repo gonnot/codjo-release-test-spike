@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
+package net.codjo.spike.crts.kernel;
 
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;

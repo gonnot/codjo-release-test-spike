@@ -17,17 +17,20 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.model.definition;
+package net.codjo.spike.crts.api.definition;
 import java.util.ArrayList;
 import java.util.List;
-import net.codjo.spike.crts.model.definition.LinkDefinition.Type;
-import net.codjo.spike.crts.model.execution.EmptyBehaviour;
-import static net.codjo.spike.crts.model.definition.LinkDefinition.Type.BY_ID;
-import static net.codjo.spike.crts.model.definition.LinkDefinition.Type.REGEXP;
+import net.codjo.spike.crts.api.execution.EmptyBehaviour;
+import net.codjo.spike.crts.kernel.definition.Definition;
+import net.codjo.spike.crts.kernel.definition.LinkDefinition;
+import net.codjo.spike.crts.kernel.definition.LinkDefinition.Type;
+import net.codjo.spike.crts.kernel.definition.LinkToChildrenDefinition;
+import static net.codjo.spike.crts.kernel.definition.LinkDefinition.Type.BY_ID;
+import static net.codjo.spike.crts.kernel.definition.LinkDefinition.Type.REGEXP;
 /**
  *
  */
-public class DefinitionBuilder {
+public final class DefinitionBuilder {
     private NodeDefinition nodeDefinition;
     private final List<Definition> definitions = new ArrayList<Definition>();
 
@@ -106,7 +109,7 @@ public class DefinitionBuilder {
 
 
         LinkDefinition to(NodeDefinition node) {
-            return new LinkDefinition(type, parentIdOrRegExp, node);
+            return new LinkDefinition(type, parentIdOrRegExp, node.getId());
         }
     }
     private static class LinkToChildrenBuilder {

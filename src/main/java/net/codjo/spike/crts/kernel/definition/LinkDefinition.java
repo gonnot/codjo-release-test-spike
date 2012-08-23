@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.model.definition;
+package net.codjo.spike.crts.kernel.definition;
 /**
  *
  */
@@ -27,10 +27,10 @@ public class LinkDefinition implements Definition {
     private final String to;
 
 
-    public LinkDefinition(Type type, String from, NodeDefinition to) {
+    public LinkDefinition(Type type, String from, String to) {
         this.type = type;
         this.from = from;
-        this.to = to.getId();
+        this.to = to;
     }
 
 

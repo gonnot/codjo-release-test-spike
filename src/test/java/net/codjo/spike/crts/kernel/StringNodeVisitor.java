@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
+package net.codjo.spike.crts.kernel;
 
 public class StringNodeVisitor implements NodeVisitor<String> {
     private static final String BRANCH = " *-- ";

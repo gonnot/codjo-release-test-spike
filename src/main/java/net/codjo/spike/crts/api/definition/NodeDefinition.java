@@ -17,10 +17,29 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.model.execution;
+package net.codjo.spike.crts.api.definition;
+import net.codjo.spike.crts.api.execution.NodeBehaviour;
+import net.codjo.spike.crts.kernel.definition.Definition;
 /**
  *
  */
-public interface NodeBehaviour {
-    public void run(ExecutionContext context) throws Exception;
+public class NodeDefinition implements Definition {
+    private final String id;
+    private final Class<? extends NodeBehaviour> behaviour;
+
+
+    public NodeDefinition(String id, Class<? extends NodeBehaviour> behaviour) {
+        this.id = id;
+        this.behaviour = behaviour;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+
+    public Class<? extends NodeBehaviour> getBehaviour() {
+        return behaviour;
+    }
 }

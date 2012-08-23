@@ -17,33 +17,10 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
-import java.util.ArrayList;
-import java.util.List;
+package net.codjo.spike.crts.kernel;
 /**
  *
  */
-public class NodeChildren implements Visitable {
-    private List<Visitable> nodes = new ArrayList<Visitable>();
-    private Node parentNode;
-
-
-    public NodeChildren(Node parentNode) {
-        this.parentNode = parentNode;
-    }
-
-
-    public <T> T accept(NodeVisitor<T> visitor) {
-        return visitor.visitChildren(parentNode, this);
-    }
-
-
-    public void add(Visitable node) {
-        nodes.add(node);
-    }
-
-
-    public List<Visitable> getNodes() {
-        return nodes;
-    }
+public interface Visitable {
+    public <T> T accept(NodeVisitor<T> visitor);
 }

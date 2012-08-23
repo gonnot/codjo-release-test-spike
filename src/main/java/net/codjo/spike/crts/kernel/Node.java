@@ -17,11 +17,11 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts;
+package net.codjo.spike.crts.kernel;
 
 import java.util.List;
-import net.codjo.spike.crts.model.definition.NodeDefinition;
-import net.codjo.spike.crts.model.execution.EmptyBehaviour;
+import net.codjo.spike.crts.api.definition.NodeDefinition;
+import net.codjo.spike.crts.api.execution.EmptyBehaviour;
 
 public class Node implements Visitable {
     private final NodeChildren children;
