@@ -1,0 +1,8 @@
+net.codjo.spike.crts
+	-> net.codjo.spike.crts.model.definition
+	-> net.codjo.spike.crts.model.execution
+	-> org.drools
+	-> org.drools.compiler
+
+net.codjo.spike.crts.model.definition
+	-> net.codjo.spike.crts.model.execution
