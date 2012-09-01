@@ -17,11 +17,13 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
-import net.codjo.spike.crts.api.definition.INode;
+package net.codjo.spike.crts.api.definition;
 /**
  *
  */
-public interface Visitable extends INode {
-    public <T> T accept(NodeVisitor<T> visitor);
+public interface INode {
+    void accept(DefinitionVisitor visitor);
+
+
+    String getId();
 }

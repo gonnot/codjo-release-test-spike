@@ -35,7 +35,7 @@ import org.drools.rule.Package;
 @SuppressWarnings({"NullableProblems"})
 public class RuleEngine {
     private WorkingMemory workingMemory;
-    private Node rootNode = new Node("root");
+    private Node rootNode = new Node("release-test");
 
 
     public RuleEngine() {

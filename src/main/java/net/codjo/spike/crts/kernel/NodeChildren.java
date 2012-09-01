@@ -20,6 +20,7 @@
 package net.codjo.spike.crts.kernel;
 import java.util.ArrayList;
 import java.util.List;
+import net.codjo.spike.crts.api.definition.DefinitionVisitor;
 /**
  *
  */
@@ -45,5 +46,15 @@ public class NodeChildren implements Visitable {
 
     public List<Visitable> getNodes() {
         return nodes;
+    }
+
+
+    public void accept(DefinitionVisitor visitor) {
+        throw new UnsupportedOperationException();
+    }
+
+
+    public String getId() {
+        throw new UnsupportedOperationException();
     }
 }

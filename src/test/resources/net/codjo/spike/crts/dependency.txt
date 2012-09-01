@@ -10,3 +10,6 @@ net.codjo.spike.crts.kernel
 	-> org.drools.compiler
 
 net.codjo.spike.crts.kernel.definition
+
+net.codjo.spike.crts.sample.schema
+	-> net.codjo.spike.crts.api.definition

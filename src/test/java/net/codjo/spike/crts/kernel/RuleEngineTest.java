@@ -40,7 +40,7 @@ public class RuleEngineTest {
     public void testOrphanNodeAreAttachedToRoot() throws Exception {
         engine.declare(node("gui-test"));
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test");
     }
 
@@ -50,7 +50,7 @@ public class RuleEngineTest {
         engine.declare(node("gui-test")
                              .add(node("click")));
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test" +
                        "      *-- click");
     }
@@ -64,7 +64,7 @@ public class RuleEngineTest {
 
         engine.declare(node("comment").asChildOf("assertButton"));
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test" +
                        "      *-- assertButton" +
                        "           *-- comment" +
@@ -80,7 +80,7 @@ public class RuleEngineTest {
 
         engine.declare(node("comment").asChildOfMatchingNodes(".*"));
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test" +
                        "      *-- comment" +
                        "      *-- assertButton" +
@@ -98,7 +98,7 @@ public class RuleEngineTest {
 
         engine.declare(node("comment").asChildOfMatchingNodes("click-.*"));
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test" +
                        "      *-- click-menu" +
                        "           *-- comment" +
@@ -118,7 +118,7 @@ public class RuleEngineTest {
         engine.declare(node("group").asChildOf("gui-test")
                              .addChildrenOf("gui-test"));
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test" +
                        "      *-- group" +
                        "           *-- gui-test.children" +
@@ -140,7 +140,7 @@ public class RuleEngineTest {
         // Insert group
         //to-do voir comment ajouter le group
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test" +
                        "      *-- click" +
                        "      *-- assertButton" +
@@ -166,7 +166,7 @@ public class RuleEngineTest {
                              .add(node("else")
                                         .addChildrenOf("gui-test")));
 
-        assertRootNode("root" +
+        assertRootNode("release-test" +
                        " *-- gui-test" +
                        "      *-- if" +
                        "           *-- else" +

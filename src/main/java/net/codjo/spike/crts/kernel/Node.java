@@ -20,6 +20,7 @@
 package net.codjo.spike.crts.kernel;
 
 import java.util.List;
+import net.codjo.spike.crts.api.definition.DefinitionVisitor;
 import net.codjo.spike.crts.api.definition.NodeDefinition;
 import net.codjo.spike.crts.api.execution.EmptyBehaviour;
 
@@ -70,5 +71,10 @@ public class Node implements Visitable {
     @SuppressWarnings({"UnusedDeclaration"})
     public NodeChildren getChildren() {
         return children;
+    }
+
+
+    public void accept(DefinitionVisitor visitor) {
+        visitor.visitNode(this, getChildren().getNodes());
     }
 }
