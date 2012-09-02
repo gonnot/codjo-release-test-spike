@@ -25,6 +25,7 @@ import net.codjo.test.common.fixture.DirectoryFixture;
 import net.codjo.util.file.FileUtil;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
 /**
@@ -59,14 +60,43 @@ public class XsdWriterTest {
 
 
     @Test
-    public void testOneSimpleTagWithOneChild() throws Exception {
+    public void testTagWithOneChild() throws Exception {
         engine.declare(node("copy-to-inbox")
                              .add(node("variable")));
         engine.start();
 
         xsdWriter.createXsdFile(engine.getRootNode(), xsdFile);
 
-        XmlUtil.assertEquivalent(FileUtil.loadContent(getClass().getResource("XsdWriter-oneSimpleTagWithOneChild.xsd")),
+        XmlUtil.assertEquivalent(FileUtil.loadContent(getClass().getResource("XsdWriter-tagWithOneChild.xsd")),
+                                 FileUtil.loadContent(xsdFile));
+    }
+
+
+    @Test
+    public void testTagWithOneAddedChild() throws Exception {
+        engine.declare(node("copy-to-inbox"));
+        engine.declare(node("variable").asChildOf("copy-to-inbox"));
+        engine.start();
+
+        xsdWriter.createXsdFile(engine.getRootNode(), xsdFile);
+
+        XmlUtil.assertEquivalent(FileUtil.loadContent(getClass().getResource("XsdWriter-tagWithOneChild.xsd")),
+                                 FileUtil.loadContent(xsdFile));
+    }
+
+
+    @Test
+    @Ignore
+    public void testTagLinkedToOtherTagChild() throws Exception {
+        engine.declare(node("gui-test")
+                             .add(node("click")));
+        engine.declare(node("group").asChildOf("gui-test")
+                             .addChildrenOf("gui-test"));
+        engine.start();
+
+        xsdWriter.createXsdFile(engine.getRootNode(), xsdFile);
+
+        XmlUtil.assertEquivalent(FileUtil.loadContent(getClass().getResource("XsdWriter-tagLinkedToOtherTagChild.xsd")),
                                  FileUtil.loadContent(xsdFile));
     }
 
