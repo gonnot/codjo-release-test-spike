@@ -18,251 +18,192 @@
  */
 
 package net.codjo.spike.crts.sample.schema;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import net.codjo.spike.crts.kernel.RuleEngine;
 import net.codjo.util.file.FileUtil;
-import org.hamcrest.Description;
-import org.intellij.lang.annotations.Language;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.internal.matchers.TypeSafeMatcher;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
-import static net.codjo.test.common.XmlUtil.assertEquivalent;
-import static net.codjo.test.common.matcher.JUnitMatchers.*;
-/**
- *
- */
+@RunWith(Enclosed.class)
 public class XsdWriterTest {
-    private XsdWriter xsdWriter = new XsdWriter();
-    private RuleEngine engine = new RuleEngine();
+    public static class NoTagTest {
+        @Test
+        public void testGeneratedXsd() throws Exception {
+            story()
+                  .given()
+                  .nothing()
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-noTag.xsd"))
+            ;
+        }
+    }
+    public static class OneTagTest {
+        @Test
+        public void testGeneratedXsd() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("file-assert"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-oneTag.xsd"))
+            ;
+        }
 
 
-    @Test
-    public void test_noTag_xsdCheck() throws Exception {
-        String resultingXsd = createXsd(engine, xsdWriter);
+        @Test
+        public void testXmlCompliance() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("file-assert"))
 
-        assertEquivalent(expectedXsd("XsdWriter-noPlugin.xsd"),
-                         resultingXsd);
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test/>")
+                  .isXsdCompliant()
+
+                  .xml("<release-test>\n"
+                       + "    <file-assert/>\n"
+                       + "</release-test>")
+                  .isXsdCompliant()
+
+                  .xml("<release-test>\n"
+                       + "    <file-assert/>\n"
+                       + "    <file-assert/>\n"
+                       + "</release-test>")
+                  .isXsdCompliant();
+        }
+
+
+        @Test
+        public void testXmlViolation() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("file-assert"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <file-assert>\n"
+                       + "       <file-assert/>\n"
+                       + "    </file-assert>"
+                       + "</release-test>")
+                  .isNotXsdCompliant();
+        }
+    }
+    public static class OneChildTest {
+        @Test
+        public void testGeneratedXsd() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("copy-to-inbox")
+                                       .add(node("variable")))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-tagWithOneChild.xsd"))
+            ;
+        }
+
+
+        @Test
+        public void testGeneratedXsdWhenAddedChild() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("copy-to-inbox"))
+                  .pluginDeclare(node("variable").asChildOf("copy-to-inbox"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-tagWithOneChild.xsd"))
+            ;
+        }
+
+
+        @Test
+        public void testXmlCompliance() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("copy-to-inbox")
+                                       .add(node("variable")))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <copy-to-inbox/>\n"
+                       + "    <copy-to-inbox/>\n"
+                       + "</release-test>")
+                  .isXsdCompliant()
+
+                  .xml("<release-test>\n"
+                       + "    <copy-to-inbox>\n"
+                       + "          <variable/>\n"
+                       + "    </copy-to-inbox>\n"
+                       + "</release-test>")
+                  .isXsdCompliant();
+        }
+
+
+        @Test
+        public void testXmlViolation() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("file-assert"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <variable/>\n"
+                       + "</release-test>")
+                  .isNotXsdCompliant();
+        }
+    }
+    public static class LinkedTagTest {
+        @Test
+        @Ignore
+        public void testTagLinkedToOtherTagChild() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test")
+                                       .add(node("click")))
+                  .pluginDeclare(node("group").asChildOf("gui-test")
+                                       .addChildrenOf("gui-test"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-tagLinkedToOtherTagChild.xsd"))
+            ;
+        }
     }
 
 
-    @Test
-    public void test_oneTag() throws Exception {
-/*
-        XsdWriterTestUtil.init()
-              .simulatePluginInit()
-              .pluginDeclare(node("file-assert"))
-
-              .simulatePluginEndOfInit()
-              .generateXsd()
-
-              .assertXmlCompliant(xml("<release-test/>"));
-
-        XsdWriterTestUtil.init()
-              .given()
-              .pluginDeclare(node("file-assert"))
-
-              .when()
-              .generateXsd()
-
-              .then()
-
-              .xml("<release-test/>")
-              .isXsdCompliant()
-
-              .xml("<release-test>\n"
-                   + "    <file-assert/>\n"
-                   + "</release-test>")
-              .isXsdCompliant()
-
-              .xml("<release-test>\n"
-                   + "    <file-assert>\n"
-                   + "       <file-assert/>\n"
-                   + "    </file-assert>"
-                   + "</release-test>")
-              .isNotXsdCompliant()
-        ;
-*/
-
-        engine.declare(node("file-assert"));
-        engine.start();
-
-        String resultingXsd = createXsd(engine, xsdWriter);
-
-        assertXmlCompliant(resultingXsd, xml("<release-test/>"));
-
-        assertXmlCompliant(resultingXsd, xml("<release-test>\n"
-                                             + "    <file-assert/>\n"
-                                             + "</release-test>"));
-
-        assertXmlCompliant(resultingXsd, xml("<release-test>\n"
-                                             + "    <file-assert/>\n"
-                                             + "    <file-assert/>\n"
-                                             + "</release-test>"));
-
-        assertXmlNotCompliant(resultingXsd, xml("<release-test>\n"
-                                                + "    <file-assert>\n"
-                                                + "       <file-assert/>\n"
-                                                + "    </file-assert>"
-                                                + "</release-test>"));
-    }
-
-
-    @Test
-    public void test_oneTag_xsdCheck() throws Exception {
-        engine.declare(node("file-assert"));
-        engine.start();
-
-        String resultingXsd = createXsd(engine, xsdWriter);
-
-        assertEquivalent(expectedXsd("XsdWriter-oneTag.xsd"),
-                         resultingXsd);
-    }
-
-
-    @Test
-    public void test_tagWithOneChild_xsdCheck() throws Exception {
-        engine.declare(node("copy-to-inbox")
-                             .add(node("variable")));
-        engine.start();
-
-        String resultingXsd = createXsd(engine, xsdWriter);
-
-        assertEquivalent(expectedXsd("XsdWriter-tagWithOneChild.xsd"),
-                         resultingXsd);
-    }
-
-
-    @Test
-    public void testTagWithOneAddedChild() throws Exception {
-        engine.declare(node("copy-to-inbox"));
-        engine.declare(node("variable").asChildOf("copy-to-inbox"));
-        engine.start();
-
-        String resultingXsd = createXsd(engine, xsdWriter);
-
-        assertEquivalent(expectedXsd("XsdWriter-tagWithOneChild.xsd"),
-                         resultingXsd);
-    }
-
-
-    @Test
-    @Ignore
-    public void testTagLinkedToOtherTagChild() throws Exception {
-        engine.declare(node("gui-test")
-                             .add(node("click")));
-        engine.declare(node("group").asChildOf("gui-test")
-                             .addChildrenOf("gui-test"));
-        engine.start();
-
-        String resultingXsd = createXsd(engine, xsdWriter);
-
-        assertEquivalent(expectedXsd("XsdWriter-tagLinkedToOtherTagChild.xsd"), resultingXsd);
-    }
-
-
-    private static String expectedXsd(String name) throws IOException {
+    private static String xsd(String name) throws IOException {
         return FileUtil.loadContent(XsdWriterTest.class.getResource(name));
     }
 
 
-    private static String createXsd(RuleEngine engine, XsdWriter xsdWriter) throws IOException {
-        StringWriter xsd = new StringWriter();
-        xsdWriter.createXsd(engine.getRootNode(), xsd);
-        return xsd.toString();
-    }
-
-    // ------------------------------------------------------------------------------------------------------------------------------
-    // Code below should be moved in codjo-test-common
-    // ------------------------------------------------------------------------------------------------------------------------------
-
-
-    public static void assertXmlNotCompliant(String xml, File xsdFile) throws SAXException, ParserConfigurationException, IOException {
-        assertThat(xml, is(not(xsdCompliantWith(xsdFile))));
-    }
-
-
-    public static void assertXmlNotCompliant(String xsdContent, String xml) throws SAXException, ParserConfigurationException, IOException {
-        assertThat(xml, is(not(xsdCompliantWith(xsdContent))));
-    }
-
-
-    private static void assertXmlCompliant(String resultingXsd, String xml) throws Exception {
-        assertThat(xml, is(xsdCompliantWith(resultingXsd)));
-    }
-
-
-    private static String xml(@Language("XML") String xml) throws SAXException, ParserConfigurationException, IOException {
-        return xml;
-    }
-
-
-    public static IsXsdCompliant xsdCompliantWith(File xsdFile) throws IOException {
-        return new IsXsdCompliant(xsdFile);
-    }
-
-
-    public static IsXsdCompliant xsdCompliantWith(String xsdContent) {
-        return new IsXsdCompliant(xsdContent);
-    }
-
-
-    public static class IsXsdCompliant extends TypeSafeMatcher<String> {
-        private String xsdContent;
-        private Exception failingValidation;
-
-
-        public IsXsdCompliant(File xsdFile) throws IOException {
-            this.xsdContent = FileUtil.loadContent(xsdFile);
-        }
-
-
-        public IsXsdCompliant(String xsdContent) {
-            this.xsdContent = xsdContent;
-        }
-
-
-        @Override
-        public boolean matchesSafely(String xml) {
-            try {
-                SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                Schema schema = factory.newSchema(new StreamSource(new StringReader(xsdContent)));
-                Validator validator = schema.newValidator();
-
-                DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                Document document = parser.parse(new InputSource(new StringReader(xml)));
-                validator.validate(new DOMSource(document));
-                return true;
-            }
-            catch (Exception e) {
-                this.failingValidation = e;
-                return false;
-            }
-        }
-
-
-        public void describeTo(Description description) {
-            if (failingValidation != null) {
-                description.appendText("Not compliant with XSD : " + failingValidation.getLocalizedMessage());
-            }
-            else {
-                description.appendText("Compliant with XSD");
-            }
-        }
+    private static TestStory story() {
+        return TestStory.init();
     }
 }

@@ -18,6 +18,7 @@
   ~    implied. See the License for the specific language governing permissions
   ~    and limitations under the License.
   -->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
     <xs:annotation>
         <xs:appinfo>XML schema for Tests Release files</xs:appinfo>
