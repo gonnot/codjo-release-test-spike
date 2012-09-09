@@ -114,7 +114,7 @@ public class XsdWriterTest {
                   .generateXsd()
 
                   .then()
-                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-tagWithOneChild.xsd"))
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-oneChild.xsd"))
             ;
         }
 
@@ -130,7 +130,7 @@ public class XsdWriterTest {
                   .generateXsd()
 
                   .then()
-                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-tagWithOneChild.xsd"))
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-oneChild.xsd"))
             ;
         }
 
@@ -177,7 +177,7 @@ public class XsdWriterTest {
                   .isNotXsdCompliant();
         }
     }
-    public static class LinkedTagTest {
+    public static class LinkedTagsTest {
         @Test
         @Ignore
         public void testTagLinkedToOtherTagChild() throws Exception {
@@ -192,7 +192,7 @@ public class XsdWriterTest {
                   .generateXsd()
 
                   .then()
-                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-tagLinkedToOtherTagChild.xsd"))
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-linkedTags.xsd"))
             ;
         }
     }

@@ -17,6 +17,6 @@
   ~    and limitations under the License.
   -->
 
-<release-test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="XsdWriter-tagLinkedToOtherTagChild.xsd">
+<release-test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="XsdWriter-linkedTags.xsd">
 
 </release-test>
