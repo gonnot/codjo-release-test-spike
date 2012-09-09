@@ -41,6 +41,38 @@ public class XsdWriterTest {
                   .resultingXsdIsEquivalentTo(xsd("XsdWriter-noTag.xsd"))
             ;
         }
+
+
+        @Test
+        public void testXmlCompliance() throws Exception {
+            story()
+                  .given()
+                  .nothing()
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test/>")
+                  .isXsdCompliant();
+        }
+
+
+        @Test
+        public void testXmlViolation() throws Exception {
+            story()
+                  .given()
+                  .nothing()
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "   <a-tag/>\n"
+                       + "</release-test>")
+                  .isNotXsdCompliant();
+        }
     }
     public static class OneTagTest {
         @Test
