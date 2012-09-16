@@ -30,15 +30,25 @@
     <xs:element name="release-test" type="release-test-type">
     </xs:element>
 
+    <xs:group name="release-test-children">
+        <xs:choice>
+            <xs:element name="copy-to-inbox" type="copy-to-inbox-type"/>
+        </xs:choice>
+    </xs:group>
     <xs:complexType name="release-test-type">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="copy-to-inbox" type="copy-to-inbox-type"/>
+            <xs:group ref="release-test-children"/>
         </xs:choice>
     </xs:complexType>
 
+    <xs:group name="copy-to-inbox-children">
+        <xs:choice>
+            <xs:element name="variable" type="variable-type"/>
+        </xs:choice>
+    </xs:group>
     <xs:complexType name="copy-to-inbox-type">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="variable" type="variable-type"/>
+            <xs:group ref="copy-to-inbox-children"/>
         </xs:choice>
     </xs:complexType>
 

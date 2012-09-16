@@ -29,9 +29,14 @@
 
     <xs:element name="release-test" type="release-test-type"/>
 
+    <xs:group name="release-test-children">
+        <xs:choice>
+            <xs:element name="file-assert" type="file-assert-type"/>
+        </xs:choice>
+    </xs:group>
     <xs:complexType name="release-test-type">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="file-assert" type="file-assert-type"/>
+            <xs:group ref="release-test-children"/>
         </xs:choice>
     </xs:complexType>
 
