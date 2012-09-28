@@ -139,7 +139,7 @@ public class XsdWriterTest {
             story()
                   .given()
                   .pluginDeclare(node("copy-to-inbox")
-                                       .add(node("variable")))
+                                       .containing(node("variable")))
 
                   .when()
                   .generateXsd()
@@ -171,7 +171,7 @@ public class XsdWriterTest {
             story()
                   .given()
                   .pluginDeclare(node("copy-to-inbox")
-                                       .add(node("variable")))
+                                       .containing(node("variable")))
 
                   .when()
                   .generateXsd()
@@ -214,9 +214,9 @@ public class XsdWriterTest {
             story()
                   .given()
                   .pluginDeclare(node("gui-test")
-                                       .add(node("click")))
+                                       .containing(node("click")))
                   .pluginDeclare(node("group").asChildOf("gui-test")
-                                       .addChildrenOf("gui-test"))
+                                       .containingChildrenOf("gui-test"))
 
                   .when()
                   .generateXsd()
@@ -232,9 +232,9 @@ public class XsdWriterTest {
             story()
                   .given()
                   .pluginDeclare(node("gui-test")
-                                       .add(node("click")))
+                                       .containing(node("click")))
                   .pluginDeclare(node("group").asChildOf("gui-test")
-                                       .addChildrenOf("gui-test"))
+                                       .containingChildrenOf("gui-test"))
 
                   .when()
                   .generateXsd()
@@ -253,6 +253,132 @@ public class XsdWriterTest {
                        + "       <group>\n"
                        + "          <click/>\n"
                        + "       </group>\n"
+                       + "    </gui-test>\n"
+                       + "</release-test>")
+                  .isXsdCompliant();
+        }
+
+
+        @Test
+        public void testXmlViolation() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test")
+                                       .containing(node("click")))
+                  .pluginDeclare(node("group").asChildOf("gui-test")
+                                       .containingChildrenOf("gui-test"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <group/>\n"
+                       + "</release-test>")
+                  .isNotXsdCompliant()
+
+                  .xml("<release-test>\n"
+                       + "    <click/>\n"
+                       + "</release-test>")
+                  .isNotXsdCompliant();
+        }
+    }
+    public static class NotRequiredByTDDStressTest {
+
+        @Test
+        public void testXmlCompliance() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test")
+                                       .containing(node("click")
+                                                         .containing(node("component"))))
+                  .pluginDeclare(node("group").asChildOf("click")
+                                       .containingChildrenOf("click"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <gui-test>\n"
+                       + "       <click>\n"
+                       + "          <component/>\n"
+                       + "       </click>\n"
+                       + "    </gui-test>\n"
+                       + "</release-test>")
+                  .isXsdCompliant()
+
+                  .xml("<release-test>\n"
+                       + "    <gui-test>\n"
+                       + "       <click>\n"
+                       + "          <component/>\n"
+                       + "          <group>\n"
+                       + "              <component/>\n"
+                       + "          </group>\n"
+                       + "       </click>\n"
+                       + "    </gui-test>\n"
+                       + "</release-test>")
+                  .isXsdCompliant();
+        }
+
+
+        @Test
+        public void testXmlComplianceOnComplexGraph() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test")
+                                       .containingChildrenOf("doc"))
+
+                  .pluginDeclare(node("doc")
+                                       .containingChildrenOf("author-tag"))
+
+                  .pluginDeclare(node("author-tag")
+                                       .containing(node("author-name")))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <author-tag>\n"
+                       + "       <author-name/>\n"
+                       + "    </author-tag>\n"
+                       + "    <doc>\n"
+                       + "       <author-name/>\n"
+                       + "    </doc>\n"
+                       + "    <gui-test>\n"
+                       + "       <author-name/>\n"
+                       + "    </gui-test>\n"
+                       + "</release-test>")
+                  .isXsdCompliant();
+        }
+
+
+        @Test
+        public void testXmlComplianceOnEvenMoreComplexGraph() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test")
+                                       .containingChildrenOf("doc"))
+
+                  .pluginDeclare(node("doc")
+                                       .containingChildrenOf("author-tag")
+                                       .containing(node("author-tag")
+                                                         .containing(node("author-name"))))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <doc>\n"
+                       + "      <author-tag>\n"
+                       + "          <author-name/>\n"
+                       + "      </author-tag>\n"
+                       + "       <author-name/>\n"
+                       + "    </doc>\n"
+                       + "    <gui-test>\n"
+                       + "       <author-name/>\n"
                        + "    </gui-test>\n"
                        + "</release-test>")
                   .isXsdCompliant();

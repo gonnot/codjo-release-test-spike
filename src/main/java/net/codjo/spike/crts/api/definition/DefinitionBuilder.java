@@ -63,14 +63,14 @@ public final class DefinitionBuilder {
     }
 
 
-    public DefinitionBuilder add(DefinitionBuilder subDefinitionBuilder) {
+    public DefinitionBuilder containing(DefinitionBuilder subDefinitionBuilder) {
         definitions.add(link(BY_ID).fromParent(nodeDefinition).to(subDefinitionBuilder.nodeDefinition));
         definitions.addAll(subDefinitionBuilder.get());
         return this;
     }
 
 
-    public DefinitionBuilder addChildrenOf(String parentNodeId) {
+    public DefinitionBuilder containingChildrenOf(String parentNodeId) {
         definitions.add(link().fromParent(nodeDefinition).toChildrenOf(parentNodeId));
         return this;
     }

@@ -48,7 +48,7 @@ public class RuleEngineTest {
     @Test
     public void testOrphanedSubTreeIsAttachedToRoot() throws Exception {
         engine.declare(node("gui-test")
-                             .add(node("click")));
+                             .containing(node("click")));
 
         assertRootNode("release-test" +
                        " *-- gui-test" +
@@ -59,8 +59,8 @@ public class RuleEngineTest {
     @Test
     public void testInsertNodeInOneSpecificParentNode() {
         engine.declare(node("gui-test")
-                             .add(node("click"))
-                             .add(node("assertButton")));
+                             .containing(node("click"))
+                             .containing(node("assertButton")));
 
         engine.declare(node("comment").asChildOf("assertButton"));
 
@@ -75,8 +75,8 @@ public class RuleEngineTest {
     @Test
     public void testInsertNodeInAllNodes() {
         engine.declare(node("gui-test")
-                             .add(node("click"))
-                             .add(node("assertButton")));
+                             .containing(node("click"))
+                             .containing(node("assertButton")));
 
         engine.declare(node("comment").asChildOfMatchingNodes(".*"));
 
@@ -93,8 +93,8 @@ public class RuleEngineTest {
     @Test
     public void testInsertNodeInSomeSpecificNodes() {
         engine.declare(node("gui-test")
-                             .add(node("click-button"))
-                             .add(node("click-menu")));
+                             .containing(node("click-button"))
+                             .containing(node("click-menu")));
 
         engine.declare(node("comment").asChildOfMatchingNodes("click-.*"));
 
@@ -111,12 +111,12 @@ public class RuleEngineTest {
     @Test
     public void testInsertGroupInOneParentNode() {
         engine.declare(node("gui-test")
-                             .add(node("click"))
-                             .add(node("assertButton")));
+                             .containing(node("click"))
+                             .containing(node("assertButton")));
 
         // Insert group
         engine.declare(node("group").asChildOf("gui-test")
-                             .addChildrenOf("gui-test"));
+                             .containingChildrenOf("gui-test"));
 
         assertRootNode("release-test" +
                        " *-- gui-test" +
@@ -131,11 +131,11 @@ public class RuleEngineTest {
     @Ignore
     public void testInsertGroupNodeInParentNodes() {
         engine.declare(node("gui-test")
-                             .add(node("click"))
-                             .add(node("assertButton")),
+                             .containing(node("click"))
+                             .containing(node("assertButton")),
                        node("web-test")
-                             .add(node("clickLink"))
-                             .add(node("refreshPage")));
+                             .containing(node("clickLink"))
+                             .containing(node("refreshPage")));
 
         // Insert group
         //to-do voir comment ajouter le group
@@ -157,14 +157,14 @@ public class RuleEngineTest {
     @Test
     public void testInsertIfInOneParentNode() {
         engine.declare(node("gui-test")
-                             .add(node("click"))
-                             .add(node("assertButton")));
+                             .containing(node("click"))
+                             .containing(node("assertButton")));
 
         engine.declare(node("if").asChildOf("gui-test")
-                             .add(node("then")
-                                        .addChildrenOf("gui-test"))
-                             .add(node("else")
-                                        .addChildrenOf("gui-test")));
+                             .containing(node("then")
+                                               .containingChildrenOf("gui-test"))
+                             .containing(node("else")
+                                               .containingChildrenOf("gui-test")));
 
         assertRootNode("release-test" +
                        " *-- gui-test" +
