@@ -30,7 +30,7 @@ public class StringNodeVisitor implements NodeVisitor<String> {
         builder.append(node.getId()).append('\n');
 
         level++;
-        for (Visitable subNode : node.getNodes()) {
+        for (GraphElement subNode : node.getNodes()) {
             builder.append(subNode.accept(this));
         }
         level--;

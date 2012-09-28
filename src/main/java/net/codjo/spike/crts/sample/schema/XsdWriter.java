@@ -21,9 +21,9 @@ package net.codjo.spike.crts.sample.schema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.List;
 import net.codjo.spike.crts.api.definition.DefinitionVisitor;
 import net.codjo.spike.crts.api.definition.INode;
+import net.codjo.spike.crts.api.definition.INodeChildren;
 /**
  *
  */
@@ -56,30 +56,62 @@ public class XsdWriter {
         }
 
 
-        public void visitNode(INode parent, List<? extends INode> children) {
-            generateNodeTypeTag(parent, children);
+        public void visitNode(INode node) {
+            generateNodeGroupTag(node);
+            generateNodeTypeTag(node);
 
-            for (INode child : children) {
-                child.accept(this);
-            }
+            node.getChildren().visitContent(this);
         }
 
 
-        private void generateNodeTypeTag(INode parent, List<? extends INode> children) {
-            writer.println("<xs:complexType name='" + parent.getId() + "-type'>");
-            if (!children.isEmpty()) {
-                writer.println("  <xs:choice minOccurs='0' maxOccurs='unbounded'>");
+        public void visitChildren(INodeChildren children) {
+        }
+
+
+        private void generateNodeGroupTag(INode node) {
+            if (node.getChildren().isEmpty()) {
+                return;
             }
 
-            for (INode child : children) {
-                String childId = child.getId();
-                writer.println("<xs:element name='" + childId + "' type='" + childId + "-type'/>");
+            writer.println("<xs:group name='" + node.getId() + "-children'>");
+            writer.println("  <xs:choice>");
+            node.getChildren().visitContent(new GroupContentBuilder(writer));
+            writer.println("  </xs:choice>");
+            writer.println("</xs:group>");
+        }
+
+
+        private void generateNodeTypeTag(INode node) {
+            if (node.getChildren().isEmpty()) {
+                writer.println("<xs:complexType name='" + node.getId() + "-type' />");
+                return;
             }
 
-            if (!children.isEmpty()) {
-                writer.println("  </xs:choice>");
-            }
+            writer.println("<xs:complexType name='" + node.getId() + "-type'>");
+            writer.println("  <xs:choice minOccurs='0' maxOccurs='unbounded'>");
+            writer.println("     <xs:group ref='" + node.getId() + "-children'/>");
+            writer.println("  </xs:choice>");
             writer.println("</xs:complexType>");
+        }
+    }
+    private static class GroupContentBuilder implements DefinitionVisitor {
+        private PrintWriter writer;
+
+
+        GroupContentBuilder(PrintWriter writer) {
+            this.writer = writer;
+        }
+
+
+        public void visitNode(INode node) {
+            String childId = node.getId();
+            writer.println("<xs:element name='" + childId + "' type='" + childId + "-type'/>");
+        }
+
+
+        public void visitChildren(INodeChildren children) {
+            String childId = children.getOwnerId();
+            writer.println("<xs:group ref='" + childId + "-children'/>");
         }
     }
 }

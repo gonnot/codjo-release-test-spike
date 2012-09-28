@@ -21,11 +21,12 @@ package net.codjo.spike.crts.kernel;
 import java.util.ArrayList;
 import java.util.List;
 import net.codjo.spike.crts.api.definition.DefinitionVisitor;
+import net.codjo.spike.crts.api.definition.INodeChildren;
 /**
  *
  */
-public class NodeChildren implements Visitable {
-    private List<Visitable> nodes = new ArrayList<Visitable>();
+public class NodeChildren implements GraphElement, INodeChildren {
+    private List<GraphElement> nodes = new ArrayList<GraphElement>();
     private Node parentNode;
 
 
@@ -39,22 +40,34 @@ public class NodeChildren implements Visitable {
     }
 
 
-    public void add(Visitable node) {
+    public void add(GraphElement node) {
         nodes.add(node);
     }
 
 
-    public List<Visitable> getNodes() {
+    public List<GraphElement> getNodes() {
         return nodes;
     }
 
 
     public void accept(DefinitionVisitor visitor) {
-        throw new UnsupportedOperationException();
+        visitor.visitChildren(this);
     }
 
 
-    public String getId() {
-        throw new UnsupportedOperationException();
+    public boolean isEmpty() {
+        return nodes.isEmpty();
+    }
+
+
+    public void visitContent(DefinitionVisitor visitor) {
+        for (GraphElement node : nodes) {
+            node.accept(visitor);
+        }
+    }
+
+
+    public String getOwnerId() {
+        return parentNode.getId();
     }
 }

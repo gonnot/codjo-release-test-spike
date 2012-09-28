@@ -21,10 +21,12 @@ package net.codjo.spike.crts.api.definition;
 /**
  *
  */
-public interface INode extends IGraphElement {
+public interface INodeChildren extends IGraphElement {
+    boolean isEmpty();
 
-    String getId();
+
+    void visitContent(DefinitionVisitor visitor);
 
 
-    INodeChildren getChildren();
+    String getOwnerId();
 }

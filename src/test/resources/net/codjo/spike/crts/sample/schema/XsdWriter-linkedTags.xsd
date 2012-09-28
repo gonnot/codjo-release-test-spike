@@ -43,8 +43,8 @@
 
     <xs:group name="gui-test-children">
         <xs:choice>
-            <xs:element name="click" type="click-type"/>
             <xs:element name="group" type="group-type"/>
+            <xs:element name="click" type="click-type"/>
         </xs:choice>
     </xs:group>
     <xs:complexType name="gui-test-type">
@@ -52,8 +52,6 @@
             <xs:group ref="gui-test-children"/>
         </xs:choice>
     </xs:complexType>
-
-    <xs:complexType name="click-type"/>
 
     <xs:group name="group-children">
         <xs:choice>
@@ -66,12 +64,5 @@
         </xs:choice>
     </xs:complexType>
 
-    <!-- SOLUTION 1 - Duplicate definition
-    <xs:complexType name="group-type">
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="click" type="click-type"/>
-            <xs:element name="group" type="group-type"/>
-        </xs:choice>
-    </xs:complexType>
-    -->
+    <xs:complexType name="click-type"/>
 </xs:schema>

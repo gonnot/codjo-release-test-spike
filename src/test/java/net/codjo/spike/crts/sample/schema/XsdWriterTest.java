@@ -20,7 +20,6 @@
 package net.codjo.spike.crts.sample.schema;
 import java.io.IOException;
 import net.codjo.util.file.FileUtil;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -211,7 +210,6 @@ public class XsdWriterTest {
     }
     public static class LinkedTagsTest {
         @Test
-        @Ignore
         public void testTagLinkedToOtherTagChild() throws Exception {
             story()
                   .given()
@@ -226,6 +224,38 @@ public class XsdWriterTest {
                   .then()
                   .resultingXsdIsEquivalentTo(xsd("XsdWriter-linkedTags.xsd"))
             ;
+        }
+
+
+        @Test
+        public void testXmlCompliance() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test")
+                                       .add(node("click")))
+                  .pluginDeclare(node("group").asChildOf("gui-test")
+                                       .addChildrenOf("gui-test"))
+
+                  .when()
+                  .generateXsd()
+
+                  .then()
+                  .xml("<release-test>\n"
+                       + "    <gui-test/>\n"
+                       + "    <gui-test>\n"
+                       + "       <click/>\n"
+                       + "    </gui-test>\n"
+                       + "</release-test>")
+                  .isXsdCompliant()
+
+                  .xml("<release-test>\n"
+                       + "    <gui-test>\n"
+                       + "       <group>\n"
+                       + "          <click/>\n"
+                       + "       </group>\n"
+                       + "    </gui-test>\n"
+                       + "</release-test>")
+                  .isXsdCompliant();
         }
     }
 

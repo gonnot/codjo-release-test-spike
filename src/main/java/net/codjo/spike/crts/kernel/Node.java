@@ -21,10 +21,11 @@ package net.codjo.spike.crts.kernel;
 
 import java.util.List;
 import net.codjo.spike.crts.api.definition.DefinitionVisitor;
+import net.codjo.spike.crts.api.definition.INode;
 import net.codjo.spike.crts.api.definition.NodeDefinition;
 import net.codjo.spike.crts.api.execution.EmptyBehaviour;
 
-public class Node implements Visitable {
+public class Node implements GraphElement, INode {
     private final NodeChildren children;
     private final NodeDefinition nodeDefinition;
 
@@ -57,12 +58,12 @@ public class Node implements Visitable {
     }
 
 
-    public void add(Visitable node) {
+    public void add(GraphElement node) {
         children.add(node);
     }
 
 
-    public List<Visitable> getNodes() {
+    public List<GraphElement> getNodes() {
         return children.getNodes();
     }
 
@@ -75,6 +76,6 @@ public class Node implements Visitable {
 
 
     public void accept(DefinitionVisitor visitor) {
-        visitor.visitNode(this, getChildren().getNodes());
+        visitor.visitNode(this);
     }
 }

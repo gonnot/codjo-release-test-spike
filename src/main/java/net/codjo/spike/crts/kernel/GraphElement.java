@@ -18,10 +18,10 @@
  */
 
 package net.codjo.spike.crts.kernel;
-import net.codjo.spike.crts.api.definition.INode;
+import net.codjo.spike.crts.api.definition.IGraphElement;
 /**
  *
  */
-public interface Visitable extends INode {
+public interface GraphElement extends IGraphElement {
     public <T> T accept(NodeVisitor<T> visitor);
 }

@@ -18,10 +18,12 @@
  */
 
 package net.codjo.spike.crts.api.definition;
-import java.util.List;
 /**
  *
  */
 public interface DefinitionVisitor {
-    public void visitNode(INode parent, List<? extends INode> children);
+    public void visitNode(INode node);
+
+
+    public void visitChildren(INodeChildren children);
 }

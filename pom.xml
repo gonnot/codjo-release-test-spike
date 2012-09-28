@@ -2,7 +2,7 @@
   ~ codjo (Prototype)
   ~ =================
   ~
-  ~    Copyright (C) 2012, $YEAR$ by codjo.net
+  ~    Copyright (C) 2012, 2012 by codjo.net
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
   ~    you may not use this file except in compliance with the License.
@@ -50,6 +50,12 @@
         <dependency>
             <groupId>net.codjo.test</groupId>
             <artifactId>codjo-test-common</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <version>9.0.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
