@@ -14,17 +14,3 @@ This spike is a study for improving the modularity of [codjo-release-test](https
 
 		mvn -P codjo install
 
-### Todo 
-* Kernel
-  * ~~Create the new syntax tree using drools~~
-  * Handle "tag" attribute (e.g. the ```login``` attribute of the ```gui-test``` tag) 
-  * Create a generic run engine
-* Handle legacy 
-  * Read an existing release-test xml script
-  * Execute an existing release-test xml script
-* Promote new possibilities
-  * ~~Generate an XSD~~ 
-  * Read a script wrote using a new human readable format
-  * Generate a test-release script  
-  * Generate documentation from the new syntax tree
-  * Improve execution error management
