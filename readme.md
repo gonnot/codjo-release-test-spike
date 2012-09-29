@@ -1,5 +1,5 @@
-Framework codjo.net
-===================
+codjo-release-test (spike)
+==========================
 
 This spike is a study for improving the modularity of [codjo-release-test](https://github.com/codjo/codjo-release-test) by introducing a new dynamicaly updatable syntax tree.
 
