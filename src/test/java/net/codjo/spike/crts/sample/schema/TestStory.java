@@ -20,11 +20,9 @@
 package net.codjo.spike.crts.sample.schema;
 import java.io.IOException;
 import java.io.StringWriter;
-import javax.xml.parsers.ParserConfigurationException;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.kernel.RuleEngine;
 import org.intellij.lang.annotations.Language;
-import org.xml.sax.SAXException;
 import static net.codjo.spike.crts.sample.schema.IsXsdCompliant.xsdCompliantWith;
 import static net.codjo.test.common.XmlUtil.assertEquivalent;
 import static net.codjo.test.common.matcher.JUnitMatchers.*;
@@ -107,12 +105,12 @@ class TestStory {
     }
 
 
-    private static void assertXmlCompliant(String resultingXsd, String xml) throws Exception {
+    private static void assertXmlCompliant(String resultingXsd, String xml) {
         assertThat(xml, is(xsdCompliantWith(resultingXsd)));
     }
 
 
-    public static void assertXmlNotCompliant(String xsdContent, String xml) throws SAXException, ParserConfigurationException, IOException {
+    public static void assertXmlNotCompliant(String xsdContent, String xml) {
         assertThat(xml, is(not(xsdCompliantWith(xsdContent))));
     }
 }

@@ -18,9 +18,9 @@
  */
 
 package net.codjo.spike.crts.sample.schema;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.URL;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,6 +31,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import net.codjo.util.file.FileUtil;
 import org.hamcrest.Description;
+import org.junit.Assert;
 import org.junit.internal.matchers.TypeSafeMatcher;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -42,8 +43,13 @@ public class IsXsdCompliant extends TypeSafeMatcher<String> {
     private Exception failingValidation;
 
 
-    public IsXsdCompliant(File xsdFile) throws IOException {
-        this.xsdContent = FileUtil.loadContent(xsdFile);
+    public IsXsdCompliant(URL xsd) {
+        try {
+            this.xsdContent = FileUtil.loadContent(xsd);
+        }
+        catch (IOException e) {
+            Assert.fail("Unable to load XSD file from '" + xsd + "' due to : " + e.getLocalizedMessage());
+        }
     }
 
 
@@ -52,8 +58,8 @@ public class IsXsdCompliant extends TypeSafeMatcher<String> {
     }
 
 
-    public static IsXsdCompliant xsdCompliantWith(File xsdFile) throws IOException {
-        return new IsXsdCompliant(xsdFile);
+    public static IsXsdCompliant xsdCompliantWith(URL xsd) {
+        return new IsXsdCompliant(xsd);
     }
 
 
