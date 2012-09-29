@@ -74,15 +74,9 @@ public class RuleEngine {
             ruleBase.addPackage(pkg);
         }
         catch (Exception e) {
-            throw new RuntimeException(String.format("Rule File load error '%s' !!!", extractFileName(resource)), e);
+            throw new RuntimeException(String.format("Rule File load error '%s' !!!", resource), e);
         }
         return ruleBase;
-    }
-
-
-    private String extractFileName(URL rulesUrl) {
-        String path = rulesUrl.getPath();
-        return path.substring(path.lastIndexOf("/") + 1);
     }
 
 
