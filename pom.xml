@@ -92,4 +92,28 @@
     <description>SPIKE codjo-release-test - syntax tree aspects</description>
     <inceptionYear>2012</inceptionYear>
 
+    <!--
+    | Repository definition required for buildhive
+    -->
+    <repositories>
+        <repository>
+            <id>codjo</id>
+            <url>http://repo.codjo.net/maven2/inhouse</url>
+        </repository>
+        <repository>
+            <id>codjo-external</id>
+            <url>http://repo.codjo.net/maven2/external</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>codjo-plugin</id>
+            <url>http://repo.codjo.net/maven2/inhouse</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>codjo-external-plugin</id>
+            <url>http://repo.codjo.net/maven2/external</url>
+        </pluginRepository>
+    </pluginRepositories>
+
 </project>
