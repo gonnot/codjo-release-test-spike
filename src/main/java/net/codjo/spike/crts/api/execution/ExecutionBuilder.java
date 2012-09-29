@@ -21,26 +21,21 @@ package net.codjo.spike.crts.api.execution;
 /**
  *
  */
-public interface NodeBehaviour {
-    /*
-    public interface Tag extends javax.servlet.jsp.tagext.JspTag {
-        int SKIP_BODY = 0;
-        int EVAL_BODY_INCLUDE = 1;
-        int SKIP_PAGE = 5;
-        int EVAL_PAGE = 6;
+public final class ExecutionBuilder {
+    private NodeBehaviour behaviour;
 
-        void setPageContext(javax.servlet.jsp.PageContext pageContext);
 
-        void setParent(javax.servlet.jsp.tagext.Tag aaaaa);
-
-        javax.servlet.jsp.tagext.Tag getParent();
-
-        int doStartTag() throws javax.servlet.jsp.JspException;
-
-        int doEndTag() throws javax.servlet.jsp.JspException;
-
-        void release();
+    private ExecutionBuilder(NodeBehaviour behaviour) {
+        this.behaviour = behaviour;
     }
-     */
-    public void run(ExecutionContext context) throws Exception;
+
+
+    public static ExecutionBuilder tagWith(NodeBehaviour behaviour) {
+        return new ExecutionBuilder(behaviour);
+    }
+
+
+    public NodeBehaviour getBehaviour() {
+        return behaviour;
+    }
 }
