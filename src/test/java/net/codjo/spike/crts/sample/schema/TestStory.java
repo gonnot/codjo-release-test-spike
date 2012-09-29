@@ -31,14 +31,14 @@ import static net.codjo.test.common.matcher.JUnitMatchers.*;
 /**
  *
  */
-public class TestStory {
+class TestStory {
     private final XsdWriter xsdWriter = new XsdWriter();
     private final RuleEngine engine = new RuleEngine();
     private String resultingXsd;
     private String lastXmlToBeChecked;
 
 
-    public static TestStory init() {
+    static TestStory init() {
         return new TestStory();
     }
 

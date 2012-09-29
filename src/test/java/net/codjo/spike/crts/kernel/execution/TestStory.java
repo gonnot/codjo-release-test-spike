@@ -24,13 +24,13 @@ import net.codjo.test.common.LogString;
 /**
  *
  */
-public class TestStory {
+class TestStory {
     private final RuleEngine engine = new RuleEngine();
     private final LogString logString;
     private ExecutionBuilder builder;
 
 
-    public TestStory(LogString logString) {
+    TestStory(LogString logString) {
         this.logString = logString;
     }
 
