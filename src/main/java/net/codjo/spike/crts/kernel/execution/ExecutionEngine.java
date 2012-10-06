@@ -18,15 +18,27 @@
  */
 
 package net.codjo.spike.crts.kernel.execution;
-import net.codjo.spike.crts.api.execution.ExecutionBuilder;
+import net.codjo.spike.crts.api.execution.ExecutionContext;
+import net.codjo.spike.crts.api.execution.ExecutionNode;
+import net.codjo.spike.crts.api.execution.ExecutionNodeVisitor;
+import net.codjo.spike.crts.api.execution.ScriptBuilder;
 /**
  *
  */
 public class ExecutionEngine {
-    public void runScript(ExecutionBuilder builder) throws Exception {
+
+    private static final ExecutionContext NO_CONTEXT = null;
+
+
+    public void runScript(ScriptBuilder builder) throws Exception {
         if (builder == null) {
             return;
         }
-        builder.getBehaviour().run(null);
+        builder.get().visit(new ExecutionNodeVisitor() {
+            public void visit(ExecutionNode node) throws Exception {
+                node.getBehaviour().run(NO_CONTEXT);
+                node.visitChildren(this);
+            }
+        });
     }
 }

@@ -21,21 +21,27 @@ package net.codjo.spike.crts.api.execution;
 /**
  *
  */
-public final class ExecutionBuilder {
-    private NodeBehaviour behaviour;
+public final class ExecutionNodeBuilder {
+    private final ExecutionNode node;
 
 
-    private ExecutionBuilder(NodeBehaviour behaviour) {
-        this.behaviour = behaviour;
+    private ExecutionNodeBuilder(NodeBehaviour behaviour) {
+        this.node = new ExecutionNode(behaviour);
     }
 
 
-    public static ExecutionBuilder tagWith(NodeBehaviour behaviour) {
-        return new ExecutionBuilder(behaviour);
+    public static ExecutionNodeBuilder tagWith(NodeBehaviour behaviour) {
+        return new ExecutionNodeBuilder(behaviour);
     }
 
 
-    public NodeBehaviour getBehaviour() {
-        return behaviour;
+    public ExecutionNodeBuilder containing(ExecutionNodeBuilder subNodeBuilder) {
+        node.addNode(subNodeBuilder.get());
+        return this;
+    }
+
+
+    public ExecutionNode get() {
+        return node;
     }
 }

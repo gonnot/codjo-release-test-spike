@@ -21,14 +21,15 @@ package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionContext;
 import net.codjo.spike.crts.api.execution.NodeBehaviour;
 import net.codjo.test.common.LogString;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
-import static net.codjo.spike.crts.api.execution.ExecutionBuilder.tagWith;
+import static net.codjo.spike.crts.api.execution.ExecutionNodeBuilder.tagWith;
 import static net.codjo.spike.crts.kernel.execution.TestStory.story;
 @RunWith(Enclosed.class)
 public class ExecutionEngineTest {
-    public static class ExecutionFlowTest {
+    public static class BasicExecutionFlowTest {
         @Test
         public void testEmptyGraph() throws Exception {
             story()
@@ -49,21 +50,136 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith(logBehaviour(logger)))
+                  .script(tagWith(logBehaviour(logger, "tag1")))
 
                   .when()
                   .executeScript()
 
                   .then()
-                  .executionLogEquals("run()");
+                  .executionLogEquals("run(tag1)");
+        }
+
+
+        @Test
+        public void testTwoTags() throws Exception {
+            LogString logger = new LogString();
+
+            story(logger)
+                  .given()
+                  .script(tagWith(logBehaviour(logger, "tag1")),
+                          tagWith(logBehaviour(logger, "tag2")))
+
+                  .when()
+                  .executeScript()
+
+                  .then()
+                  .executionLogEquals("run(tag1), "
+                                      + "run(tag2)");
+        }
+
+
+        @Test
+        public void testTagsWithSubTags() throws Exception {
+            LogString logger = new LogString();
+
+            story(logger)
+                  .given()
+                  .script(tagWith(logBehaviour(logger, "tag1"))
+                                .containing(tagWith(logBehaviour(logger, "tag1-1"))),
+                          tagWith(logBehaviour(logger, "tag2")))
+
+                  .when()
+                  .executeScript()
+
+                  .then()
+                  .executionLogEquals("run(tag1), "
+                                      + "run(tag1-1), "
+                                      + "run(tag2)");
+        }
+    }
+    public static class FeaturesToBeImplementedTest {
+        @Test
+        @Ignore
+        public void testDynamicallyAddStaticTag() throws Exception {
+            // for loadScript tag type
+        }
+
+
+        @Test
+        @Ignore
+        public void testDynamicallyAddOneShotTag() throws Exception {
+            // tag that are discarded after one execution
+        }
+
+
+        @Test
+        @Ignore
+        public void testIfTag() throws Exception {
+            // tag can block sub-tag execution
+        }
+
+
+        @Test
+        @Ignore
+        public void testIterateTag() throws Exception {
+            // tag can execute n times sub tags (sub-script)
+        }
+
+
+        @Test
+        @Ignore
+        public void testContextAreLocalToTag() throws Exception {
+            // Execution context are visible from the current node and sub-nodes
+        }
+
+
+        @Test
+        @Ignore
+        public void testContextCanBeUsedToPushData() throws Exception {
+            // Execution context are visible from the current node and sub-nodes
+        }
+
+
+        @Test
+        @Ignore
+        public void testByDefaultSubTagsAreExecuted() throws Exception {
+            // Even if a tag do not handle sub-tags, we can add some
+        }
+
+
+        @Test
+        @Ignore
+        public void testTagCanCatchFailuresFromSubTag() throws Exception {
+            // e.g. try catch tag
+        }
+
+
+        @Test
+        @Ignore
+        public void testAllTagHaveLocalisationData() throws Exception {
+            // for loadScript tag type
+        }
+
+
+        @Test
+        @Ignore
+        public void testExecutionCanBeMonitoredThroughListener() throws Exception {
+        }
+
+
+        @Test
+        @Ignore
+        public void testErrorHasToGiveCristalClearInformation() throws Exception {
+            // where(tag localisation) - what (tag input, error msg, ...) - when (timestamp, after which tag execution, before...)
+            // notified in a listener
         }
     }
 
 
-    private static NodeBehaviour logBehaviour(final LogString logString) {
+    private static NodeBehaviour logBehaviour(final LogString logString, final String tagName) {
         return new NodeBehaviour() {
             public void run(ExecutionContext context) throws Exception {
-                logString.call("run");
+                logString.call("run", tagName);
             }
         };
     }
