@@ -42,6 +42,9 @@ public class ExecutionEngine {
                     listener.before(node);
                 }
                 node.getBehaviour().run(NO_CONTEXT);
+                if (listener != null) {
+                    listener.after(node);
+                }
                 node.visitChildren(this);
             }
         });

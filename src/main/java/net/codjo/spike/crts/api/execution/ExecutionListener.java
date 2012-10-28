@@ -21,5 +21,6 @@ package net.codjo.spike.crts.api.execution;
 public interface ExecutionListener {
     public void before(ExecutionNode node);
 
-//    public void after(ExecutionNode node);
+
+    public void after(ExecutionNode node);
 }

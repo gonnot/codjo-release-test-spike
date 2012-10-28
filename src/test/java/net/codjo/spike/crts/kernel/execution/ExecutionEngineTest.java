@@ -107,15 +107,26 @@ public class ExecutionEngineTest {
                   .script(tagWith(logBehaviour(logger, "tag1")))
 
                   .when()
-                  .listenExecutionScriptWith(new ExecutionListener() {
-                      public void before(ExecutionNode node) {
-                          logger.call("before", node.getBehaviour().getClass().getSimpleName());
-                      }
-                  })
+                  .listenExecutionScriptWith(logBeforeAndAfterExecution(logger))
 
                   .then()
                   .executionLogEquals("before(LoggerBehaviour)"
-                                      + ", run(tag1)");
+                                      + ", run(tag1)"
+                                      + ", after(LoggerBehaviour)");
+        }
+
+
+        private static ExecutionListener logBeforeAndAfterExecution(final LogString logger) {
+            return new ExecutionListener() {
+                public void before(ExecutionNode node) {
+                    logger.call("before", node.getBehaviour().getClass().getSimpleName());
+                }
+
+
+                public void after(ExecutionNode node) {
+                    logger.call("after", node.getBehaviour().getClass().getSimpleName());
+                }
+            };
         }
     }
     public static class FeaturesToBeImplementedTest {
