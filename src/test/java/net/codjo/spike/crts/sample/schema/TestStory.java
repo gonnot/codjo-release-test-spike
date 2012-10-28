@@ -41,60 +41,62 @@ class TestStory {
     }
 
 
-    public TestStory given() {
-        return this;
+    public TestStoryGiven given() {
+        return new TestStoryGiven();
     }
 
 
-    public TestStory pluginDeclare(DefinitionBuilder node) {
-        engine.declare(node);
-        return this;
+    class TestStoryGiven {
+        public TestStoryGiven pluginDeclare(DefinitionBuilder node) {
+            engine.declare(node);
+            return this;
+        }
+
+
+        public TestStoryGiven nothing() {
+            return this;
+        }
+
+
+        public TestStoryWhen when() {
+            engine.start();
+            return new TestStoryWhen();
+        }
     }
+    class TestStoryWhen {
+        public TestStoryWhen generateXsd() throws IOException {
+            resultingXsd = createXsd(engine, xsdWriter);
+            return this;
+        }
 
 
-    public TestStory nothing() {
-        return this;
+        public TestStoryThen then() {
+            return new TestStoryThen();
+        }
     }
+    class TestStoryThen {
+        public TestStoryThen resultingXsdIsEquivalentTo(String expectedXsd) {
+            assertEquivalent(expectedXsd, resultingXsd);
+            return this;
+        }
 
 
-    public TestStory when() {
-        engine.start();
-        return this;
-    }
+        public TestStoryThen xml(@Language("XML") String xml) {
+            lastXmlToBeChecked = xml;
+            return this;
+        }
 
 
-    public TestStory generateXsd() throws IOException {
-        resultingXsd = createXsd(engine, xsdWriter);
-        return this;
-    }
+        public TestStoryThen isXsdCompliant() throws Exception {
+            assertXmlCompliant(resultingXsd, lastXmlToBeChecked);
+            return this;
+        }
 
 
-    public TestStory then() {
-        return this;
-    }
-
-
-    public TestStory resultingXsdIsEquivalentTo(String expectedXsd) {
-        assertEquivalent(expectedXsd, resultingXsd);
-        return this;
-    }
-
-
-    public TestStory xml(@Language("XML") String xml) {
-        lastXmlToBeChecked = xml;
-        return this;
-    }
-
-
-    public TestStory isXsdCompliant() throws Exception {
-        assertXmlCompliant(resultingXsd, lastXmlToBeChecked);
-        return this;
-    }
-
-
-    public TestStory isNotXsdCompliant() throws Exception {
-        assertXmlNotCompliant(resultingXsd, lastXmlToBeChecked);
-        return this;
+        public TestStoryThen isNotXsdCompliant() throws Exception {
+            assertXmlNotCompliant(resultingXsd, lastXmlToBeChecked);
+            return this;
+        }
     }
 
 

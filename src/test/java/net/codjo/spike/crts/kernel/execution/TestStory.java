@@ -47,51 +47,53 @@ class TestStory {
     }
 
 
-    public TestStory given() {
-        return this;
+    public TestStoryGiven given() {
+        return new TestStoryGiven();
     }
 
 
-    public TestStory nothing() {
-        return this;
-    }
-
-
-    public TestStory script(ExecutionNodeBuilder... builders) {
-        this.builder = new ScriptBuilder();
-        for (ExecutionNodeBuilder nodeBuilder : builders) {
-            this.builder.add(nodeBuilder);
+    class TestStoryGiven {
+        public TestStoryGiven nothing() {
+            return this;
         }
-        return this;
+
+
+        public TestStoryGiven script(ExecutionNodeBuilder... builders) {
+            builder = new ScriptBuilder();
+            for (ExecutionNodeBuilder nodeBuilder : builders) {
+                builder.add(nodeBuilder);
+            }
+            return this;
+        }
+
+
+        public TestStoryWhen when() {
+            engine.start();
+            return new TestStoryWhen();
+        }
     }
+    class TestStoryWhen {
+        public TestStoryWhen executeScript() throws Exception {
+            new ExecutionEngine().runScript(builder);
+            return this;
+        }
 
 
-    public TestStory when() {
-        engine.start();
-        return this;
+        public TestStoryWhen listenExecutionScriptWith(ExecutionListener listener) throws Exception {
+            ExecutionEngine executionEngine = new ExecutionEngine();
+            executionEngine.addListener(listener);
+            executionEngine.runScript(builder);
+            return this;
+        }
+
+
+        public TestStoryThen then() {
+            return new TestStoryThen();
+        }
     }
-
-
-    public TestStory executeScript() throws Exception {
-        new ExecutionEngine().runScript(builder);
-        return this;
-    }
-
-
-    public TestStory listenExecutionScript(ExecutionListener listener) throws Exception {
-        ExecutionEngine executionEngine = new ExecutionEngine();
-        executionEngine.addListener(listener);
-        executionEngine.runScript(builder);
-        return this;
-    }
-
-
-    public TestStory then() {
-        return this;
-    }
-
-
-    public void executionLogEquals(String expectedLog) {
-        logString.assertContent(expectedLog);
+    class TestStoryThen {
+        public void executionLogEquals(String expectedLog) {
+            logString.assertContent(expectedLog);
+        }
     }
 }

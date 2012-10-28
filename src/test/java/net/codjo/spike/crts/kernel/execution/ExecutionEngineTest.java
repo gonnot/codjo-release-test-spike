@@ -107,8 +107,7 @@ public class ExecutionEngineTest {
                   .script(tagWith(logBehaviour(logger, "tag1")))
 
                   .when()
-                  .listenExecutionScript(new ExecutionListener() {
-
+                  .listenExecutionScriptWith(new ExecutionListener() {
                       public void before(ExecutionNode node) {
                           logger.call("before", node.getBehaviour().getClass().getSimpleName());
                       }

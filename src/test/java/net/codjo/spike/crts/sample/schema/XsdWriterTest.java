@@ -37,8 +37,7 @@ public class XsdWriterTest {
                   .generateXsd()
 
                   .then()
-                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-noTag.xsd"))
-            ;
+                  .resultingXsdIsEquivalentTo(xsd("XsdWriter-noTag.xsd"));
         }
 
 
