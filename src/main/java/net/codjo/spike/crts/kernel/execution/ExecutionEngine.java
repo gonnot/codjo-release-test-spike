@@ -19,6 +19,7 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionContext;
+import net.codjo.spike.crts.api.execution.ExecutionListener;
 import net.codjo.spike.crts.api.execution.ExecutionNode;
 import net.codjo.spike.crts.api.execution.ExecutionNodeVisitor;
 import net.codjo.spike.crts.api.execution.ScriptBuilder;
@@ -28,6 +29,7 @@ import net.codjo.spike.crts.api.execution.ScriptBuilder;
 public class ExecutionEngine {
 
     private static final ExecutionContext NO_CONTEXT = null;
+    private ExecutionListener listener;
 
 
     public void runScript(ScriptBuilder builder) throws Exception {
@@ -36,9 +38,17 @@ public class ExecutionEngine {
         }
         builder.get().visit(new ExecutionNodeVisitor() {
             public void visit(ExecutionNode node) throws Exception {
+                if (listener != null) {
+                    listener.before(node);
+                }
                 node.getBehaviour().run(NO_CONTEXT);
                 node.visitChildren(this);
             }
         });
+    }
+
+
+    public void addListener(ExecutionListener executionListener) {
+        this.listener = executionListener;
     }
 }

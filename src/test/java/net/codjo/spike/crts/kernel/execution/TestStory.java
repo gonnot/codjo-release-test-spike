@@ -18,6 +18,7 @@
  */
 
 package net.codjo.spike.crts.kernel.execution;
+import net.codjo.spike.crts.api.execution.ExecutionListener;
 import net.codjo.spike.crts.api.execution.ExecutionNodeBuilder;
 import net.codjo.spike.crts.api.execution.ScriptBuilder;
 import net.codjo.spike.crts.kernel.RuleEngine;
@@ -73,6 +74,14 @@ class TestStory {
 
     public TestStory executeScript() throws Exception {
         new ExecutionEngine().runScript(builder);
+        return this;
+    }
+
+
+    public TestStory listenExecutionScript(ExecutionListener listener) throws Exception {
+        ExecutionEngine executionEngine = new ExecutionEngine();
+        executionEngine.addListener(listener);
+        executionEngine.runScript(builder);
         return this;
     }
 

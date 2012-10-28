@@ -18,7 +18,8 @@
  */
 
 package net.codjo.spike.crts.kernel.execution;
-import net.codjo.spike.crts.api.execution.ExecutionContext;
+import net.codjo.spike.crts.api.execution.ExecutionListener;
+import net.codjo.spike.crts.api.execution.ExecutionNode;
 import net.codjo.spike.crts.api.execution.NodeBehaviour;
 import net.codjo.test.common.LogString;
 import org.junit.Ignore;
@@ -97,6 +98,27 @@ public class ExecutionEngineTest {
                                       + "run(tag2)");
         }
     }
+    public static class MonitoringTest {
+        @Test
+        public void testExecutionCanBeMonitoredThroughListener() throws Exception {
+            final LogString logger = new LogString();
+            story(logger)
+                  .given()
+                  .script(tagWith(logBehaviour(logger, "tag1")))
+
+                  .when()
+                  .listenExecutionScript(new ExecutionListener() {
+
+                      public void before(ExecutionNode node) {
+                          logger.call("before", node.getBehaviour().getClass().getSimpleName());
+                      }
+                  })
+
+                  .then()
+                  .executionLogEquals("before(LoggerBehaviour)"
+                                      + ", run(tag1)");
+        }
+    }
     public static class FeaturesToBeImplementedTest {
         @Test
         @Ignore
@@ -163,12 +185,6 @@ public class ExecutionEngineTest {
 
         @Test
         @Ignore
-        public void testExecutionCanBeMonitoredThroughListener() throws Exception {
-        }
-
-
-        @Test
-        @Ignore
         public void testErrorHasToGiveCristalClearInformation() throws Exception {
             // where(tag localisation) - what (tag input, error msg, ...) - when (timestamp, after which tag execution, before...)
             // notified in a listener
@@ -177,11 +193,7 @@ public class ExecutionEngineTest {
 
 
     private static NodeBehaviour logBehaviour(final LogString logString, final String tagName) {
-        return new NodeBehaviour() {
-            public void run(ExecutionContext context) throws Exception {
-                logString.call("run", tagName);
-            }
-        };
+        return new LoggerBehaviour(logString, tagName);
     }
 }
 
