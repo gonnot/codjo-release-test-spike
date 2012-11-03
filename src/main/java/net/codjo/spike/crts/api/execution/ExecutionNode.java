@@ -44,6 +44,11 @@ public class ExecutionNode {
     }
 
 
+    public void accept(ExecutionNodeVisitor visitor) throws Exception {
+        visitor.visit(this);
+    }
+
+
     public void visitChildren(ExecutionNodeVisitor visitor) throws Exception {
         for (ExecutionNode subNode : subNodes) {
             visitor.visit(subNode);

@@ -17,25 +17,20 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
+package net.codjo.spike.crts.sample.reader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import net.codjo.spike.crts.api.execution.Script;
+import net.codjo.spike.crts.api.execution.ScriptBuilder;
 /**
  *
  */
-public class Script {
-    private ExecutionNode rootNode;
-
-
-    Script(ExecutionNode rootNode) {
-        this.rootNode = rootNode;
-    }
-
-
-    public void visitFromRoot(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.accept(visitor);
-    }
-
-
-    public void visit(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.visitChildren(visitor);
+public class XmlReader {
+    public Script readScript(File file) throws IOException {
+        if (!file.exists()) {
+            throw new FileNotFoundException();
+        }
+        return new ScriptBuilder().get();
     }
 }

@@ -27,8 +27,6 @@ import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
  *
  */
 public class ExecutionEngine {
-
-    private static final ExecutionContext NO_CONTEXT = new ExecutionContext();
     private ExecutionListener listener;
 
 

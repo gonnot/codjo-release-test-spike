@@ -18,5 +18,8 @@ net.codjo.spike.crts.kernel.execution
 	-> net.codjo.spike.crts.api.execution
 	-> net.codjo.spike.crts.api.execution.behaviour
 
+net.codjo.spike.crts.sample.reader
+	-> net.codjo.spike.crts.api.execution
+
 net.codjo.spike.crts.sample.schema
 	-> net.codjo.spike.crts.api.definition
