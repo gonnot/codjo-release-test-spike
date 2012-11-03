@@ -39,6 +39,7 @@ public interface NodeBehaviour {
 
         int doEndTag() throws javax.servlet.jsp.JspException;
 
+       // Local (when father tag is done) or global (when script is done) -> inject via context
         void release();
     }
      */
