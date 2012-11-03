@@ -28,7 +28,7 @@ import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
  */
 public class ExecutionEngine {
 
-    private static final ExecutionContext NO_CONTEXT = null;
+    private static final ExecutionContext NO_CONTEXT = new ExecutionContext();
     private ExecutionListener listener;
 
 
@@ -36,22 +36,34 @@ public class ExecutionEngine {
         if (builder == null) {
             return;
         }
-        builder.get().visit(new ExecutionNodeVisitor() {
-            public void visit(ExecutionNode node) throws Exception {
-                if (listener != null) {
-                    listener.before(node);
-                }
-                node.getBehaviour().run(NO_CONTEXT);
-                if (listener != null) {
-                    listener.after(node);
-                }
-                node.visitChildren(this);
-            }
-        });
+        builder.get().visit(new EngineVisitor());
     }
 
 
     public void addListener(ExecutionListener executionListener) {
         this.listener = executionListener;
+    }
+
+
+    private class EngineVisitor implements ExecutionNodeVisitor {
+        public void visit(ExecutionNode node) throws Exception {
+            executeNode(node);
+        }
+
+
+        private void executeNode(ExecutionNode node) throws Exception {
+            if (listener != null) {
+                listener.before(node);
+            }
+            ExecutionContext context = new ExecutionContext();
+            node.getBehaviour().run(context);
+            if (listener != null) {
+                listener.after(node);
+            }
+
+            if (!context.confidential().shouldSkipBody()) {
+                node.visitChildren(this);
+            }
+        }
     }
 }

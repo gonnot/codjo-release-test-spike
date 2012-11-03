@@ -22,6 +22,12 @@ package net.codjo.spike.crts.api.execution.behaviour;
  *
  */
 public class ExecutionContext {
+
+    private ExecutionContext.ExecutionWorkflowManager executionWorkflowManager = new ExecutionWorkflowManager();
+    private boolean skipBody = false;
+    private ExecutionContext.Confidential confidential = new Confidential();
+
+
     public <T> void put(Class<T> key, T value) {
 
     }
@@ -29,5 +35,30 @@ public class ExecutionContext {
 
     public <T> T get(Class<T> key) {
         return null;
+    }
+
+
+    public ExecutionWorkflowManager executionWorkflow() {
+        return executionWorkflowManager;
+    }
+
+
+    public Confidential confidential() {
+        return confidential;
+    }
+
+
+    public class ExecutionWorkflowManager {
+
+        public void skipBodyExecution() {
+            skipBody = true;
+        }
+    }
+    // Private API - should not be used outside 
+    public class Confidential {
+
+        public boolean shouldSkipBody() {
+            return skipBody;
+        }
     }
 }

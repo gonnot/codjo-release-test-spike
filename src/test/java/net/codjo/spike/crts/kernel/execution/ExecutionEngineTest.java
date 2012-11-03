@@ -20,6 +20,7 @@
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
 import net.codjo.spike.crts.api.execution.ExecutionNode;
+import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
 import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
 import net.codjo.test.common.LogString;
 import org.junit.Ignore;
@@ -129,6 +130,23 @@ public class ExecutionEngineTest {
             };
         }
     }
+    public static class ExecutionWorkflowControlledByBehaviourTest {
+        @Test
+        public void testSkipSubNodeExecution() throws Exception {
+            final LogString logger = new LogString();
+
+            story(logger)
+                  .given()
+                  .script(tagWith(skipSubNodeBehaviour(logger, "father"))
+                                .containing(tagWith(logBehaviour(logger, "skipped-tag"))))
+
+                  .when()
+                  .executeScript()
+
+                  .then()
+                  .executionLogEquals("run(father)");
+        }
+    }
     public static class FeaturesToBeImplementedTest {
         @Test
         @Ignore
@@ -199,6 +217,16 @@ public class ExecutionEngineTest {
             // where(tag localisation) - what (tag input, error msg, ...) - when (timestamp, after which tag execution, before...)
             // notified in a listener
         }
+    }
+
+
+    private static NodeBehaviour skipSubNodeBehaviour(final LogString logger, final String tagName) {
+        return new NodeBehaviour() {
+            public void run(ExecutionContext context) throws Exception {
+                logger.call("run", tagName);
+                context.executionWorkflow().skipBodyExecution();
+            }
+        };
     }
 
 
