@@ -1,10 +1,13 @@
 net.codjo.spike.crts.api.definition
-	-> net.codjo.spike.crts.api.execution
+	-> net.codjo.spike.crts.api.execution.behaviour
 	-> net.codjo.spike.crts.kernel.definition
+
+net.codjo.spike.crts.api.execution
+	-> net.codjo.spike.crts.api.execution.behaviour
 
 net.codjo.spike.crts.kernel
 	-> net.codjo.spike.crts.api.definition
-	-> net.codjo.spike.crts.api.execution
+	-> net.codjo.spike.crts.api.execution.behaviour
 	-> net.codjo.spike.crts.kernel.definition
 	-> org.drools
 	-> org.drools.compiler
@@ -13,6 +16,7 @@ net.codjo.spike.crts.kernel.definition
 
 net.codjo.spike.crts.kernel.execution
 	-> net.codjo.spike.crts.api.execution
+	-> net.codjo.spike.crts.api.execution.behaviour
 
 net.codjo.spike.crts.sample.schema
 	-> net.codjo.spike.crts.api.definition

@@ -23,7 +23,7 @@ import java.util.List;
 import net.codjo.spike.crts.api.definition.DefinitionVisitor;
 import net.codjo.spike.crts.api.definition.INode;
 import net.codjo.spike.crts.api.definition.NodeDefinition;
-import net.codjo.spike.crts.api.execution.EmptyBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
 
 public class Node implements GraphElement, INode {
     private final NodeChildren children;

@@ -20,7 +20,7 @@
 package net.codjo.spike.crts.api.definition;
 import java.util.ArrayList;
 import java.util.List;
-import net.codjo.spike.crts.api.execution.EmptyBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
 import net.codjo.spike.crts.kernel.definition.Definition;
 import net.codjo.spike.crts.kernel.definition.LinkDefinition;
 import net.codjo.spike.crts.kernel.definition.LinkDefinition.Type;

@@ -18,7 +18,7 @@
  */
 
 package net.codjo.spike.crts.api.definition;
-import net.codjo.spike.crts.api.execution.NodeBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
 import net.codjo.spike.crts.kernel.definition.Definition;
 /**
  *

@@ -20,7 +20,7 @@
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
 import net.codjo.spike.crts.api.execution.ExecutionNode;
-import net.codjo.spike.crts.api.execution.NodeBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
 import net.codjo.test.common.LogString;
 import org.junit.Ignore;
 import org.junit.Test;

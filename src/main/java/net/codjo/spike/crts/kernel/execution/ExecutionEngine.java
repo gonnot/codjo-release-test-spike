@@ -18,11 +18,11 @@
  */
 
 package net.codjo.spike.crts.kernel.execution;
-import net.codjo.spike.crts.api.execution.ExecutionContext;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
 import net.codjo.spike.crts.api.execution.ExecutionNode;
 import net.codjo.spike.crts.api.execution.ExecutionNodeVisitor;
 import net.codjo.spike.crts.api.execution.ScriptBuilder;
+import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
 /**
  *
  */
