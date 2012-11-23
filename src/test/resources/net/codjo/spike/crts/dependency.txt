@@ -20,6 +20,10 @@ net.codjo.spike.crts.kernel.execution
 
 net.codjo.spike.crts.sample.reader
 	-> net.codjo.spike.crts.api.execution
+	-> net.codjo.spike.crts.api.execution.behaviour
+	-> org.xml.sax
+	-> org.xml.sax.ext
+	-> org.xml.sax.helpers
 
 net.codjo.spike.crts.sample.schema
 	-> net.codjo.spike.crts.api.definition

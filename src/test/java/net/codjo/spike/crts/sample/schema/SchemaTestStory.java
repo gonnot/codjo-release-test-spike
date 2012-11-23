@@ -29,15 +29,15 @@ import static net.codjo.test.common.matcher.JUnitMatchers.*;
 /**
  *
  */
-class TestStory {
+class SchemaTestStory {
     private final XsdWriter xsdWriter = new XsdWriter();
     private final RuleEngine engine = new RuleEngine();
     private String resultingXsd;
     private String lastXmlToBeChecked;
 
 
-    static TestStory init() {
-        return new TestStory();
+    static SchemaTestStory init() {
+        return new SchemaTestStory();
     }
 
 

@@ -390,7 +390,7 @@ public class XsdWriterTest {
     }
 
 
-    private static TestStory story() {
-        return TestStory.init();
+    private static SchemaTestStory story() {
+        return SchemaTestStory.init();
     }
 }

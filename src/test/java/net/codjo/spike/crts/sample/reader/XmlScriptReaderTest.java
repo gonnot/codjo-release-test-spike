@@ -20,14 +20,16 @@
 package net.codjo.spike.crts.sample.reader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
 @RunWith(Enclosed.class)
-public class XmlReaderTest {
+public class XmlScriptReaderTest {
     public static class NominalTest {
-        @Test()
+        @Test
         public void testFileNotFound() throws Exception {
             story()
                   .given()
@@ -42,7 +44,8 @@ public class XmlReaderTest {
         }
 
 
-        @Test()
+        @Test
+        @Ignore
         public void testEmptyFile() throws Exception {
             story()
                   .given()
@@ -52,7 +55,45 @@ public class XmlReaderTest {
                   .readScript("<release-test/>")
 
                   .then()
-                  .parsedTreeIs("release-test")
+                  .parsedScriptTreeIs("release-test")
+            ;
+        }
+    }
+
+    public static class OneSimpleTagTest {
+        @Test
+        @Ignore
+        public void testOneExistingTag() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause"))
+
+                  .when()
+                  .readScript("<release-test>\n"
+                              + "    <pause/>\n"
+                              + "</release-test>")
+
+                  .then()
+                  .parsedScriptTreeIs("release-test"
+                                      + " *--pause")
+            ;
+        }
+
+
+        @Test
+        @Ignore
+        public void testUnexpectedTag() throws Exception {
+            story()
+                  .given()
+                  .nothing()
+
+                  .when()
+                  .readScript("<release-test>\n"
+                              + "    <unexpected-tag/>\n"
+                              + "</release-test>")
+
+                  .then()
+                  .exceptionHasBeenThrown(IOException.class, "Unexpected tag 'unexpected-tag' [2,tempo.xml] in release-test...")
             ;
         }
     }
@@ -67,7 +108,7 @@ public class XmlReaderTest {
     }
 
 
-    private static TestStory story() {
-        return TestStory.init();
+    private static ReaderTestStory story() {
+        return ReaderTestStory.init();
     }
 }

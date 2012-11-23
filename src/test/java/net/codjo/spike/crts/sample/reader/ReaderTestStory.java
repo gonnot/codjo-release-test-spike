@@ -21,6 +21,7 @@ package net.codjo.spike.crts.sample.reader;
 import java.io.File;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.api.execution.Script;
+import net.codjo.spike.crts.kernel.Node;
 import net.codjo.spike.crts.kernel.RuleEngine;
 import net.codjo.test.common.fixture.DirectoryFixture;
 import net.codjo.util.file.FileUtil;
@@ -31,15 +32,14 @@ import static org.junit.Assert.assertThat;
 /**
  *
  */
-class TestStory {
+class ReaderTestStory {
     private final RuleEngine engine = new RuleEngine();
-    private final XmlReader reader = new XmlReader();
     private Exception thrownException;
     private Script loadedScript;
 
 
-    static TestStory init() {
-        return new TestStory();
+    static ReaderTestStory init() {
+        return new ReaderTestStory();
     }
 
 
@@ -67,8 +67,10 @@ class TestStory {
     }
     class TestStoryWhen {
         public TestStoryWhen readScriptFrom(File file) throws Exception {
+            Node rootNode = engine.getRootNode();
+            XmlScriptReader scriptReader = new XmlScriptReader();
             try {
-                loadedScript = reader.readScript(file);
+                loadedScript = scriptReader.readScript(file);
             }
             catch (Exception e) {
                 thrownException = e;
@@ -100,13 +102,21 @@ class TestStory {
     }
     class TestStoryThen {
         public TestStoryThen exceptionHasBeenThrown(Class<? extends Exception> failure) {
+            return exceptionHasBeenThrown(failure, null);
+        }
+
+
+        public TestStoryThen exceptionHasBeenThrown(Class<? extends Exception> failure, String message) {
             assertThat(thrownException, describedAs("Failure when reading script", is(notNullValue())));
             assertThat(thrownException, is(failure));
+            if (message != null) {
+                assertThat(thrownException.getMessage(), is(message));
+            }
             return this;
         }
 
 
-        public TestStoryThen parsedTreeIs(String expectedTree) throws Exception {
+        public TestStoryThen parsedScriptTreeIs(String expectedTree) throws Exception {
             StringNodeVisitor visitor = new StringNodeVisitor();
             loadedScript.visitFromRoot(visitor);
             assertThat(visitor.result.toString(), is(expectedTree.replaceAll("(\\w) ", "$1\n ").trim() + "\n"));

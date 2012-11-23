@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import static net.codjo.spike.crts.api.execution.ExecutionNodeBuilder.tagWith;
-import static net.codjo.spike.crts.kernel.execution.TestStory.story;
+import static net.codjo.spike.crts.kernel.execution.ExecutionTestStory.story;
 @RunWith(Enclosed.class)
 public class ExecutionEngineTest {
     public static class BasicExecutionFlowTest {

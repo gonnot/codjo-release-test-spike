@@ -26,24 +26,24 @@ import net.codjo.test.common.LogString;
 /**
  *
  */
-class TestStory {
+class ExecutionTestStory {
     private final RuleEngine engine = new RuleEngine();
     private final LogString logString;
     private ScriptBuilder builder;
 
 
-    TestStory(LogString logString) {
+    ExecutionTestStory(LogString logString) {
         this.logString = logString;
     }
 
 
-    public static TestStory story() {
+    public static ExecutionTestStory story() {
         return story(new LogString());
     }
 
 
-    public static TestStory story(LogString logString) {
-        return new TestStory(logString);
+    public static ExecutionTestStory story(LogString logString) {
+        return new ExecutionTestStory(logString);
     }
 
 
