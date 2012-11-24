@@ -17,29 +17,24 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.sample.reader;
-import java.io.File;
+package net.codjo.spike.crts.api.parser;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.api.parser.StringNodeVisitor;
 import net.codjo.spike.crts.kernel.RuleEngine;
-import net.codjo.test.common.fixture.DirectoryFixture;
-import net.codjo.util.file.FileUtil;
-import org.intellij.lang.annotations.Language;
 import static net.codjo.test.common.matcher.JUnitMatchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 /**
  *
  */
-class ReaderTestStory {
+class ParserTestStory {
     private final RuleEngine engine = new RuleEngine();
     private Exception thrownException;
     private Script loadedScript;
 
 
-    static ReaderTestStory init() {
-        return new ReaderTestStory();
+    static ParserTestStory init() {
+        return new ParserTestStory();
     }
 
 
@@ -47,6 +42,10 @@ class ReaderTestStory {
         return new TestStoryGiven();
     }
 
+
+    public static interface ParserUseCase {
+        public void perform(ScriptParser parser) throws Exception;
+    }
 
     class TestStoryGiven {
         public TestStoryGiven pluginDeclare(DefinitionBuilder node) {
@@ -66,10 +65,12 @@ class ReaderTestStory {
         }
     }
     class TestStoryWhen {
-        public TestStoryWhen readScriptFrom(File file) throws Exception {
-            XmlScriptReader scriptReader = new XmlScriptReader(engine.getRootNode());
+        private ScriptParser parser = new ScriptParser(engine.getRootNode());
+
+
+        public TestStoryWhen run(ParserUseCase runner) throws Exception {
             try {
-                loadedScript = scriptReader.readScript(file);
+                runner.perform(parser);
             }
             catch (Exception e) {
                 thrownException = e;
@@ -78,38 +79,18 @@ class ReaderTestStory {
         }
 
 
-        public TestStoryWhen readScript(@Language("XML") String scriptContent) throws Exception {
-            return readScript("script.crt", scriptContent);
-        }
-
-
-        public TestStoryWhen readScript(String scriptName, @Language("XML") String scriptContent) throws Exception {
-            DirectoryFixture directory = DirectoryFixture.newTemporaryDirectoryFixture();
-
-            directory.doSetUp();
-
-            File scriptFile = new File(directory, scriptName);
-            try {
-                FileUtil.saveContent(scriptFile, scriptContent);
-                readScriptFrom(scriptFile);
-            }
-            finally {
-                directory.doTearDown();
-            }
+        public TestStoryWhen readTag(String name) throws SyntaxErrorException {
+            parser.readTag(name, TagLocator.NO_LOCATOR);
             return this;
         }
 
 
         public TestStoryThen then() {
+            loadedScript = parser.getScript();
             return new TestStoryThen();
         }
     }
     class TestStoryThen {
-        public TestStoryThen exceptionHasBeenThrown(Class<? extends Exception> failure) {
-            return exceptionHasBeenThrown(failure, null);
-        }
-
-
         public TestStoryThen exceptionHasBeenThrown(Class<? extends Exception> failure, String message) {
             assertThat(thrownException, describedAs("Failure when reading script", is(notNullValue())));
             assertThat(thrownException, is(failure));

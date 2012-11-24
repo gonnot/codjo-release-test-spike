@@ -17,31 +17,40 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
+package net.codjo.spike.crts.api.parser;
+import java.io.File;
 /**
  *
  */
-public class Script {
-    private ExecutionNode rootNode;
+public class FileTagLocator implements TagLocator {
+    private final int lineNumber;
+    private final int columnNumber;
+    private final File file;
 
 
-    Script(ExecutionNode rootNode) {
-        this.rootNode = rootNode;
+    public FileTagLocator(File file, int lineNumber, int columnNumber) {
+        this.file = file;
+        this.lineNumber = lineNumber;
+        this.columnNumber = columnNumber;
     }
 
 
-    public void visitFromRoot(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.accept(visitor);
+    public File getFile() {
+        return file;
     }
 
 
-    public void visit(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.visitChildren(visitor);
+    public int getLineNumber() {
+        return lineNumber;
     }
 
 
-    // Should not exists
-    public ExecutionNode getRootNode() {
-        return rootNode;
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
+
+    public String toHumanReadableFormat() {
+        return String.format(" [%s:(%d,%d)]", getFile().getName(), getLineNumber(), getColumnNumber());
     }
 }

@@ -27,9 +27,11 @@ import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
 public class ExecutionNode {
     private final NodeBehaviour behaviour;
     private final List<ExecutionNode> subNodes = new ArrayList<ExecutionNode>();
+    private final String name;
 
 
-    public ExecutionNode(NodeBehaviour behaviour) {
+    public ExecutionNode(String name, NodeBehaviour behaviour) {
+        this.name = name;
         this.behaviour = behaviour;
     }
 
@@ -53,5 +55,10 @@ public class ExecutionNode {
         for (ExecutionNode subNode : subNodes) {
             visitor.visit(subNode);
         }
+    }
+
+
+    public String getName() {
+        return name;
     }
 }

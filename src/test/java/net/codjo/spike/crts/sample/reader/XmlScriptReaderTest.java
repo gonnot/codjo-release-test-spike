@@ -20,7 +20,7 @@
 package net.codjo.spike.crts.sample.reader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import net.codjo.spike.crts.api.parser.SyntaxErrorException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
 @RunWith(Enclosed.class)
 public class XmlScriptReaderTest {
-    public static class NominalTest {
+    public static class BasicTest {
         @Test
         public void testFileNotFound() throws Exception {
             story()
@@ -45,7 +45,6 @@ public class XmlScriptReaderTest {
 
 
         @Test
-        @Ignore
         public void testEmptyFile() throws Exception {
             story()
                   .given()
@@ -59,10 +58,8 @@ public class XmlScriptReaderTest {
             ;
         }
     }
-
-    public static class OneSimpleTagTest {
+    public static class NominalParsingTest {
         @Test
-        @Ignore
         public void testOneExistingTag() throws Exception {
             story()
                   .given()
@@ -75,25 +72,75 @@ public class XmlScriptReaderTest {
 
                   .then()
                   .parsedScriptTreeIs("release-test"
-                                      + " *--pause")
+                                      + " *-- pause")
             ;
         }
 
 
         @Test
-        @Ignore
+        public void testOneExistingSubTag() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test"))
+                  .pluginDeclare(node("click").asChildOf("gui-test"))
+
+                  .when()
+                  .readScript("<release-test>\n"
+                              + "    <gui-test>\n"
+                              + "       <click/>\n"
+                              + "    </gui-test>\n"
+                              + "</release-test>")
+
+                  .then()
+                  .parsedScriptTreeIs("release-test"
+                                      + " *-- gui-test"
+                                      + "      *-- click")
+            ;
+        }
+
+
+        @Test
+        public void testTwoGroupOfTags() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("gui-test"))
+                  .pluginDeclare(node("click").asChildOf("gui-test"))
+                  .pluginDeclare(node("group").asChildOf("gui-test").containingChildrenOf("gui-test"))
+
+                  .when()
+                  .readScript("<release-test>\n"
+                              + "    <gui-test>\n"
+                              + "       <click/>\n"
+                              + "        <group>\n"
+                              + "            <click/>\n"
+                              + "        </group>\n"
+                              + "    </gui-test>\n"
+                              + "</release-test>")
+
+                  .then()
+                  .parsedScriptTreeIs("release-test"
+                                      + " *-- gui-test"
+                                      + "      *-- click"
+                                      + "      *-- group"
+                                      + "           *-- click")
+            ;
+        }
+    }
+    public static class ErrorManagementTest {
+        @Test
         public void testUnexpectedTag() throws Exception {
             story()
                   .given()
                   .nothing()
 
                   .when()
-                  .readScript("<release-test>\n"
+                  .readScript("tempo.xml",
+                              "<release-test>\n"
                               + "    <unexpected-tag/>\n"
                               + "</release-test>")
 
                   .then()
-                  .exceptionHasBeenThrown(IOException.class, "Unexpected tag 'unexpected-tag' [2,tempo.xml] in release-test...")
+                  .exceptionHasBeenThrown(SyntaxErrorException.class, "'unexpected-tag' is not allowed in 'release-test' [tempo.xml:(2,22)]")
             ;
         }
     }

@@ -26,13 +26,13 @@ public final class ExecutionNodeBuilder {
     private final ExecutionNode node;
 
 
-    private ExecutionNodeBuilder(NodeBehaviour behaviour) {
-        this.node = new ExecutionNode(behaviour);
+    private ExecutionNodeBuilder(String name, NodeBehaviour behaviour) {
+        this.node = new ExecutionNode(name, behaviour);
     }
 
 
-    public static ExecutionNodeBuilder tagWith(NodeBehaviour behaviour) {
-        return new ExecutionNodeBuilder(behaviour);
+    public static ExecutionNodeBuilder tagWith(String name, NodeBehaviour behaviour) {
+        return new ExecutionNodeBuilder(name, behaviour);
     }
 
 

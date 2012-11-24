@@ -5,6 +5,11 @@ net.codjo.spike.crts.api.definition
 net.codjo.spike.crts.api.execution
 	-> net.codjo.spike.crts.api.execution.behaviour
 
+net.codjo.spike.crts.api.parser
+	-> net.codjo.spike.crts.api.definition
+	-> net.codjo.spike.crts.api.execution
+	-> net.codjo.spike.crts.kernel
+
 net.codjo.spike.crts.kernel
 	-> net.codjo.spike.crts.api.definition
 	-> net.codjo.spike.crts.api.execution.behaviour
@@ -19,8 +24,9 @@ net.codjo.spike.crts.kernel.execution
 	-> net.codjo.spike.crts.api.execution.behaviour
 
 net.codjo.spike.crts.sample.reader
+	-> net.codjo.spike.crts.api.parser
+	-> net.codjo.spike.crts.kernel
 	-> net.codjo.spike.crts.api.execution
-	-> net.codjo.spike.crts.api.execution.behaviour
 	-> org.xml.sax
 	-> org.xml.sax.ext
 	-> org.xml.sax.helpers

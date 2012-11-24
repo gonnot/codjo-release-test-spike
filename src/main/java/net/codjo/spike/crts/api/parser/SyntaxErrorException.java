@@ -17,31 +17,12 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
+package net.codjo.spike.crts.api.parser;
 /**
  *
  */
-public class Script {
-    private ExecutionNode rootNode;
-
-
-    Script(ExecutionNode rootNode) {
-        this.rootNode = rootNode;
-    }
-
-
-    public void visitFromRoot(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.accept(visitor);
-    }
-
-
-    public void visit(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.visitChildren(visitor);
-    }
-
-
-    // Should not exists
-    public ExecutionNode getRootNode() {
-        return rootNode;
+public class SyntaxErrorException extends RuntimeException {
+    public SyntaxErrorException(String message, TagLocator locator) {
+        super(message + locator.toHumanReadableFormat());
     }
 }

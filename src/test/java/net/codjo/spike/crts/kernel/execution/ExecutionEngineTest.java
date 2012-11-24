@@ -52,7 +52,7 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith(logBehaviour(logger, "tag1")))
+                  .script(tagWith("n/a", logBehaviour(logger, "tag1")))
 
                   .when()
                   .executeScript()
@@ -68,8 +68,8 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith(logBehaviour(logger, "tag1")),
-                          tagWith(logBehaviour(logger, "tag2")))
+                  .script(tagWith("n/a", logBehaviour(logger, "tag1")),
+                          tagWith("n/a", logBehaviour(logger, "tag2")))
 
                   .when()
                   .executeScript()
@@ -86,9 +86,9 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith(logBehaviour(logger, "tag1"))
-                                .containing(tagWith(logBehaviour(logger, "tag1-1"))),
-                          tagWith(logBehaviour(logger, "tag2")))
+                  .script(tagWith("n/a", logBehaviour(logger, "tag1"))
+                                .containing(tagWith("n/a", logBehaviour(logger, "tag1-1"))),
+                          tagWith("n/a", logBehaviour(logger, "tag2")))
 
                   .when()
                   .executeScript()
@@ -105,7 +105,7 @@ public class ExecutionEngineTest {
             final LogString logger = new LogString();
             story(logger)
                   .given()
-                  .script(tagWith(logBehaviour(logger, "tag1")))
+                  .script(tagWith("n/a", logBehaviour(logger, "tag1")))
 
                   .when()
                   .listenExecutionScriptWith(logBeforeAndAfterExecution(logger))
@@ -137,8 +137,8 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith(skipSubNodeBehaviour(logger, "father"))
-                                .containing(tagWith(logBehaviour(logger, "skipped-tag"))))
+                  .script(tagWith("n/a", skipSubNodeBehaviour(logger, "father"))
+                                .containing(tagWith("n/a", logBehaviour(logger, "skipped-tag"))))
 
                   .when()
                   .executeScript()

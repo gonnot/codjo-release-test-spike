@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.sample.reader;
+package net.codjo.spike.crts.api.parser;
 
 import net.codjo.spike.crts.api.execution.ExecutionNode;
 import net.codjo.spike.crts.api.execution.ExecutionNodeVisitor;
@@ -25,12 +25,12 @@ public class StringNodeVisitor implements ExecutionNodeVisitor {
     private static final String BRANCH = " *-- ";
     private static final String INDENT = "     ";
     private int level = 0;
-    StringBuilder result = new StringBuilder();
+    private StringBuilder result = new StringBuilder();
 
 
     public void visit(ExecutionNode node) throws Exception {
         indent()
-              .append("release-test")
+              .append(node.getName())
               .append('\n');
 
         level++;
@@ -47,5 +47,10 @@ public class StringNodeVisitor implements ExecutionNodeVisitor {
             result.append(BRANCH);
         }
         return result;
+    }
+
+
+    public String getResultingTree() {
+        return result.toString();
     }
 }

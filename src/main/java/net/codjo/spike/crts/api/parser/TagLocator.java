@@ -17,31 +17,17 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
+package net.codjo.spike.crts.api.parser;
 /**
  *
  */
-public class Script {
-    private ExecutionNode rootNode;
+public interface TagLocator {
+    String toHumanReadableFormat();
 
 
-    Script(ExecutionNode rootNode) {
-        this.rootNode = rootNode;
-    }
-
-
-    public void visitFromRoot(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.accept(visitor);
-    }
-
-
-    public void visit(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.visitChildren(visitor);
-    }
-
-
-    // Should not exists
-    public ExecutionNode getRootNode() {
-        return rootNode;
-    }
+    public static final TagLocator NO_LOCATOR = new TagLocator() {
+        public String toHumanReadableFormat() {
+            return " [unknown location]";
+        }
+    };
 }

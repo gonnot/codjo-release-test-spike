@@ -22,10 +22,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import net.codjo.spike.crts.api.execution.ExecutionNodeBuilder;
+import java.util.ArrayDeque;
 import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.api.execution.ScriptBuilder;
-import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
+import net.codjo.spike.crts.api.parser.FileTagLocator;
+import net.codjo.spike.crts.api.parser.ScriptParser;
+import net.codjo.spike.crts.api.parser.SyntaxErrorException;
+import net.codjo.spike.crts.api.parser.TagBuilder;
+import net.codjo.spike.crts.api.parser.TagLocator;
+import net.codjo.spike.crts.kernel.Node;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
@@ -39,7 +43,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
  *
  */
 public class XmlScriptReader {
-    private ScriptBuilder scriptBuilder = new ScriptBuilder();
+    private final ScriptParser scriptParser;
+
+
+    public XmlScriptReader(Node syntaxTree) {
+        scriptParser = new ScriptParser(syntaxTree);
+    }
 
 
     public Script readScript(File file) throws IOException {
@@ -48,7 +57,7 @@ public class XmlScriptReader {
         }
         try {
             XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-            DefaultHandler handler = new ScriptParserHandler();
+            DefaultHandler handler = new ScriptParserHandler(file);
             xmlReader.setContentHandler(handler);
             xmlReader.setErrorHandler(handler);
             xmlReader.setProperty("http://xml.org/sax/properties/lexical-handler", handler);
@@ -61,15 +70,25 @@ public class XmlScriptReader {
                 reader.close();
             }
         }
+        catch (SyntaxErrorException error) {
+            throw error;
+        }
         catch (Exception error) {
             throw new IOException(error);
         }
-        return scriptBuilder.get();
+        return scriptParser.getScript();
     }
 
 
     private class ScriptParserHandler extends DefaultHandler2 {
         private Locator locator;
+        private ArrayDeque<TagBuilder> builders = new ArrayDeque<TagBuilder>();
+        private File file;
+
+
+        ScriptParserHandler(File file) {
+            this.file = file;
+        }
 
 
         @Override
@@ -88,20 +107,25 @@ public class XmlScriptReader {
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            System.out.print("read tag > " + uri + ", " + localName + ", " + qName + ", " + attributes.getLength());
-            scriptBuilder.add(ExecutionNodeBuilder.tagWith(new EmptyBehaviour()));
-            loc();
+            displayLocalisation();
+            if (builders.isEmpty()) {
+                builders.push(scriptParser.readTag(qName, currentLocator()));
+            }
+            else {
+                TagBuilder builder = builders.peek().readSubTag(qName, currentLocator());
+                builders.push(builder);
+            }
         }
 
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
-            System.out.print("end tag < " + qName);
-            loc();
+            builders.pop();
+            displayLocalisation();
         }
 
 
-        private void loc() {
+        private void displayLocalisation() {
             System.out.println(" [" + locator.getLineNumber() + "," + locator.getColumnNumber() + "]");
         }
 
@@ -114,23 +138,25 @@ public class XmlScriptReader {
 
 
         @Override
-        public void warning(SAXParseException exception)
-              throws SAXException {
+        public void warning(SAXParseException exception) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.warning");
         }
 
 
         @Override
-        public void error(SAXParseException exception)
-              throws SAXException {
+        public void error(SAXParseException exception) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.error");
         }
 
 
         @Override
-        public void fatalError(SAXParseException exception)
-              throws SAXException {
+        public void fatalError(SAXParseException exception) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.fatalError");
+        }
+
+
+        private TagLocator currentLocator() {
+            return new FileTagLocator(file, locator.getLineNumber(), locator.getColumnNumber());
         }
     }
 }

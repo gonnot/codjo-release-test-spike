@@ -23,7 +23,7 @@ import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
  *
  */
 public class ScriptBuilder {
-    private final ExecutionNode rootNode = new ExecutionNode(new EmptyBehaviour());
+    private final ExecutionNode rootNode = new ExecutionNode("release-test", new EmptyBehaviour());
 
 
     public Script get() {
