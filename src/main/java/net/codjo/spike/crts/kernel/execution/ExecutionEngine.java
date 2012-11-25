@@ -19,9 +19,9 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
-import net.codjo.spike.crts.api.execution.ExecutionNode;
-import net.codjo.spike.crts.api.execution.ExecutionNodeVisitor;
 import net.codjo.spike.crts.api.execution.ScriptBuilder;
+import net.codjo.spike.crts.api.execution.Task;
+import net.codjo.spike.crts.api.execution.TaskVisitor;
 import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
 /**
  *
@@ -43,13 +43,13 @@ public class ExecutionEngine {
     }
 
 
-    private class EngineVisitor implements ExecutionNodeVisitor {
-        public void visit(ExecutionNode node) throws Exception {
+    private class EngineVisitor implements TaskVisitor {
+        public void visit(Task node) throws Exception {
             executeNode(node);
         }
 
 
-        private void executeNode(ExecutionNode node) throws Exception {
+        private void executeNode(Task node) throws Exception {
             if (listener != null) {
                 listener.before(node);
             }

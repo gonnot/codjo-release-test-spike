@@ -19,15 +19,15 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
-import net.codjo.spike.crts.api.execution.ExecutionNode;
+import net.codjo.spike.crts.api.execution.Task;
 import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
-import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
 import net.codjo.test.common.LogString;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
-import static net.codjo.spike.crts.api.execution.ExecutionNodeBuilder.tagWith;
+import static net.codjo.spike.crts.api.execution.TaskBuilder.tagWith;
 import static net.codjo.spike.crts.kernel.execution.ExecutionTestStory.story;
 @RunWith(Enclosed.class)
 public class ExecutionEngineTest {
@@ -119,12 +119,12 @@ public class ExecutionEngineTest {
 
         private static ExecutionListener logBeforeAndAfterExecution(final LogString logger) {
             return new ExecutionListener() {
-                public void before(ExecutionNode node) {
+                public void before(Task node) {
                     logger.call("before", node.getBehaviour().getClass().getSimpleName());
                 }
 
 
-                public void after(ExecutionNode node) {
+                public void after(Task node) {
                     logger.call("after", node.getBehaviour().getClass().getSimpleName());
                 }
             };
@@ -220,8 +220,8 @@ public class ExecutionEngineTest {
     }
 
 
-    private static NodeBehaviour skipSubNodeBehaviour(final LogString logger, final String tagName) {
-        return new NodeBehaviour() {
+    private static TaskBehaviour skipSubNodeBehaviour(final LogString logger, final String tagName) {
+        return new TaskBehaviour() {
             public void run(ExecutionContext context) throws Exception {
                 logger.call("run", tagName);
                 context.executionWorkflow().skipBodyExecution();
@@ -230,7 +230,7 @@ public class ExecutionEngineTest {
     }
 
 
-    private static NodeBehaviour logBehaviour(final LogString logString, final String tagName) {
+    private static TaskBehaviour logBehaviour(final LogString logString, final String tagName) {
         return new LoggerBehaviour(logString, tagName);
     }
 }

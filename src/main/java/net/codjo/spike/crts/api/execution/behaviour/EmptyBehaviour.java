@@ -21,7 +21,7 @@ package net.codjo.spike.crts.api.execution.behaviour;
 /**
  *
  */
-public class EmptyBehaviour implements NodeBehaviour {
+public class EmptyBehaviour implements TaskBehaviour {
     public void run(ExecutionContext context) throws Exception {
     }
 }

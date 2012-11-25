@@ -21,7 +21,7 @@ package net.codjo.spike.crts.api.execution.behaviour;
 /**
  *
  */
-public interface NodeBehaviour {
+public interface TaskBehaviour {
     /*
     public interface Tag extends javax.servlet.jsp.tagext.JspTag {
         int SKIP_BODY = 0;

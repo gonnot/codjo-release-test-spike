@@ -19,16 +19,16 @@
 
 package net.codjo.spike.crts.api.parser;
 
-import net.codjo.spike.crts.api.execution.ExecutionNode;
-import net.codjo.spike.crts.api.execution.ExecutionNodeVisitor;
-public class StringNodeVisitor implements ExecutionNodeVisitor {
+import net.codjo.spike.crts.api.execution.Task;
+import net.codjo.spike.crts.api.execution.TaskVisitor;
+public class StringNodeVisitor implements TaskVisitor {
     private static final String BRANCH = " *-- ";
     private static final String INDENT = "     ";
     private int level = 0;
     private StringBuilder result = new StringBuilder();
 
 
-    public void visit(ExecutionNode node) throws Exception {
+    public void visit(Task node) throws Exception {
         indent()
               .append(node.getName())
               .append('\n');

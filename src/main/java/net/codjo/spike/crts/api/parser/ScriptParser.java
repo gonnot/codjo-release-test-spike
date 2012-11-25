@@ -39,10 +39,10 @@ public class ScriptParser {
     }
 
 
-    public TagBuilder readTag(String tagName, TagLocator locator) throws SyntaxErrorException {
+    public TagBuilder readTag(String tagName, TaskLocator locator) throws SyntaxErrorException {
         if (!syntaxTree.getId().equals(tagName)) {
             throw new SyntaxErrorException("Bad root tag", locator);
         }
-        return new TagBuilder(scriptBuilder.get().getRootNode(), syntaxTree);
+        return new TagBuilder(scriptBuilder.get().getRootTask(), syntaxTree);
     }
 }

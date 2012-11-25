@@ -20,39 +20,39 @@
 package net.codjo.spike.crts.api.execution;
 import java.util.ArrayList;
 import java.util.List;
-import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
 /**
  *
  */
-public class ExecutionNode {
-    private final NodeBehaviour behaviour;
-    private final List<ExecutionNode> subNodes = new ArrayList<ExecutionNode>();
+public class Task {
+    private final TaskBehaviour behaviour;
+    private final List<Task> subNodes = new ArrayList<Task>();
     private final String name;
 
 
-    public ExecutionNode(String name, NodeBehaviour behaviour) {
+    public Task(String name, TaskBehaviour behaviour) {
         this.name = name;
         this.behaviour = behaviour;
     }
 
 
-    public NodeBehaviour getBehaviour() {
+    public TaskBehaviour getBehaviour() {
         return behaviour;
     }
 
 
-    public void addNode(ExecutionNode node) {
+    public void addNode(Task node) {
         subNodes.add(node);
     }
 
 
-    public void accept(ExecutionNodeVisitor visitor) throws Exception {
+    public void accept(TaskVisitor visitor) throws Exception {
         visitor.visit(this);
     }
 
 
-    public void visitChildren(ExecutionNodeVisitor visitor) throws Exception {
-        for (ExecutionNode subNode : subNodes) {
+    public void visitChildren(TaskVisitor visitor) throws Exception {
+        for (Task subNode : subNodes) {
             visitor.visit(subNode);
         }
     }

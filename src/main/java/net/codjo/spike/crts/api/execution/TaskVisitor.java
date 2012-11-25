@@ -17,17 +17,10 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.parser;
+package net.codjo.spike.crts.api.execution;
 /**
  *
  */
-public interface TagLocator {
-    String toHumanReadableFormat();
-
-
-    public static final TagLocator NO_LOCATOR = new TagLocator() {
-        public String toHumanReadableFormat() {
-            return " [unknown location]";
-        }
-    };
+public interface TaskVisitor {
+    public void visit(Task node) throws Exception;
 }

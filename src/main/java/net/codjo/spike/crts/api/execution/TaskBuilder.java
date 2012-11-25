@@ -17,40 +17,32 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.parser;
-import java.io.File;
+package net.codjo.spike.crts.api.execution;
+import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
 /**
  *
  */
-public class FileTagLocator implements TagLocator {
-    private final int lineNumber;
-    private final int columnNumber;
-    private final File file;
+public final class TaskBuilder {
+    private final Task node;
 
 
-    public FileTagLocator(File file, int lineNumber, int columnNumber) {
-        this.file = file;
-        this.lineNumber = lineNumber;
-        this.columnNumber = columnNumber;
+    private TaskBuilder(String name, TaskBehaviour behaviour) {
+        this.node = new Task(name, behaviour);
     }
 
 
-    public File getFile() {
-        return file;
+    public static TaskBuilder tagWith(String name, TaskBehaviour behaviour) {
+        return new TaskBuilder(name, behaviour);
     }
 
 
-    public int getLineNumber() {
-        return lineNumber;
+    public TaskBuilder containing(TaskBuilder subNodeBuilder) {
+        node.addNode(subNodeBuilder.get());
+        return this;
     }
 
 
-    public int getColumnNumber() {
-        return columnNumber;
-    }
-
-
-    public String toHumanReadableFormat() {
-        return String.format(" [%s:(%d,%d)]", getFile().getName(), getLineNumber(), getColumnNumber());
+    public Task get() {
+        return node;
     }
 }

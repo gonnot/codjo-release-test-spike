@@ -19,12 +19,12 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
-import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
 import net.codjo.test.common.LogString;
 /**
  *
  */
-class LoggerBehaviour implements NodeBehaviour {
+class LoggerBehaviour implements TaskBehaviour {
     private final LogString logString;
     private final String message;
 

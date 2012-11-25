@@ -21,29 +21,29 @@ package net.codjo.spike.crts.api.parser;
 import net.codjo.spike.crts.api.definition.GrammarVisitor;
 import net.codjo.spike.crts.api.definition.Node;
 import net.codjo.spike.crts.api.definition.NodeChildren;
-import net.codjo.spike.crts.api.execution.ExecutionNode;
+import net.codjo.spike.crts.api.execution.Task;
 /**
  *
  */
 public class TagBuilder {
-    private ExecutionNode parentNode;
+    private Task parentNode;
     private Node currentSyntaxNode;
 
 
-    TagBuilder(ExecutionNode parentNode, Node currentSyntaxNode) {
+    TagBuilder(Task parentNode, Node currentSyntaxNode) {
         this.parentNode = parentNode;
         this.currentSyntaxNode = currentSyntaxNode;
     }
 
 
-    public TagBuilder readSubTag(String tagName, TagLocator locator) throws SyntaxErrorException {
+    public TagBuilder readSubTag(String tagName, TaskLocator locator) throws SyntaxErrorException {
         Node syntaxNodeForSubTag = findSyntaxNode(tagName);
 
         if (syntaxNodeForSubTag == null) {
             throw new SyntaxErrorException(String.format("'%s' is not allowed in '%s'", tagName, parentNode.getName()), locator);
         }
 
-        ExecutionNode subTag = new ExecutionNode(tagName, null);
+        Task subTag = new Task(tagName, null);
         parentNode.addNode(subTag);
         return new TagBuilder(subTag, syntaxNodeForSubTag);
     }

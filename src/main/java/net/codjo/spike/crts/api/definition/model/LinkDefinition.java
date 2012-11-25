@@ -18,27 +18,45 @@
  */
 
 package net.codjo.spike.crts.api.definition.model;
-import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
 /**
  *
  */
-public class NodeDefinition implements Definition {
-    private final String id;
-    private final Class<? extends TaskBehaviour> behaviour;
+public class LinkDefinition implements Definition {
+    private Type type;
+    private final String from;
+    private final String to;
 
 
-    public NodeDefinition(String id, Class<? extends TaskBehaviour> behaviour) {
-        this.id = id;
-        this.behaviour = behaviour;
+    public LinkDefinition(Type type, String from, String to) {
+        this.type = type;
+        this.from = from;
+        this.to = to;
     }
 
 
-    public String getId() {
-        return id;
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public Type getType() {
+        return type;
     }
 
 
-    public Class<? extends TaskBehaviour> getBehaviour() {
-        return behaviour;
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public String getFrom() {
+        return from;
+    }
+
+
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public String getTo() {
+        return to;
+    }
+
+
+    public static enum Type {
+        BY_ID,
+        REGEXP
     }
 }

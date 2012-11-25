@@ -17,10 +17,17 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
+package net.codjo.spike.crts.api.parser;
 /**
  *
  */
-public interface ExecutionNodeVisitor {
-    public void visit(ExecutionNode node) throws Exception;
+public interface TaskLocator {
+    String toHumanReadableFormat();
+
+
+    public static final TaskLocator NO_LOCATOR = new TaskLocator() {
+        public String toHumanReadableFormat() {
+            return " [unknown location]";
+        }
+    };
 }

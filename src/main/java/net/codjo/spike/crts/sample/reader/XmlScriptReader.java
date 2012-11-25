@@ -24,11 +24,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.api.parser.FileTagLocator;
+import net.codjo.spike.crts.api.parser.FileTaskLocator;
 import net.codjo.spike.crts.api.parser.ScriptParser;
 import net.codjo.spike.crts.api.parser.SyntaxErrorException;
 import net.codjo.spike.crts.api.parser.TagBuilder;
-import net.codjo.spike.crts.api.parser.TagLocator;
+import net.codjo.spike.crts.api.parser.TaskLocator;
 import net.codjo.spike.crts.kernel.definition.NodeImpl;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -155,8 +155,8 @@ public class XmlScriptReader {
         }
 
 
-        private TagLocator currentLocator() {
-            return new FileTagLocator(file, locator.getLineNumber(), locator.getColumnNumber());
+        private TaskLocator currentLocator() {
+            return new FileTaskLocator(file, locator.getLineNumber(), locator.getColumnNumber());
         }
     }
 }

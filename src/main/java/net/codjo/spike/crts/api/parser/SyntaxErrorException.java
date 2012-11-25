@@ -22,7 +22,7 @@ package net.codjo.spike.crts.api.parser;
  *
  */
 public class SyntaxErrorException extends RuntimeException {
-    public SyntaxErrorException(String message, TagLocator locator) {
+    public SyntaxErrorException(String message, TaskLocator locator) {
         super(message + locator.toHumanReadableFormat());
     }
 }

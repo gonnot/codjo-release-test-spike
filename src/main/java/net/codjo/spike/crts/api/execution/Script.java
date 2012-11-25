@@ -22,26 +22,26 @@ package net.codjo.spike.crts.api.execution;
  *
  */
 public class Script {
-    private ExecutionNode rootNode;
+    private Task rootTask;
 
 
-    Script(ExecutionNode rootNode) {
-        this.rootNode = rootNode;
+    Script(Task rootTask) {
+        this.rootTask = rootTask;
     }
 
 
-    public void visitFromRoot(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.accept(visitor);
+    public void visitFromRoot(TaskVisitor visitor) throws Exception {
+        rootTask.accept(visitor);
     }
 
 
-    public void visit(ExecutionNodeVisitor visitor) throws Exception {
-        rootNode.visitChildren(visitor);
+    public void visit(TaskVisitor visitor) throws Exception {
+        rootTask.visitChildren(visitor);
     }
 
 
     // Should not exists
-    public ExecutionNode getRootNode() {
-        return rootNode;
+    public Task getRootTask() {
+        return rootTask;
     }
 }

@@ -17,32 +17,40 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
-import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
+package net.codjo.spike.crts.api.parser;
+import java.io.File;
 /**
  *
  */
-public final class ExecutionNodeBuilder {
-    private final ExecutionNode node;
+public class FileTaskLocator implements TaskLocator {
+    private final int lineNumber;
+    private final int columnNumber;
+    private final File file;
 
 
-    private ExecutionNodeBuilder(String name, NodeBehaviour behaviour) {
-        this.node = new ExecutionNode(name, behaviour);
+    public FileTaskLocator(File file, int lineNumber, int columnNumber) {
+        this.file = file;
+        this.lineNumber = lineNumber;
+        this.columnNumber = columnNumber;
     }
 
 
-    public static ExecutionNodeBuilder tagWith(String name, NodeBehaviour behaviour) {
-        return new ExecutionNodeBuilder(name, behaviour);
+    public File getFile() {
+        return file;
     }
 
 
-    public ExecutionNodeBuilder containing(ExecutionNodeBuilder subNodeBuilder) {
-        node.addNode(subNodeBuilder.get());
-        return this;
+    public int getLineNumber() {
+        return lineNumber;
     }
 
 
-    public ExecutionNode get() {
-        return node;
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
+
+    public String toHumanReadableFormat() {
+        return String.format(" [%s:(%d,%d)]", getFile().getName(), getLineNumber(), getColumnNumber());
     }
 }
