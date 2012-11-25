@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Properties;
 import net.codjo.spike.crts.api.definition.GrammarBuilder;
+import net.codjo.spike.crts.kernel.definition.model.Definition;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;

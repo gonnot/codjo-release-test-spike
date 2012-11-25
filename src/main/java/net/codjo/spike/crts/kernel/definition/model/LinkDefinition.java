@@ -17,18 +17,27 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel.definition;
+package net.codjo.spike.crts.kernel.definition.model;
 /**
  *
  */
-public class LinkToChildrenDefinition implements Definition {
+public class LinkDefinition implements Definition {
+    private Type type;
     private final String from;
     private final String to;
 
 
-    public LinkToChildrenDefinition(String from, String to) {
+    public LinkDefinition(Type type, String from, String to) {
+        this.type = type;
         this.from = from;
         this.to = to;
+    }
+
+
+    // used by drools
+    @SuppressWarnings({"UnusedDeclaration"})
+    public Type getType() {
+        return type;
     }
 
 
@@ -43,5 +52,11 @@ public class LinkToChildrenDefinition implements Definition {
     @SuppressWarnings({"UnusedDeclaration"})
     public String getTo() {
         return to;
+    }
+
+
+    public static enum Type {
+        BY_ID,
+        REGEXP
     }
 }

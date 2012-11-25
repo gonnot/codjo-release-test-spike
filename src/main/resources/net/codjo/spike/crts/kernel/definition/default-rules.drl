@@ -2,6 +2,7 @@ package net.codjo.spike.crts.kernel;
 import net.codjo.spike.crts.kernel.Node;
 import net.codjo.spike.crts.api.definition.*;
 import net.codjo.spike.crts.kernel.definition.*;
+import net.codjo.spike.crts.kernel.definition.model.*;
 
 global Node rootNode;
 
