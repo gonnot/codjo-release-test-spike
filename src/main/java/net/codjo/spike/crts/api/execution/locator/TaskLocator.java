@@ -17,32 +17,17 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
-import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
+package net.codjo.spike.crts.api.execution.locator;
 /**
  *
  */
-public final class TaskBuilder {
-    private final Task node;
+public interface TaskLocator {
+    String toHumanReadableFormat();
 
 
-    private TaskBuilder(String name, TaskBehaviour behaviour) {
-        this.node = new Task(name, behaviour);
-    }
-
-
-    public static TaskBuilder tagWith(String name, TaskBehaviour behaviour) {
-        return new TaskBuilder(name, behaviour);
-    }
-
-
-    public TaskBuilder containing(TaskBuilder subNodeBuilder) {
-        node.addNode(subNodeBuilder.get());
-        return this;
-    }
-
-
-    public Task get() {
-        return node;
-    }
+    public static final TaskLocator NO_LOCATOR = new TaskLocator() {
+        public String toHumanReadableFormat() {
+            return " [unknown location]";
+        }
+    };
 }

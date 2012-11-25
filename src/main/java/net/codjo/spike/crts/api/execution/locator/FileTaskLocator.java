@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.parser;
+package net.codjo.spike.crts.api.execution.locator;
 import java.io.File;
 /**
  *
