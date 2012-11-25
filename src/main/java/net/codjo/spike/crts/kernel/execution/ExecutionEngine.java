@@ -44,23 +44,23 @@ public class ExecutionEngine {
 
 
     private class EngineVisitor implements TaskVisitor {
-        public void visit(Task node) throws Exception {
-            executeNode(node);
+        public void visit(Task task) throws Exception {
+            executeTask(task);
         }
 
 
-        private void executeNode(Task node) throws Exception {
+        private void executeTask(Task task) throws Exception {
             if (listener != null) {
-                listener.before(node);
+                listener.before(task);
             }
             ExecutionContext context = new ExecutionContext();
-            node.getBehaviour().run(context);
+            task.getBehaviour().run(context);
             if (listener != null) {
-                listener.after(node);
+                listener.after(task);
             }
 
             if (!context.confidential().shouldSkipBody()) {
-                node.visitChildren(this);
+                task.visitChildren(this);
             }
         }
     }

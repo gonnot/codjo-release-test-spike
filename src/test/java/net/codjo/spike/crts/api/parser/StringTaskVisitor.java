@@ -21,20 +21,20 @@ package net.codjo.spike.crts.api.parser;
 
 import net.codjo.spike.crts.api.execution.Task;
 import net.codjo.spike.crts.api.execution.TaskVisitor;
-public class StringNodeVisitor implements TaskVisitor {
+public class StringTaskVisitor implements TaskVisitor {
     private static final String BRANCH = " *-- ";
     private static final String INDENT = "     ";
     private int level = 0;
     private StringBuilder result = new StringBuilder();
 
 
-    public void visit(Task node) throws Exception {
+    public void visit(Task task) throws Exception {
         indent()
-              .append(node.getName())
+              .append(task.getName())
               .append('\n');
 
         level++;
-        node.visitChildren(this);
+        task.visitChildren(this);
         level--;
     }
 

@@ -25,49 +25,49 @@ import net.codjo.spike.crts.api.execution.Task;
 /**
  *
  */
-public class TagBuilder {
-    private Task parentNode;
-    private Node currentSyntaxNode;
+public class TaskBuilder {
+    private Task parentTask;
+    private Node currentGrammarNode;
 
 
-    TagBuilder(Task parentNode, Node currentSyntaxNode) {
-        this.parentNode = parentNode;
-        this.currentSyntaxNode = currentSyntaxNode;
+    TaskBuilder(Task parentTask, Node currentGrammarNode) {
+        this.parentTask = parentTask;
+        this.currentGrammarNode = currentGrammarNode;
     }
 
 
-    public TagBuilder readSubTag(String tagName, TaskLocator locator) throws SyntaxErrorException {
-        Node syntaxNodeForSubTag = findSyntaxNode(tagName);
+    public TaskBuilder readSubTask(String taskName, TaskLocator locator) throws SyntaxErrorException {
+        Node grammarNodeForSubTask = findGrammarNodeFor(taskName);
 
-        if (syntaxNodeForSubTag == null) {
-            throw new SyntaxErrorException(String.format("'%s' is not allowed in '%s'", tagName, parentNode.getName()), locator);
+        if (grammarNodeForSubTask == null) {
+            throw new SyntaxErrorException(String.format("'%s' is not allowed in '%s'", taskName, parentTask.getName()), locator);
         }
 
-        Task subTag = new Task(tagName, null);
-        parentNode.addNode(subTag);
-        return new TagBuilder(subTag, syntaxNodeForSubTag);
+        Task subTag = new Task(taskName, null);
+        parentTask.addTask(subTag);
+        return new TaskBuilder(subTag, grammarNodeForSubTask);
     }
 
 
-    private Node findSyntaxNode(final String tagName) {
-        FindTagVisitor finder = new FindTagVisitor(tagName);
-        currentSyntaxNode.getChildren().visitContent(finder);
+    private Node findGrammarNodeFor(final String taskName) {
+        FindTaskVisitor finder = new FindTaskVisitor(taskName);
+        currentGrammarNode.getChildren().visitContent(finder);
         return finder.resultingNode;
     }
 
 
-    private static class FindTagVisitor implements GrammarVisitor {
-        private final String tagName;
+    private static class FindTaskVisitor implements GrammarVisitor {
+        private final String taskName;
         private Node resultingNode = null;
 
 
-        FindTagVisitor(String tagName) {
-            this.tagName = tagName;
+        FindTaskVisitor(String taskName) {
+            this.taskName = taskName;
         }
 
 
         public void visitNode(Node node) {
-            if (node.getId().equals(tagName)) {
+            if (node.getId().equals(taskName)) {
                 resultingNode = node;
             }
         }

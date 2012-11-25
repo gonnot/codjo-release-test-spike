@@ -48,8 +48,8 @@ class ParserTestStory {
     }
 
     class TestStoryGiven {
-        public TestStoryGiven pluginDeclare(DefinitionBuilder node) {
-            engine.declare(node);
+        public TestStoryGiven pluginDeclare(DefinitionBuilder nodeDefinition) {
+            engine.declare(nodeDefinition);
             return this;
         }
 
@@ -102,7 +102,7 @@ class ParserTestStory {
 
 
         public TestStoryThen parsedScriptTreeIs(String expectedTree) throws Exception {
-            StringNodeVisitor visitor = new StringNodeVisitor();
+            StringTaskVisitor visitor = new StringTaskVisitor();
             loadedScript.visitFromRoot(visitor);
             assertThat(visitor.getResultingTree(), is(expectedTree.replaceAll("(\\w) ", "$1\n ").trim() + "\n"));
             return this;

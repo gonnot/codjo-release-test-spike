@@ -18,19 +18,19 @@
  */
 
 package net.codjo.spike.crts.api.parser;
+import net.codjo.spike.crts.api.definition.Node;
 import net.codjo.spike.crts.api.execution.Script;
 import net.codjo.spike.crts.api.execution.ScriptBuilder;
-import net.codjo.spike.crts.kernel.definition.NodeImpl;
 /**
  *
  */
 public class ScriptParser {
-    private NodeImpl syntaxTree;
+    private Node grammarTree;
     private ScriptBuilder scriptBuilder = new ScriptBuilder();
 
 
-    public ScriptParser(NodeImpl syntaxTree) {
-        this.syntaxTree = syntaxTree;
+    public ScriptParser(Node grammarTree) {
+        this.grammarTree = grammarTree;
     }
 
 
@@ -39,10 +39,10 @@ public class ScriptParser {
     }
 
 
-    public TagBuilder readTag(String tagName, TaskLocator locator) throws SyntaxErrorException {
-        if (!syntaxTree.getId().equals(tagName)) {
+    public TaskBuilder readTag(String tagName, TaskLocator locator) throws SyntaxErrorException {
+        if (!grammarTree.getId().equals(tagName)) {
             throw new SyntaxErrorException("Bad root tag", locator);
         }
-        return new TagBuilder(scriptBuilder.get().getRootTask(), syntaxTree);
+        return new TaskBuilder(scriptBuilder.get().getRootTask(), grammarTree);
     }
 }

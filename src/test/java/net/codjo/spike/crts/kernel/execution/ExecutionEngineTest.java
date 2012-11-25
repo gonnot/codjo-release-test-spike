@@ -27,7 +27,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
-import static net.codjo.spike.crts.api.execution.TaskBuilder.tagWith;
+import static net.codjo.spike.crts.api.execution.SimpleTaskBuilder.task;
 import static net.codjo.spike.crts.kernel.execution.ExecutionTestStory.story;
 @RunWith(Enclosed.class)
 public class ExecutionEngineTest {
@@ -52,7 +52,7 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith("n/a", logBehaviour(logger, "tag1")))
+                  .script(task("n/a", logBehaviour(logger, "tag1")))
 
                   .when()
                   .executeScript()
@@ -68,8 +68,8 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith("n/a", logBehaviour(logger, "tag1")),
-                          tagWith("n/a", logBehaviour(logger, "tag2")))
+                  .script(task("n/a", logBehaviour(logger, "tag1")),
+                          task("n/a", logBehaviour(logger, "tag2")))
 
                   .when()
                   .executeScript()
@@ -86,9 +86,9 @@ public class ExecutionEngineTest {
 
             story(logger)
                   .given()
-                  .script(tagWith("n/a", logBehaviour(logger, "tag1"))
-                                .containing(tagWith("n/a", logBehaviour(logger, "tag1-1"))),
-                          tagWith("n/a", logBehaviour(logger, "tag2")))
+                  .script(task("n/a", logBehaviour(logger, "tag1"))
+                                .containing(task("n/a", logBehaviour(logger, "tag1-1"))),
+                          task("n/a", logBehaviour(logger, "tag2")))
 
                   .when()
                   .executeScript()
@@ -105,7 +105,7 @@ public class ExecutionEngineTest {
             final LogString logger = new LogString();
             story(logger)
                   .given()
-                  .script(tagWith("n/a", logBehaviour(logger, "tag1")))
+                  .script(task("n/a", logBehaviour(logger, "tag1")))
 
                   .when()
                   .listenExecutionScriptWith(logBeforeAndAfterExecution(logger))
@@ -119,26 +119,26 @@ public class ExecutionEngineTest {
 
         private static ExecutionListener logBeforeAndAfterExecution(final LogString logger) {
             return new ExecutionListener() {
-                public void before(Task node) {
-                    logger.call("before", node.getBehaviour().getClass().getSimpleName());
+                public void before(Task task) {
+                    logger.call("before", task.getBehaviour().getClass().getSimpleName());
                 }
 
 
-                public void after(Task node) {
-                    logger.call("after", node.getBehaviour().getClass().getSimpleName());
+                public void after(Task task) {
+                    logger.call("after", task.getBehaviour().getClass().getSimpleName());
                 }
             };
         }
     }
     public static class ExecutionWorkflowControlledByBehaviourTest {
         @Test
-        public void testSkipSubNodeExecution() throws Exception {
+        public void testSkipSubTaskExecution() throws Exception {
             final LogString logger = new LogString();
 
             story(logger)
                   .given()
-                  .script(tagWith("n/a", skipSubNodeBehaviour(logger, "father"))
-                                .containing(tagWith("n/a", logBehaviour(logger, "skipped-tag"))))
+                  .script(task("n/a", skipSubTagBehaviour(logger, "father"))
+                                .containing(task("n/a", logBehaviour(logger, "skipped-tag"))))
 
                   .when()
                   .executeScript()
@@ -179,14 +179,14 @@ public class ExecutionEngineTest {
         @Test
         @Ignore
         public void testContextAreLocalToTag() throws Exception {
-            // Execution context are visible from the current node and sub-nodes
+            // Execution context are visible from the current task and sub-tasks
         }
 
 
         @Test
         @Ignore
         public void testContextCanBeUsedToPushData() throws Exception {
-            // Execution context are visible from the current node and sub-nodes
+            // Execution context are visible from the current task and sub-tasks
         }
 
 
@@ -220,7 +220,7 @@ public class ExecutionEngineTest {
     }
 
 
-    private static TaskBehaviour skipSubNodeBehaviour(final LogString logger, final String tagName) {
+    private static TaskBehaviour skipSubTagBehaviour(final LogString logger, final String tagName) {
         return new TaskBehaviour() {
             public void run(ExecutionContext context) throws Exception {
                 logger.call("run", tagName);

@@ -18,21 +18,31 @@
  */
 
 package net.codjo.spike.crts.api.execution;
-import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
+import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
 /**
  *
  */
-public class ScriptBuilder {
-    private final Task rootTask = new Task("release-test", new EmptyBehaviour());
+public final class SimpleTaskBuilder {
+    private final Task task;
 
 
-    public Script get() {
-        return new Script(rootTask);
+    private SimpleTaskBuilder(String name, TaskBehaviour behaviour) {
+        this.task = new Task(name, behaviour);
     }
 
 
-    public ScriptBuilder add(Task task) {
-        rootTask.addTask(task);
+    public static SimpleTaskBuilder task(String name, TaskBehaviour behaviour) {
+        return new SimpleTaskBuilder(name, behaviour);
+    }
+
+
+    public SimpleTaskBuilder containing(SimpleTaskBuilder subTaskBuilder) {
+        task.addTask(subTaskBuilder.get());
         return this;
+    }
+
+
+    public Task get() {
+        return task;
     }
 }

@@ -26,7 +26,7 @@ import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
  */
 public class Task {
     private final TaskBehaviour behaviour;
-    private final List<Task> subNodes = new ArrayList<Task>();
+    private final List<Task> subTasks = new ArrayList<Task>();
     private final String name;
 
 
@@ -41,8 +41,8 @@ public class Task {
     }
 
 
-    public void addNode(Task node) {
-        subNodes.add(node);
+    public void addTask(Task task) {
+        subTasks.add(task);
     }
 
 
@@ -52,8 +52,8 @@ public class Task {
 
 
     public void visitChildren(TaskVisitor visitor) throws Exception {
-        for (Task subNode : subNodes) {
-            visitor.visit(subNode);
+        for (Task subTask : subTasks) {
+            visitor.visit(subTask);
         }
     }
 

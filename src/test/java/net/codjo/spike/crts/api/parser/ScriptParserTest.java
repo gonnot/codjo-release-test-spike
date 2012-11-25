@@ -72,8 +72,8 @@ public class ScriptParserTest {
                   .run(new ParserUseCase() {
                       public void perform(ScriptParser parser) throws Exception {
 
-                          TagBuilder releaseTestTag = parser.readTag("release-test", NO_LOCATOR);
-                          releaseTestTag.readSubTag("unknown-tag", NO_LOCATOR);
+                          TaskBuilder releaseTestTask = parser.readTag("release-test", NO_LOCATOR);
+                          releaseTestTask.readSubTask("unknown-tag", NO_LOCATOR);
                       }
                   })
 
@@ -92,8 +92,8 @@ public class ScriptParserTest {
                   .run(new ParserUseCase() {
                       public void perform(ScriptParser parser) throws Exception {
 
-                          TagBuilder releaseTestTag = parser.readTag("release-test", NO_LOCATOR);
-                          releaseTestTag.readSubTag("pause", NO_LOCATOR);
+                          TaskBuilder releaseTestTask = parser.readTag("release-test", NO_LOCATOR);
+                          releaseTestTask.readSubTask("pause", NO_LOCATOR);
                       }
                   })
 
@@ -113,10 +113,10 @@ public class ScriptParserTest {
                   .when()
                   .run(new ParserUseCase() {
                       public void perform(ScriptParser parser) throws Exception {
-                          TagBuilder releaseTestTag = parser.readTag("release-test", NO_LOCATOR);
+                          TaskBuilder releaseTestTask = parser.readTag("release-test", NO_LOCATOR);
 
-                          releaseTestTag.readSubTag("copy", NO_LOCATOR);
-                          releaseTestTag.readSubTag("pause", NO_LOCATOR);
+                          releaseTestTask.readSubTask("copy", NO_LOCATOR);
+                          releaseTestTask.readSubTask("pause", NO_LOCATOR);
                       }
                   })
 
@@ -138,9 +138,9 @@ public class ScriptParserTest {
                   .run(new ParserUseCase() {
                       public void perform(ScriptParser parser) throws Exception {
 
-                          TagBuilder releaseTestTag = parser.readTag("release-test", NO_LOCATOR);
-                          TagBuilder copyTag = releaseTestTag.readSubTag("copy", NO_LOCATOR);
-                          copyTag.readSubTag("file", NO_LOCATOR);
+                          TaskBuilder releaseTestTask = parser.readTag("release-test", NO_LOCATOR);
+                          TaskBuilder copyTask = releaseTestTask.readSubTask("copy", NO_LOCATOR);
+                          copyTask.readSubTask("file", NO_LOCATOR);
                       }
                   })
 

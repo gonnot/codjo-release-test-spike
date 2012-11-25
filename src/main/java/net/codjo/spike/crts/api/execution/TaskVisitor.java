@@ -22,5 +22,5 @@ package net.codjo.spike.crts.api.execution;
  *
  */
 public interface TaskVisitor {
-    public void visit(Task node) throws Exception;
+    public void visit(Task task) throws Exception;
 }
