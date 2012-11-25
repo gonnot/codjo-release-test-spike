@@ -17,13 +17,33 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.parser;
-import net.codjo.spike.crts.api.model.locator.TaskLocator;
+package net.codjo.spike.crts.api.execution;
+import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 /**
  *
  */
-public class SyntaxErrorException extends RuntimeException {
-    public SyntaxErrorException(String message, TaskLocator locator) {
-        super(message + locator.toHumanReadableFormat());
+public final class SimpleTaskBuilder {
+    private final Task task;
+
+
+    private SimpleTaskBuilder(String name, TaskBehaviour behaviour) {
+        this.task = new Task(name, behaviour);
+    }
+
+
+    public static SimpleTaskBuilder task(String name, TaskBehaviour behaviour) {
+        return new SimpleTaskBuilder(name, behaviour);
+    }
+
+
+    public SimpleTaskBuilder containing(SimpleTaskBuilder subTaskBuilder) {
+        task.addTask(subTaskBuilder.get());
+        return this;
+    }
+
+
+    public Task get() {
+        return task;
     }
 }

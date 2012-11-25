@@ -23,13 +23,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
-import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.api.parser.FileTagLocator;
+import net.codjo.spike.crts.api.definition.Node;
+import net.codjo.spike.crts.api.model.Script;
+import net.codjo.spike.crts.api.model.locator.FileTaskLocator;
+import net.codjo.spike.crts.api.model.locator.TaskLocator;
 import net.codjo.spike.crts.api.parser.ScriptParser;
 import net.codjo.spike.crts.api.parser.SyntaxErrorException;
-import net.codjo.spike.crts.api.parser.TagBuilder;
-import net.codjo.spike.crts.api.parser.TagLocator;
-import net.codjo.spike.crts.kernel.Node;
+import net.codjo.spike.crts.api.parser.TaskBuilder;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
@@ -46,8 +46,8 @@ public class XmlScriptReader {
     private final ScriptParser scriptParser;
 
 
-    public XmlScriptReader(Node syntaxTree) {
-        scriptParser = new ScriptParser(syntaxTree);
+    public XmlScriptReader(Node grammarTree) {
+        scriptParser = new ScriptParser(grammarTree);
     }
 
 
@@ -82,7 +82,7 @@ public class XmlScriptReader {
 
     private class ScriptParserHandler extends DefaultHandler2 {
         private Locator locator;
-        private ArrayDeque<TagBuilder> builders = new ArrayDeque<TagBuilder>();
+        private ArrayDeque<TaskBuilder> builders = new ArrayDeque<TaskBuilder>();
         private File file;
 
 
@@ -98,6 +98,7 @@ public class XmlScriptReader {
         }
 
 
+        @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
         @Override
         public void elementDecl(String name, String model) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.elementDecl " + name + " " + model);
@@ -109,10 +110,10 @@ public class XmlScriptReader {
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             displayLocalisation();
             if (builders.isEmpty()) {
-                builders.push(scriptParser.readTag(qName, currentLocator()));
+                builders.push(scriptParser.readTask(qName, currentLocator()));
             }
             else {
-                TagBuilder builder = builders.peek().readSubTag(qName, currentLocator());
+                TaskBuilder builder = builders.peek().readSubTask(qName, currentLocator());
                 builders.push(builder);
             }
         }
@@ -125,11 +126,13 @@ public class XmlScriptReader {
         }
 
 
+        @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
         private void displayLocalisation() {
             System.out.println(" [" + locator.getLineNumber() + "," + locator.getColumnNumber() + "]");
         }
 
 
+        @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
         @Override
         public void startEntity(String name) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.startEntity " + name);
@@ -137,26 +140,29 @@ public class XmlScriptReader {
         }
 
 
+        @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
         @Override
         public void warning(SAXParseException exception) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.warning");
         }
 
 
+        @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
         @Override
         public void error(SAXParseException exception) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.error");
         }
 
 
+        @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
         @Override
         public void fatalError(SAXParseException exception) throws SAXException {
             System.out.println("XmlReader$ScriptParserHandler.fatalError");
         }
 
 
-        private TagLocator currentLocator() {
-            return new FileTagLocator(file, locator.getLineNumber(), locator.getColumnNumber());
+        private TaskLocator currentLocator() {
+            return new FileTaskLocator(file, locator.getLineNumber(), locator.getColumnNumber());
         }
     }
 }

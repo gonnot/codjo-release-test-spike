@@ -20,9 +20,9 @@
 package net.codjo.spike.crts.sample.reader;
 import java.io.File;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
-import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.api.parser.StringNodeVisitor;
-import net.codjo.spike.crts.kernel.RuleEngine;
+import net.codjo.spike.crts.api.model.Script;
+import net.codjo.spike.crts.api.parser.StringTaskVisitor;
+import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import net.codjo.test.common.fixture.DirectoryFixture;
 import net.codjo.util.file.FileUtil;
 import org.intellij.lang.annotations.Language;
@@ -121,7 +121,7 @@ class ReaderTestStory {
 
 
         public TestStoryThen parsedScriptTreeIs(String expectedTree) throws Exception {
-            StringNodeVisitor visitor = new StringNodeVisitor();
+            StringTaskVisitor visitor = new StringTaskVisitor();
             loadedScript.visitFromRoot(visitor);
             assertThat(visitor.getResultingTree(), is(expectedTree.replaceAll("(\\w) ", "$1\n ").trim() + "\n"));
             return this;

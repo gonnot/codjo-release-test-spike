@@ -18,9 +18,10 @@
  */
 
 package net.codjo.spike.crts.api.execution;
+import net.codjo.spike.crts.api.model.Task;
 public interface ExecutionListener {
-    public void before(ExecutionNode node);
+    public void before(Task task);
 
 
-    public void after(ExecutionNode node);
+    public void after(Task task);
 }

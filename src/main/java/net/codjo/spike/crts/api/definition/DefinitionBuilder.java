@@ -20,13 +20,14 @@
 package net.codjo.spike.crts.api.definition;
 import java.util.ArrayList;
 import java.util.List;
-import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
-import net.codjo.spike.crts.kernel.definition.Definition;
-import net.codjo.spike.crts.kernel.definition.LinkDefinition;
-import net.codjo.spike.crts.kernel.definition.LinkDefinition.Type;
-import net.codjo.spike.crts.kernel.definition.LinkToChildrenDefinition;
-import static net.codjo.spike.crts.kernel.definition.LinkDefinition.Type.BY_ID;
-import static net.codjo.spike.crts.kernel.definition.LinkDefinition.Type.REGEXP;
+import net.codjo.spike.crts.api.definition.model.Definition;
+import net.codjo.spike.crts.api.definition.model.LinkDefinition;
+import net.codjo.spike.crts.api.definition.model.LinkDefinition.Type;
+import net.codjo.spike.crts.api.definition.model.LinkToChildrenDefinition;
+import net.codjo.spike.crts.api.definition.model.NodeDefinition;
+import net.codjo.spike.crts.api.model.behaviour.EmptyBehaviour;
+import static net.codjo.spike.crts.api.definition.model.LinkDefinition.Type.BY_ID;
+import static net.codjo.spike.crts.api.definition.model.LinkDefinition.Type.REGEXP;
 /**
  *
  */

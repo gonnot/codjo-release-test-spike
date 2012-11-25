@@ -17,13 +17,28 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.parser;
-import net.codjo.spike.crts.api.model.locator.TaskLocator;
+package net.codjo.spike.crts.api.definition.model;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 /**
  *
  */
-public class SyntaxErrorException extends RuntimeException {
-    public SyntaxErrorException(String message, TaskLocator locator) {
-        super(message + locator.toHumanReadableFormat());
+public class NodeDefinition implements Definition {
+    private final String id;
+    private final Class<? extends TaskBehaviour> behaviour;
+
+
+    public NodeDefinition(String id, Class<? extends TaskBehaviour> behaviour) {
+        this.id = id;
+        this.behaviour = behaviour;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+
+    public Class<? extends TaskBehaviour> getBehaviour() {
+        return behaviour;
     }
 }

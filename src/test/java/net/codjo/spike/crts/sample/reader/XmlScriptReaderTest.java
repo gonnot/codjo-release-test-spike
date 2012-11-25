@@ -148,7 +148,7 @@ public class XmlScriptReaderTest {
     public static class ToBeImplementedTest {
         @Ignore
         @Test
-        public void testNodeCanBeLocate() throws Exception {
+        public void testTaskCanBeLocate() throws Exception {
             // Node can be easily found from a LocateContext : filename and path + line number
             //    stack trace idea -> /path/file.crt line 327 in tag gui-test [326,/path/file.crt] in tag release-test[1,/path/file.crt]
         }

@@ -1,0 +1,95 @@
+package net.codjo.spike.crts.kernel.definition;
+import net.codjo.spike.crts.api.definition.*;
+import net.codjo.spike.crts.api.definition.model.*;
+import net.codjo.spike.crts.kernel.definition.*;
+
+global NodeImpl rootNode;
+
+function void debug(String text) {
+    System.out.println("> " + text);
+}
+
+// TODO should probably use agenda-group over salience
+
+// ------------------------------------------------------------------------------------------------
+//   Initialisation
+//   --------------
+//     Apply direct definition (NodeDefinition and LinkDefinition)
+// ------------------------------------------------------------------------------------------------
+
+rule "Create a node for each NodeDefinition"
+  salience 100
+when
+    definition: NodeDefinition()
+    not( NodeImpl( nodeDefinition == definition ) )
+then
+    debug(" create node for definition " + definition.getId());
+    retract( definition );
+    insert( new NodeImpl(definition) );
+end
+
+rule "Connect two nodes - using ID"
+  salience 50
+when
+    link: LinkDefinition( type == LinkDefinition.Type.BY_ID )
+    nodeFrom: NodeImpl( id == link.from )
+    nodeTo: NodeImpl( id == link.to )
+then
+    debug(" Connect " + nodeFrom.getId() + " -> " + nodeTo.getId());
+    nodeFrom.add( nodeTo );
+    retract( link );
+    update( nodeFrom );
+end
+
+rule "Connect two nodes - using regexp"
+  salience 50
+when
+    link: LinkDefinition( type == LinkDefinition.Type.REGEXP)
+    nodeFrom: NodeImpl( id matches link.from )
+    nodeTo: NodeImpl( id == link.to, this != nodeFrom, this not memberOf nodeFrom.nodes )
+then
+    debug(" Connect (via regexp)  " + nodeFrom.getId() + " -> " + nodeTo.getId());
+    nodeFrom.add( nodeTo );
+    // TODO: maybe we should use collect mechanism ?
+    //      pros - we will be able to retract the link
+    //      cons - we will have to iterate through the collections
+    //  retract( link );
+    update( nodeFrom );
+end
+
+rule "Connect to node children"
+  salience 50
+when
+    link: LinkToChildrenDefinition( )
+    nodeFrom: NodeImpl( id == link.from )
+    nodeTo: NodeImpl( id == link.to )
+then
+    debug(" Connect to children  " + nodeFrom.getId() + " -> " + nodeTo.getId());
+    nodeFrom.add( nodeTo.getChildren() );
+    retract( link );
+    update( nodeFrom );
+end
+
+// ------------------------------------------------------------------------------------------------
+//   Connect Nodes
+//   --------------
+//
+// ------------------------------------------------------------------------------------------------
+
+
+// ------------------------------------------------------------------------------------------------
+//   Tear down
+//   --------------
+//   Apply inferred definition (e.g. every orphaned node is automatically connected to the root node)
+// ------------------------------------------------------------------------------------------------
+
+rule "Assign orphan nodes to root"
+  salience -100
+when
+    orphan: NodeImpl()
+    not( NodeImpl( nodes contains orphan ) )
+then
+    debug(" orphan node " + orphan.getId());
+    rootNode.add(orphan);
+end
+

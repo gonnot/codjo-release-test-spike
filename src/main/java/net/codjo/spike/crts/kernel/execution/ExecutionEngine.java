@@ -19,10 +19,10 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
-import net.codjo.spike.crts.api.execution.ExecutionNode;
-import net.codjo.spike.crts.api.execution.ExecutionNodeVisitor;
-import net.codjo.spike.crts.api.execution.ScriptBuilder;
-import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
+import net.codjo.spike.crts.api.model.ScriptBuilder;
+import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.TaskVisitor;
+import net.codjo.spike.crts.api.model.behaviour.ExecutionContext;
 /**
  *
  */
@@ -43,24 +43,24 @@ public class ExecutionEngine {
     }
 
 
-    private class EngineVisitor implements ExecutionNodeVisitor {
-        public void visit(ExecutionNode node) throws Exception {
-            executeNode(node);
+    private class EngineVisitor implements TaskVisitor {
+        public void visit(Task task) throws Exception {
+            executeTask(task);
         }
 
 
-        private void executeNode(ExecutionNode node) throws Exception {
+        private void executeTask(Task task) throws Exception {
             if (listener != null) {
-                listener.before(node);
+                listener.before(task);
             }
             ExecutionContext context = new ExecutionContext();
-            node.getBehaviour().run(context);
+            task.getBehaviour().run(context);
             if (listener != null) {
-                listener.after(node);
+                listener.after(task);
             }
 
             if (!context.confidential().shouldSkipBody()) {
-                node.visitChildren(this);
+                task.visitChildren(this);
             }
         }
     }

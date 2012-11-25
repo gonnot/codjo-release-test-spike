@@ -21,14 +21,14 @@ package net.codjo.spike.crts.sample.schema;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import net.codjo.spike.crts.api.definition.DefinitionVisitor;
-import net.codjo.spike.crts.api.definition.INode;
-import net.codjo.spike.crts.api.definition.INodeChildren;
+import net.codjo.spike.crts.api.definition.GrammarVisitor;
+import net.codjo.spike.crts.api.definition.Node;
+import net.codjo.spike.crts.api.definition.NodeChildren;
 /**
  *
  */
 public class XsdWriter {
-    public void createXsd(INode rootNode, Writer outputWriter) throws IOException {
+    public void createXsd(Node rootNode, Writer outputWriter) throws IOException {
         PrintWriter writer = new PrintWriter(outputWriter);
         writer.println("<?xml version='1.0' encoding='iso-8859-1' standalone='yes'?>\n"
                        + "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema' elementFormDefault='qualified'>\n"
@@ -47,7 +47,7 @@ public class XsdWriter {
     }
 
 
-    private static class XsdVisitor implements DefinitionVisitor {
+    private static class XsdVisitor implements GrammarVisitor {
         private PrintWriter writer;
 
 
@@ -56,7 +56,7 @@ public class XsdWriter {
         }
 
 
-        public void visitNode(INode node) {
+        public void visitNode(Node node) {
             generateNodeGroupTag(node);
             generateNodeTypeTag(node);
 
@@ -64,11 +64,11 @@ public class XsdWriter {
         }
 
 
-        public void visitChildren(INodeChildren children) {
+        public void visitChildren(NodeChildren children) {
         }
 
 
-        private void generateNodeGroupTag(INode node) {
+        private void generateNodeGroupTag(Node node) {
             if (node.getChildren().isEmpty()) {
                 return;
             }
@@ -81,7 +81,7 @@ public class XsdWriter {
         }
 
 
-        private void generateNodeTypeTag(INode node) {
+        private void generateNodeTypeTag(Node node) {
             if (node.getChildren().isEmpty()) {
                 writer.println("<xs:complexType name='" + node.getId() + "-type' />");
                 return;
@@ -94,7 +94,7 @@ public class XsdWriter {
             writer.println("</xs:complexType>");
         }
     }
-    private static class GroupContentBuilder implements DefinitionVisitor {
+    private static class GroupContentBuilder implements GrammarVisitor {
         private PrintWriter writer;
 
 
@@ -103,13 +103,13 @@ public class XsdWriter {
         }
 
 
-        public void visitNode(INode node) {
+        public void visitNode(Node node) {
             String childId = node.getId();
             writer.println("<xs:element name='" + childId + "' type='" + childId + "-type'/>");
         }
 
 
-        public void visitChildren(INodeChildren children) {
+        public void visitChildren(NodeChildren children) {
             String childId = children.getOwnerId();
             writer.println("<xs:group ref='" + childId + "-children'/>");
         }

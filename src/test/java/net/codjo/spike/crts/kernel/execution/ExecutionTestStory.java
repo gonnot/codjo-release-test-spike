@@ -19,9 +19,9 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
-import net.codjo.spike.crts.api.execution.ExecutionNodeBuilder;
-import net.codjo.spike.crts.api.execution.ScriptBuilder;
-import net.codjo.spike.crts.kernel.RuleEngine;
+import net.codjo.spike.crts.api.execution.SimpleTaskBuilder;
+import net.codjo.spike.crts.api.model.ScriptBuilder;
+import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import net.codjo.test.common.LogString;
 /**
  *
@@ -58,10 +58,10 @@ class ExecutionTestStory {
         }
 
 
-        public TestStoryGiven script(ExecutionNodeBuilder... builders) {
+        public TestStoryGiven script(SimpleTaskBuilder... builders) {
             builder = new ScriptBuilder();
-            for (ExecutionNodeBuilder nodeBuilder : builders) {
-                builder.add(nodeBuilder);
+            for (SimpleTaskBuilder taskBuilder : builders) {
+                builder.add(taskBuilder.get());
             }
             return this;
         }

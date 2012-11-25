@@ -21,7 +21,7 @@ package net.codjo.spike.crts.sample.schema;
 import java.io.IOException;
 import java.io.StringWriter;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
-import net.codjo.spike.crts.kernel.RuleEngine;
+import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import org.intellij.lang.annotations.Language;
 import static net.codjo.spike.crts.sample.schema.IsXsdCompliant.xsdCompliantWith;
 import static net.codjo.test.common.XmlUtil.assertEquivalent;
