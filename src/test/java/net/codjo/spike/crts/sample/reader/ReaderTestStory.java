@@ -20,7 +20,7 @@
 package net.codjo.spike.crts.sample.reader;
 import java.io.File;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
-import net.codjo.spike.crts.api.execution.Script;
+import net.codjo.spike.crts.api.model.Script;
 import net.codjo.spike.crts.api.parser.StringTaskVisitor;
 import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import net.codjo.test.common.fixture.DirectoryFixture;

@@ -19,9 +19,9 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
-import net.codjo.spike.crts.api.execution.Task;
-import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
-import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
+import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.behaviour.ExecutionContext;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 import net.codjo.test.common.LogString;
 import org.junit.Ignore;
 import org.junit.Test;

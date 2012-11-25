@@ -19,8 +19,8 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
-import net.codjo.spike.crts.api.execution.ScriptBuilder;
 import net.codjo.spike.crts.api.execution.SimpleTaskBuilder;
+import net.codjo.spike.crts.api.model.ScriptBuilder;
 import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import net.codjo.test.common.LogString;
 /**

@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution.locator;
+package net.codjo.spike.crts.api.model.locator;
 import java.io.File;
 /**
  *

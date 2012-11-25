@@ -19,8 +19,8 @@
 
 package net.codjo.spike.crts.api.parser;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
-import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.api.execution.locator.TaskLocator;
+import net.codjo.spike.crts.api.model.Script;
+import net.codjo.spike.crts.api.model.locator.TaskLocator;
 import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import static net.codjo.test.common.matcher.JUnitMatchers.*;
 import static org.hamcrest.core.Is.is;

@@ -18,7 +18,7 @@
  */
 
 package net.codjo.spike.crts.api.parser;
-import net.codjo.spike.crts.api.execution.locator.TaskLocator;
+import net.codjo.spike.crts.api.model.locator.TaskLocator;
 /**
  *
  */

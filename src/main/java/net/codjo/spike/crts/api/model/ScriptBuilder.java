@@ -17,10 +17,22 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
+package net.codjo.spike.crts.api.model;
+import net.codjo.spike.crts.api.model.behaviour.EmptyBehaviour;
 /**
  *
  */
-public interface TaskVisitor {
-    public void visit(Task task) throws Exception;
+public class ScriptBuilder {
+    private final Task rootTask = new Task("release-test", new EmptyBehaviour());
+
+
+    public Script get() {
+        return new Script(rootTask);
+    }
+
+
+    public ScriptBuilder add(Task task) {
+        rootTask.addTask(task);
+        return this;
+    }
 }

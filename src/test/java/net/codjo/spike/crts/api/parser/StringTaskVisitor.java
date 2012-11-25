@@ -19,8 +19,8 @@
 
 package net.codjo.spike.crts.api.parser;
 
-import net.codjo.spike.crts.api.execution.Task;
-import net.codjo.spike.crts.api.execution.TaskVisitor;
+import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.TaskVisitor;
 public class StringTaskVisitor implements TaskVisitor {
     private static final String BRANCH = " *-- ";
     private static final String INDENT = "     ";

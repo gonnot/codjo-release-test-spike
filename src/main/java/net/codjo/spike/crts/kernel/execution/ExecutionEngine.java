@@ -19,10 +19,10 @@
 
 package net.codjo.spike.crts.kernel.execution;
 import net.codjo.spike.crts.api.execution.ExecutionListener;
-import net.codjo.spike.crts.api.execution.ScriptBuilder;
-import net.codjo.spike.crts.api.execution.Task;
-import net.codjo.spike.crts.api.execution.TaskVisitor;
-import net.codjo.spike.crts.api.execution.behaviour.ExecutionContext;
+import net.codjo.spike.crts.api.model.ScriptBuilder;
+import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.TaskVisitor;
+import net.codjo.spike.crts.api.model.behaviour.ExecutionContext;
 /**
  *
  */

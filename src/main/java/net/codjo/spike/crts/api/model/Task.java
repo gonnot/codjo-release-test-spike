@@ -17,10 +17,10 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.execution;
+package net.codjo.spike.crts.api.model;
 import java.util.ArrayList;
 import java.util.List;
-import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 /**
  *
  */

@@ -19,9 +19,9 @@
 
 package net.codjo.spike.crts.api.parser;
 import net.codjo.spike.crts.api.definition.Node;
-import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.api.execution.ScriptBuilder;
-import net.codjo.spike.crts.api.execution.locator.TaskLocator;
+import net.codjo.spike.crts.api.model.Script;
+import net.codjo.spike.crts.api.model.ScriptBuilder;
+import net.codjo.spike.crts.api.model.locator.TaskLocator;
 /**
  *
  */

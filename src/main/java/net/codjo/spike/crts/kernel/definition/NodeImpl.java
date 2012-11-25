@@ -23,7 +23,7 @@ import java.util.List;
 import net.codjo.spike.crts.api.definition.GrammarVisitor;
 import net.codjo.spike.crts.api.definition.Node;
 import net.codjo.spike.crts.api.definition.model.NodeDefinition;
-import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
+import net.codjo.spike.crts.api.model.behaviour.EmptyBehaviour;
 
 public class NodeImpl implements GraphElement, Node {
     private final NodeChildrenImpl children;

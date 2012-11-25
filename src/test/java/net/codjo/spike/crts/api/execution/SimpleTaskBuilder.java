@@ -18,7 +18,8 @@
  */
 
 package net.codjo.spike.crts.api.execution;
-import net.codjo.spike.crts.api.execution.behaviour.TaskBehaviour;
+import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 /**
  *
  */

@@ -18,6 +18,7 @@
  */
 
 package net.codjo.spike.crts.api.execution;
+import net.codjo.spike.crts.api.model.Task;
 public interface ExecutionListener {
     public void before(Task task);
 

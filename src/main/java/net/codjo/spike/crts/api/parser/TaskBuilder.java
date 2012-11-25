@@ -21,8 +21,8 @@ package net.codjo.spike.crts.api.parser;
 import net.codjo.spike.crts.api.definition.GrammarVisitor;
 import net.codjo.spike.crts.api.definition.Node;
 import net.codjo.spike.crts.api.definition.NodeChildren;
-import net.codjo.spike.crts.api.execution.Task;
-import net.codjo.spike.crts.api.execution.locator.TaskLocator;
+import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.locator.TaskLocator;
 /**
  *
  */
