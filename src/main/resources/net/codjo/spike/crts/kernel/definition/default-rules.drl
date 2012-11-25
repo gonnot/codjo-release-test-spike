@@ -1,10 +1,9 @@
-package net.codjo.spike.crts.kernel;
-import net.codjo.spike.crts.kernel.Node;
+package net.codjo.spike.crts.kernel.definition;
 import net.codjo.spike.crts.api.definition.*;
+import net.codjo.spike.crts.api.definition.model.*;
 import net.codjo.spike.crts.kernel.definition.*;
-import net.codjo.spike.crts.kernel.definition.model.*;
 
-global Node rootNode;
+global NodeImpl rootNode;
 
 function void debug(String text) {
     System.out.println("> " + text);
@@ -22,19 +21,19 @@ rule "Create a node for each NodeDefinition"
   salience 100
 when
     definition: NodeDefinition()
-    not( Node( nodeDefinition == definition ) )
+    not( NodeImpl( nodeDefinition == definition ) )
 then
     debug(" create node for definition " + definition.getId());
     retract( definition );
-    insert( new Node(definition) );
+    insert( new NodeImpl(definition) );
 end
 
 rule "Connect two nodes - using ID"
   salience 50
 when
     link: LinkDefinition( type == LinkDefinition.Type.BY_ID )
-    nodeFrom: Node( id == link.from )
-    nodeTo: Node( id == link.to )
+    nodeFrom: NodeImpl( id == link.from )
+    nodeTo: NodeImpl( id == link.to )
 then
     debug(" Connect " + nodeFrom.getId() + " -> " + nodeTo.getId());
     nodeFrom.add( nodeTo );
@@ -46,8 +45,8 @@ rule "Connect two nodes - using regexp"
   salience 50
 when
     link: LinkDefinition( type == LinkDefinition.Type.REGEXP)
-    nodeFrom: Node( id matches link.from )
-    nodeTo: Node( id == link.to, this != nodeFrom, this not memberOf nodeFrom.nodes )
+    nodeFrom: NodeImpl( id matches link.from )
+    nodeTo: NodeImpl( id == link.to, this != nodeFrom, this not memberOf nodeFrom.nodes )
 then
     debug(" Connect (via regexp)  " + nodeFrom.getId() + " -> " + nodeTo.getId());
     nodeFrom.add( nodeTo );
@@ -62,8 +61,8 @@ rule "Connect to node children"
   salience 50
 when
     link: LinkToChildrenDefinition( )
-    nodeFrom: Node( id == link.from )
-    nodeTo: Node( id == link.to )
+    nodeFrom: NodeImpl( id == link.from )
+    nodeTo: NodeImpl( id == link.to )
 then
     debug(" Connect to children  " + nodeFrom.getId() + " -> " + nodeTo.getId());
     nodeFrom.add( nodeTo.getChildren() );
@@ -87,8 +86,8 @@ end
 rule "Assign orphan nodes to root"
   salience -100
 when
-    orphan: Node()
-    not( Node( nodes contains orphan ) )
+    orphan: NodeImpl()
+    not( NodeImpl( nodes contains orphan ) )
 then
     debug(" orphan node " + orphan.getId());
     rootNode.add(orphan);
