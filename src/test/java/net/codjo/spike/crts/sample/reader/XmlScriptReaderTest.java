@@ -25,7 +25,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
-import static net.codjo.spike.crts.api.definition.GrammarBuilder.node;
+import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
 @RunWith(Enclosed.class)
 public class XmlScriptReaderTest {
     public static class BasicTest {

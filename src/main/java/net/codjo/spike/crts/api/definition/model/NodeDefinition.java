@@ -17,31 +17,28 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel.definition.model;
+package net.codjo.spike.crts.api.definition.model;
+import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
 /**
  *
  */
-public class LinkToChildrenDefinition implements Definition {
-    private final String from;
-    private final String to;
+public class NodeDefinition implements Definition {
+    private final String id;
+    private final Class<? extends NodeBehaviour> behaviour;
 
 
-    public LinkToChildrenDefinition(String from, String to) {
-        this.from = from;
-        this.to = to;
+    public NodeDefinition(String id, Class<? extends NodeBehaviour> behaviour) {
+        this.id = id;
+        this.behaviour = behaviour;
     }
 
 
-    // used by drools
-    @SuppressWarnings({"UnusedDeclaration"})
-    public String getFrom() {
-        return from;
+    public String getId() {
+        return id;
     }
 
 
-    // used by drools
-    @SuppressWarnings({"UnusedDeclaration"})
-    public String getTo() {
-        return to;
+    public Class<? extends NodeBehaviour> getBehaviour() {
+        return behaviour;
     }
 }

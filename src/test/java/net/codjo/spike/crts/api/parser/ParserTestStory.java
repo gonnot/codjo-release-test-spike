@@ -18,7 +18,7 @@
  */
 
 package net.codjo.spike.crts.api.parser;
-import net.codjo.spike.crts.api.definition.GrammarBuilder;
+import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.api.execution.Script;
 import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import static net.codjo.test.common.matcher.JUnitMatchers.*;
@@ -48,7 +48,7 @@ class ParserTestStory {
     }
 
     class TestStoryGiven {
-        public TestStoryGiven pluginDeclare(GrammarBuilder node) {
+        public TestStoryGiven pluginDeclare(DefinitionBuilder node) {
             engine.declare(node);
             return this;
         }

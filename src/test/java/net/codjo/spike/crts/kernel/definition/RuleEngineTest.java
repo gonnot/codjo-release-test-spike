@@ -21,7 +21,7 @@ package net.codjo.spike.crts.kernel.definition;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import static net.codjo.spike.crts.api.definition.GrammarBuilder.node;
+import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
 import static net.codjo.spike.crts.kernel.definition.NodeImplTest.assertNode;
 /**
  *

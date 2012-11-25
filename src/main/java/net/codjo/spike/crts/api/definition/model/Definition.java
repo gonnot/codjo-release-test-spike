@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel.definition.model;
+package net.codjo.spike.crts.api.definition.model;
 /**
  *
  */

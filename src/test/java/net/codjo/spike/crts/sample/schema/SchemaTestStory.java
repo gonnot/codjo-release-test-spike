@@ -20,7 +20,7 @@
 package net.codjo.spike.crts.sample.schema;
 import java.io.IOException;
 import java.io.StringWriter;
-import net.codjo.spike.crts.api.definition.GrammarBuilder;
+import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import org.intellij.lang.annotations.Language;
 import static net.codjo.spike.crts.sample.schema.IsXsdCompliant.xsdCompliantWith;
@@ -47,7 +47,7 @@ class SchemaTestStory {
 
 
     class TestStoryGiven {
-        public TestStoryGiven pluginDeclare(GrammarBuilder node) {
+        public TestStoryGiven pluginDeclare(DefinitionBuilder node) {
             engine.declare(node);
             return this;
         }
