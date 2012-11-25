@@ -40,9 +40,9 @@ public class ScriptParser {
     }
 
 
-    public TaskBuilder readTag(String tagName, TaskLocator locator) throws SyntaxErrorException {
-        if (!grammarTree.getId().equals(tagName)) {
-            throw new SyntaxErrorException("Bad root tag", locator);
+    public TaskBuilder readTask(String taskName, TaskLocator locator) throws SyntaxErrorException {
+        if (!grammarTree.getId().equals(taskName)) {
+            throw new SyntaxErrorException("Bad root task", locator);
         }
         return new TaskBuilder(scriptBuilder.get().getRootTask(), grammarTree);
     }

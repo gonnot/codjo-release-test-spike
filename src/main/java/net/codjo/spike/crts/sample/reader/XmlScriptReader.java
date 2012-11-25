@@ -110,7 +110,7 @@ public class XmlScriptReader {
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             displayLocalisation();
             if (builders.isEmpty()) {
-                builders.push(scriptParser.readTag(qName, currentLocator()));
+                builders.push(scriptParser.readTask(qName, currentLocator()));
             }
             else {
                 TaskBuilder builder = builders.peek().readSubTask(qName, currentLocator());

@@ -81,7 +81,7 @@ class ParserTestStory {
 
 
         public TestStoryWhen readTag(String name) throws SyntaxErrorException {
-            parser.readTag(name, TaskLocator.NO_LOCATOR);
+            parser.readTask(name, TaskLocator.NO_LOCATOR);
             return this;
         }
 
