@@ -17,11 +17,11 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
+package net.codjo.spike.crts.kernel.definition;
 
 public interface NodeVisitor<T> {
-    T visit(Node node);
+    T visit(NodeImpl node);
 
 
-    T visitChildren(Node mainChildrenParentNode, NodeChildren children);
+    T visitChildren(NodeImpl mainChildrenParentNode, NodeChildrenImpl children);
 }

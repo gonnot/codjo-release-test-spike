@@ -17,27 +17,26 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
+package net.codjo.spike.crts.kernel.definition;
 
 import java.util.List;
-import net.codjo.spike.crts.api.definition.DefinitionVisitor;
-import net.codjo.spike.crts.api.definition.INode;
-import net.codjo.spike.crts.api.definition.NodeDefinition;
+import net.codjo.spike.crts.api.definition.GrammarVisitor;
+import net.codjo.spike.crts.api.definition.Node;
 import net.codjo.spike.crts.api.execution.behaviour.EmptyBehaviour;
 
-public class Node implements GraphElement, INode {
-    private final NodeChildren children;
+public class NodeImpl implements GraphElement, Node {
+    private final NodeChildrenImpl children;
     private final NodeDefinition nodeDefinition;
 
 
-    public Node(String name) {
+    public NodeImpl(String name) {
         this(new NodeDefinition(name, EmptyBehaviour.class));
     }
 
 
-    public Node(NodeDefinition nodeDefinition) {
+    public NodeImpl(NodeDefinition nodeDefinition) {
         this.nodeDefinition = nodeDefinition;
-        children = new NodeChildren(this);
+        children = new NodeChildrenImpl(this);
     }
 
 
@@ -70,12 +69,12 @@ public class Node implements GraphElement, INode {
 
     // used by drools
     @SuppressWarnings({"UnusedDeclaration"})
-    public NodeChildren getChildren() {
+    public NodeChildrenImpl getChildren() {
         return children;
     }
 
 
-    public void accept(DefinitionVisitor visitor) {
+    public void accept(GrammarVisitor visitor) {
         visitor.visitNode(this);
     }
 }

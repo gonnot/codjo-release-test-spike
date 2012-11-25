@@ -23,7 +23,7 @@ import net.codjo.util.file.FileUtil;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
-import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
+import static net.codjo.spike.crts.api.definition.GrammarBuilder.node;
 @RunWith(Enclosed.class)
 public class XsdWriterTest {
     public static class NoTagTest {

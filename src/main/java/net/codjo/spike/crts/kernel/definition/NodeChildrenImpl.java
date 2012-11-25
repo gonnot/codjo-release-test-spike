@@ -17,20 +17,20 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
+package net.codjo.spike.crts.kernel.definition;
 import java.util.ArrayList;
 import java.util.List;
-import net.codjo.spike.crts.api.definition.DefinitionVisitor;
-import net.codjo.spike.crts.api.definition.INodeChildren;
+import net.codjo.spike.crts.api.definition.GrammarVisitor;
+import net.codjo.spike.crts.api.definition.NodeChildren;
 /**
  *
  */
-public class NodeChildren implements GraphElement, INodeChildren {
+public class NodeChildrenImpl implements GraphElement, NodeChildren {
     private List<GraphElement> nodes = new ArrayList<GraphElement>();
-    private Node parentNode;
+    private NodeImpl parentNode;
 
 
-    public NodeChildren(Node parentNode) {
+    public NodeChildrenImpl(NodeImpl parentNode) {
         this.parentNode = parentNode;
     }
 
@@ -50,7 +50,7 @@ public class NodeChildren implements GraphElement, INodeChildren {
     }
 
 
-    public void accept(DefinitionVisitor visitor) {
+    public void accept(GrammarVisitor visitor) {
         visitor.visitChildren(this);
     }
 
@@ -60,7 +60,7 @@ public class NodeChildren implements GraphElement, INodeChildren {
     }
 
 
-    public void visitContent(DefinitionVisitor visitor) {
+    public void visitContent(GrammarVisitor visitor) {
         for (GraphElement node : nodes) {
             node.accept(visitor);
         }

@@ -21,10 +21,9 @@ package net.codjo.spike.crts.api.definition;
 /**
  *
  */
-public interface INode extends IGraphElement {
+public interface GrammarVisitor {
+    public void visitNode(Node node);
 
-    String getId();
 
-
-    INodeChildren getChildren();
+    public void visitChildren(NodeChildren children);
 }

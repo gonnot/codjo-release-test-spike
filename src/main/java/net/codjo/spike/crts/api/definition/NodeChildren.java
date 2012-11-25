@@ -21,9 +21,12 @@ package net.codjo.spike.crts.api.definition;
 /**
  *
  */
-public interface DefinitionVisitor {
-    public void visitNode(INode node);
+public interface NodeChildren extends GrammarElement {
+    boolean isEmpty();
 
 
-    public void visitChildren(INodeChildren children);
+    void visitContent(GrammarVisitor visitor);
+
+
+    String getOwnerId();
 }

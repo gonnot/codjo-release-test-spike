@@ -29,7 +29,7 @@ import net.codjo.spike.crts.api.parser.ScriptParser;
 import net.codjo.spike.crts.api.parser.SyntaxErrorException;
 import net.codjo.spike.crts.api.parser.TagBuilder;
 import net.codjo.spike.crts.api.parser.TagLocator;
-import net.codjo.spike.crts.kernel.Node;
+import net.codjo.spike.crts.kernel.definition.NodeImpl;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
@@ -46,7 +46,7 @@ public class XmlScriptReader {
     private final ScriptParser scriptParser;
 
 
-    public XmlScriptReader(Node syntaxTree) {
+    public XmlScriptReader(NodeImpl syntaxTree) {
         scriptParser = new ScriptParser(syntaxTree);
     }
 

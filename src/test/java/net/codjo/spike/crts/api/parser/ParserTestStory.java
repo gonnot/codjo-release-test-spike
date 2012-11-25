@@ -18,9 +18,9 @@
  */
 
 package net.codjo.spike.crts.api.parser;
-import net.codjo.spike.crts.api.definition.DefinitionBuilder;
+import net.codjo.spike.crts.api.definition.GrammarBuilder;
 import net.codjo.spike.crts.api.execution.Script;
-import net.codjo.spike.crts.kernel.RuleEngine;
+import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import static net.codjo.test.common.matcher.JUnitMatchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -48,7 +48,7 @@ class ParserTestStory {
     }
 
     class TestStoryGiven {
-        public TestStoryGiven pluginDeclare(DefinitionBuilder node) {
+        public TestStoryGiven pluginDeclare(GrammarBuilder node) {
             engine.declare(node);
             return this;
         }

@@ -25,22 +25,23 @@ import net.codjo.spike.crts.kernel.definition.Definition;
 import net.codjo.spike.crts.kernel.definition.LinkDefinition;
 import net.codjo.spike.crts.kernel.definition.LinkDefinition.Type;
 import net.codjo.spike.crts.kernel.definition.LinkToChildrenDefinition;
+import net.codjo.spike.crts.kernel.definition.NodeDefinition;
 import static net.codjo.spike.crts.kernel.definition.LinkDefinition.Type.BY_ID;
 import static net.codjo.spike.crts.kernel.definition.LinkDefinition.Type.REGEXP;
 /**
  *
  */
-public final class DefinitionBuilder {
+public final class GrammarBuilder {
     private NodeDefinition nodeDefinition;
     private final List<Definition> definitions = new ArrayList<Definition>();
 
 
-    public static DefinitionBuilder node(final String nodeId) {
-        return new DefinitionBuilder(new NodeDefinition(nodeId, EmptyBehaviour.class));
+    public static GrammarBuilder node(final String nodeId) {
+        return new GrammarBuilder(new NodeDefinition(nodeId, EmptyBehaviour.class));
     }
 
 
-    private DefinitionBuilder(NodeDefinition nodeDefinition) {
+    private GrammarBuilder(NodeDefinition nodeDefinition) {
         this.nodeDefinition = nodeDefinition;
         this.definitions.add(nodeDefinition);
     }
@@ -51,26 +52,26 @@ public final class DefinitionBuilder {
     }
 
 
-    public DefinitionBuilder asChildOf(String parentId) {
+    public GrammarBuilder asChildOf(String parentId) {
         definitions.add(link(BY_ID).fromParent(parentId).to(nodeDefinition));
         return this;
     }
 
 
-    public DefinitionBuilder asChildOfMatchingNodes(String javaRegExp) {
+    public GrammarBuilder asChildOfMatchingNodes(String javaRegExp) {
         definitions.add(link(REGEXP).fromParent(javaRegExp).to(nodeDefinition));
         return this;
     }
 
 
-    public DefinitionBuilder containing(DefinitionBuilder subDefinitionBuilder) {
-        definitions.add(link(BY_ID).fromParent(nodeDefinition).to(subDefinitionBuilder.nodeDefinition));
-        definitions.addAll(subDefinitionBuilder.get());
+    public GrammarBuilder containing(GrammarBuilder subGrammarBuilder) {
+        definitions.add(link(BY_ID).fromParent(nodeDefinition).to(subGrammarBuilder.nodeDefinition));
+        definitions.addAll(subGrammarBuilder.get());
         return this;
     }
 
 
-    public DefinitionBuilder containingChildrenOf(String parentNodeId) {
+    public GrammarBuilder containingChildrenOf(String parentNodeId) {
         definitions.add(link().fromParent(nodeDefinition).toChildrenOf(parentNodeId));
         return this;
     }

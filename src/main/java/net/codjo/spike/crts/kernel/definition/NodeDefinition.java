@@ -17,11 +17,28 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
-import net.codjo.spike.crts.api.definition.IGraphElement;
+package net.codjo.spike.crts.kernel.definition;
+import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
 /**
  *
  */
-public interface GraphElement extends IGraphElement {
-    public <T> T accept(NodeVisitor<T> visitor);
+public class NodeDefinition implements Definition {
+    private final String id;
+    private final Class<? extends NodeBehaviour> behaviour;
+
+
+    public NodeDefinition(String id, Class<? extends NodeBehaviour> behaviour) {
+        this.id = id;
+        this.behaviour = behaviour;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+
+    public Class<? extends NodeBehaviour> getBehaviour() {
+        return behaviour;
+    }
 }

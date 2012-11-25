@@ -20,16 +20,16 @@
 package net.codjo.spike.crts.api.parser;
 import net.codjo.spike.crts.api.execution.Script;
 import net.codjo.spike.crts.api.execution.ScriptBuilder;
-import net.codjo.spike.crts.kernel.Node;
+import net.codjo.spike.crts.kernel.definition.NodeImpl;
 /**
  *
  */
 public class ScriptParser {
-    private Node syntaxTree;
+    private NodeImpl syntaxTree;
     private ScriptBuilder scriptBuilder = new ScriptBuilder();
 
 
-    public ScriptParser(Node syntaxTree) {
+    public ScriptParser(NodeImpl syntaxTree) {
         this.syntaxTree = syntaxTree;
     }
 

@@ -17,12 +17,11 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
+package net.codjo.spike.crts.kernel.definition;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Properties;
-import net.codjo.spike.crts.api.definition.DefinitionBuilder;
-import net.codjo.spike.crts.kernel.definition.Definition;
+import net.codjo.spike.crts.api.definition.GrammarBuilder;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;
@@ -35,7 +34,7 @@ import org.drools.rule.Package;
 @SuppressWarnings({"NullableProblems"})
 public class RuleEngine {
     private WorkingMemory workingMemory;
-    private Node rootNode = new Node("release-test");
+    private NodeImpl rootNode = new NodeImpl("release-test");
 
 
     public RuleEngine() {
@@ -45,8 +44,8 @@ public class RuleEngine {
     }
 
 
-    public void declare(DefinitionBuilder... builders) {
-        for (DefinitionBuilder builder : builders) {
+    public void declare(GrammarBuilder... builders) {
+        for (GrammarBuilder builder : builders) {
             for (Definition definition : builder.get()) {
                 workingMemory.insert(definition);
             }
@@ -80,7 +79,7 @@ public class RuleEngine {
     }
 
 
-    public Node getRootNode() {
+    public NodeImpl getRootNode() {
         return rootNode;
     }
 }

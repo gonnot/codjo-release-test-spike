@@ -17,10 +17,11 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.definition;
+package net.codjo.spike.crts.kernel.definition;
+import net.codjo.spike.crts.api.definition.GrammarElement;
 /**
  *
  */
-public interface IGraphElement {
-    void accept(DefinitionVisitor visitor);
+public interface GraphElement extends GrammarElement {
+    public <T> T accept(NodeVisitor<T> visitor);
 }

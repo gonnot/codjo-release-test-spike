@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
+package net.codjo.spike.crts.kernel.definition;
 
 public class StringNodeVisitor implements NodeVisitor<String> {
     private static final String BRANCH = " *-- ";
@@ -25,7 +25,7 @@ public class StringNodeVisitor implements NodeVisitor<String> {
     private int level = 0;
 
 
-    public String visit(Node node) {
+    public String visit(NodeImpl node) {
         StringBuilder builder = builder();
         builder.append(node.getId()).append('\n');
 
@@ -39,7 +39,7 @@ public class StringNodeVisitor implements NodeVisitor<String> {
     }
 
 
-    public String visitChildren(Node mainChildrenParentNode, NodeChildren children) {
+    public String visitChildren(NodeImpl mainChildrenParentNode, NodeChildrenImpl children) {
         return builder().append(mainChildrenParentNode.getId()).append(".children\n").toString();
     }
 

@@ -17,24 +17,24 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.kernel;
+package net.codjo.spike.crts.kernel.definition;
 
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 // @RunWith(Enclosed.class)
-public class NodeTest {
+public class NodeImplTest {
     @Test
     public void testVisitOneNode() throws Exception {
-        Node node = new Node("root");
+        NodeImpl node = new NodeImpl("root");
         assertNode(node, "root");
     }
 
 
     @Test
     public void testVisitWithOneSubNode() throws Exception {
-        Node node =
+        NodeImpl node =
               node("root")
                     .add(node("gui-test"))
                     .get();
@@ -45,7 +45,7 @@ public class NodeTest {
 
     @Test
     public void testVisitWithSubNode() throws Exception {
-        Node node =
+        NodeImpl node =
               node("root")
                     .add(node("gui-test"))
                     .add(node("web-test"))
@@ -58,7 +58,7 @@ public class NodeTest {
 
     @Test
     public void testVisitWithDeepSubNode() throws Exception {
-        Node node =
+        NodeImpl node =
               node("root")
                     .add(node("gui-test")
                                .add(node("assertButton")
@@ -76,7 +76,7 @@ public class NodeTest {
     }
 
 
-    static void assertNode(Node node, String expected) {
+    static void assertNode(NodeImpl node, String expected) {
         String result = node.accept(new StringNodeVisitor());
         assertThat(result, is(expected.replaceAll("(\\w) ", "$1\n ").trim() + "\n"));
     }
@@ -88,11 +88,11 @@ public class NodeTest {
 
 
     private static class NodeBuilder {
-        private final Node node;
+        private final NodeImpl node;
 
 
         private NodeBuilder(String name) {
-            node = new Node(name);
+            node = new NodeImpl(name);
         }
 
 
@@ -102,7 +102,7 @@ public class NodeTest {
         }
 
 
-        public Node get() {
+        public NodeImpl get() {
             return node;
         }
     }

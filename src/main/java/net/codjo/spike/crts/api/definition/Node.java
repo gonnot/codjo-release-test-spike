@@ -18,28 +18,13 @@
  */
 
 package net.codjo.spike.crts.api.definition;
-import net.codjo.spike.crts.api.execution.behaviour.NodeBehaviour;
-import net.codjo.spike.crts.kernel.definition.Definition;
 /**
  *
  */
-public class NodeDefinition implements Definition {
-    private final String id;
-    private final Class<? extends NodeBehaviour> behaviour;
+public interface Node extends GrammarElement {
+
+    String getId();
 
 
-    public NodeDefinition(String id, Class<? extends NodeBehaviour> behaviour) {
-        this.id = id;
-        this.behaviour = behaviour;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-
-    public Class<? extends NodeBehaviour> getBehaviour() {
-        return behaviour;
-    }
+    NodeChildren getChildren();
 }
