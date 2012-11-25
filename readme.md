@@ -12,7 +12,7 @@ This spike is a study for improving the modularity of [codjo-release-test](https
 
 		codjo codjo-release-test-spike gonnot
 
-1. Compile the project using the profile codjo (for downloading codjo libraries)
+1. Compile the project 
 
-		mvn -P codjo install
+		mvn install
 
