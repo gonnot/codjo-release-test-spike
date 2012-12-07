@@ -18,6 +18,8 @@
  */
 
 package net.codjo.spike.crts.api.parser;
+import java.io.File;
+import net.codjo.spike.crts.api.model.locator.FileTaskLocator;
 import net.codjo.spike.crts.api.parser.ParserTestStory.ParserUseCase;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -58,7 +60,7 @@ public class ScriptParserTest {
                   })
 
                   .then()
-                  .exceptionHasBeenThrown(SyntaxErrorException.class, "Bad root task [unknown location]");
+                  .exceptionHasBeenThrown(SyntaxErrorException.class, "Bad root task (unknown location)");
         }
     }
     public static class OneLevelTest {
@@ -71,14 +73,13 @@ public class ScriptParserTest {
                   .when()
                   .run(new ParserUseCase() {
                       public void perform(ScriptParser parser) throws Exception {
-
-                          TaskBuilder releaseTestTask = parser.readTask("release-test", NO_LOCATOR);
-                          releaseTestTask.readSubTask("unknown-tag", NO_LOCATOR);
+                          parser.readTask("release-test", NO_LOCATOR)
+                                .readSubTask("unknown-tag", NO_LOCATOR);
                       }
                   })
 
                   .then()
-                  .exceptionHasBeenThrown(SyntaxErrorException.class, "'unknown-tag' is not allowed in 'release-test' [unknown location]");
+                  .exceptionHasBeenThrown(SyntaxErrorException.class, "'unknown-tag' is not allowed in 'release-test' (unknown location)");
         }
 
 
@@ -137,10 +138,9 @@ public class ScriptParserTest {
                   .when()
                   .run(new ParserUseCase() {
                       public void perform(ScriptParser parser) throws Exception {
-
-                          TaskBuilder releaseTestTask = parser.readTask("release-test", NO_LOCATOR);
-                          TaskBuilder copyTask = releaseTestTask.readSubTask("copy", NO_LOCATOR);
-                          copyTask.readSubTask("file", NO_LOCATOR);
+                          parser.readTask("release-test", NO_LOCATOR)
+                                .readSubTask("copy", NO_LOCATOR)
+                                .readSubTask("file", NO_LOCATOR);
                       }
                   })
 
@@ -149,6 +149,89 @@ public class ScriptParserTest {
                                       + " *-- copy"
                                       + "      *-- file"
                   );
+        }
+    }
+    public static class TaskHasLocatorTest {
+        @Test
+        public void testNoLocator() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause"))
+
+                  .when()
+                  .run(new ParserUseCase() {
+                      public void perform(ScriptParser parser) throws Exception {
+                          parser.readTask("release-test", NO_LOCATOR)
+                                .readSubTask("pause", NO_LOCATOR);
+                      }
+                  })
+
+                  .then()
+                  .task("pause").hasLocator("pause(unknown location)");
+        }
+
+
+        @Test
+        public void testFileLocator() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause"))
+
+                  .when()
+                  .run(new ParserUseCase() {
+                      public void perform(ScriptParser parser) throws Exception {
+                          parser.readTask("release-test", new FileTaskLocator(new File("script.xml"), 1, 0))
+                                .readSubTask("pause", new FileTaskLocator(new File("script.xml"), 5, 0));
+                      }
+                  })
+
+                  .then()
+                  .task("release-test").hasLocator("release-test(script.xml:1,0)")
+                  .task("pause").hasLocator("pause(script.xml:5,0)");
+        }
+
+
+        @Test
+        public void testLocatorStackWithTwoNodes() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause"))
+
+                  .when()
+                  .run(new ParserUseCase() {
+                      public void perform(ScriptParser parser) throws Exception {
+                          parser.readTask("release-test", new FileTaskLocator(new File("script.xml"), 1, 0))
+                                .readSubTask("pause", new FileTaskLocator(new File("script.xml"), 5, 0));
+                      }
+                  })
+
+                  .then()
+                  .task("release-test").hasLocatorStack("release-test(script.xml:1,0)")
+                  .task("pause").hasLocatorStack("pause(script.xml:5,0)\n"
+                                                 + "at release-test(script.xml:1,0)");
+        }
+
+
+        @Test
+        public void testLocatorStackWithThreeNodes() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("edit-cell"))
+                  .pluginDeclare(node("click").asChildOf("edit-cell"))
+
+                  .when()
+                  .run(new ParserUseCase() {
+                      public void perform(ScriptParser parser) throws Exception {
+                          parser.readTask("release-test", new FileTaskLocator(new File("script.xml"), 1, 0))
+                                .readSubTask("edit-cell", new FileTaskLocator(new File("script.xml"), 5, 0))
+                                .readSubTask("click", new FileTaskLocator(new File("script.xml"), 6, 2));
+                      }
+                  })
+
+                  .then()
+                  .task("click").hasLocatorStack("click(script.xml:6,2)\n"
+                                                 + "at edit-cell(script.xml:5,0)\n"
+                                                 + "at release-test(script.xml:1,0)");
         }
     }
 

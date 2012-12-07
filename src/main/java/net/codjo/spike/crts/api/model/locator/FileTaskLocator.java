@@ -50,7 +50,12 @@ public class FileTaskLocator implements TaskLocator {
     }
 
 
-    public String toHumanReadableFormat() {
-        return String.format(" [%s:(%d,%d)]", getFile().getName(), getLineNumber(), getColumnNumber());
+    public String toShortDescription() {
+        return String.format("(%s:%d,%d)", getFile().getName(), getLineNumber(), getColumnNumber());
+    }
+
+
+    public String toLongDescription() {
+        return toShortDescription();
     }
 }

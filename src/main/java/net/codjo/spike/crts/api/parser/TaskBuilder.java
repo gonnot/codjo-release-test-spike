@@ -44,9 +44,15 @@ public class TaskBuilder {
             throw new SyntaxErrorException(String.format("'%s' is not allowed in '%s'", taskName, parentTask.getName()), locator);
         }
 
-        Task subTag = new Task(taskName, null);
-        parentTask.addTask(subTag);
-        return new TaskBuilder(subTag, grammarNodeForSubTask);
+        Task subTask = new Task(taskName, null);
+        setLocator(locator, subTask, parentTask);
+        parentTask.addTask(subTask);
+        return new TaskBuilder(subTask, grammarNodeForSubTask);
+    }
+
+
+    static void setLocator(TaskLocator locator, Task subTask, Task parentTask) {
+        subTask.setLocator(new EnrichedTaskLocator(subTask, locator, parentTask));
     }
 
 

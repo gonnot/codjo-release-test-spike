@@ -22,12 +22,20 @@ package net.codjo.spike.crts.api.model.locator;
  *
  */
 public interface TaskLocator {
-    String toHumanReadableFormat();
+    String toShortDescription();
+
+
+    String toLongDescription();
 
 
     public static final TaskLocator NO_LOCATOR = new TaskLocator() {
-        public String toHumanReadableFormat() {
-            return " [unknown location]";
+        public String toShortDescription() {
+            return "(unknown location)";
+        }
+
+
+        public String toLongDescription() {
+            return toShortDescription();
         }
     };
 }

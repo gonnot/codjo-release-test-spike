@@ -20,7 +20,9 @@
 package net.codjo.spike.crts.api.model;
 import java.util.ArrayList;
 import java.util.List;
+import net.codjo.spike.crts.api.model.behaviour.EmptyBehaviour;
 import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
+import net.codjo.spike.crts.api.model.locator.TaskLocator;
 /**
  *
  */
@@ -28,6 +30,12 @@ public class Task {
     private final TaskBehaviour behaviour;
     private final List<Task> subTasks = new ArrayList<Task>();
     private final String name;
+    private TaskLocator locator = TaskLocator.NO_LOCATOR;
+
+
+    Task(String name) {
+        this(name, new EmptyBehaviour());
+    }
 
 
     public Task(String name, TaskBehaviour behaviour) {
@@ -60,5 +68,15 @@ public class Task {
 
     public String getName() {
         return name;
+    }
+
+
+    public TaskLocator getLocator() {
+        return locator;
+    }
+
+
+    public void setLocator(TaskLocator locator) {
+        this.locator = locator;
     }
 }

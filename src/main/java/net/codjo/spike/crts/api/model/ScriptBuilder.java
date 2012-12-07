@@ -18,12 +18,11 @@
  */
 
 package net.codjo.spike.crts.api.model;
-import net.codjo.spike.crts.api.model.behaviour.EmptyBehaviour;
 /**
  *
  */
 public class ScriptBuilder {
-    private final Task rootTask = new Task("release-test", new EmptyBehaviour());
+    private final Task rootTask = new Task("release-test");
 
 
     public Script get() {

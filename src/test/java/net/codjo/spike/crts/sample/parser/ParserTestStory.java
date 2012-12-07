@@ -21,8 +21,10 @@ package net.codjo.spike.crts.sample.parser;
 import java.io.File;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.api.model.Script;
+import net.codjo.spike.crts.api.model.Task;
 import net.codjo.spike.crts.api.parser.StringTaskVisitor;
 import net.codjo.spike.crts.kernel.definition.RuleEngine;
+import net.codjo.spike.crts.kernel.model.TaskFinder;
 import net.codjo.test.common.fixture.DirectoryFixture;
 import net.codjo.util.file.FileUtil;
 import org.intellij.lang.annotations.Language;
@@ -36,6 +38,7 @@ class ParserTestStory {
     private final RuleEngine engine = new RuleEngine();
     private Exception thrownException;
     private Script loadedScript;
+    private Task currentTask;
 
 
     static ParserTestStory init() {
@@ -124,6 +127,24 @@ class ParserTestStory {
             StringTaskVisitor visitor = new StringTaskVisitor();
             loadedScript.visitFromRoot(visitor);
             assertThat(visitor.getResultingTree(), is(expectedTree.replaceAll("(\\w) ", "$1\n ").trim() + "\n"));
+            return this;
+        }
+
+
+        public TestStoryThen task(String taskName) throws Exception {
+            currentTask = TaskFinder.find(taskName, loadedScript);
+            return this;
+        }
+
+
+        public TestStoryThen hasLocator(String expectedStackFormat) throws Exception {
+            assertThat(currentTask.getLocator().toShortDescription(), is(expectedStackFormat));
+            return this;
+        }
+
+
+        public TestStoryThen hasLocatorStack(String expectedStackFormat) throws Exception {
+            assertThat(currentTask.getLocator().toLongDescription(), is(expectedStackFormat));
             return this;
         }
     }

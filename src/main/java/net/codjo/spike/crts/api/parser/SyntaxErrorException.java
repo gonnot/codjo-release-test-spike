@@ -24,6 +24,6 @@ import net.codjo.spike.crts.api.model.locator.TaskLocator;
  */
 public class SyntaxErrorException extends RuntimeException {
     public SyntaxErrorException(String message, TaskLocator locator) {
-        super(message + locator.toHumanReadableFormat());
+        super(message + " " + locator.toShortDescription());
     }
 }

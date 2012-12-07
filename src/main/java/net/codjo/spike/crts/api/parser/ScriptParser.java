@@ -44,6 +44,7 @@ public class ScriptParser {
         if (!grammarTree.getId().equals(taskName)) {
             throw new SyntaxErrorException("Bad root task", locator);
         }
+        TaskBuilder.setLocator(locator, getScript().getRootTask(), null);
         return new TaskBuilder(scriptBuilder.get().getRootTask(), grammarTree);
     }
 }

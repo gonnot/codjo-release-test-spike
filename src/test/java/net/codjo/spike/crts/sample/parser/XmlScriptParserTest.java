@@ -140,17 +140,52 @@ public class XmlScriptParserTest {
                               + "</release-test>")
 
                   .then()
-                  .exceptionHasBeenThrown(SyntaxErrorException.class, "'unexpected-tag' is not allowed in 'release-test' [tempo.xml:(2,22)]")
+                  .exceptionHasBeenThrown(SyntaxErrorException.class, "'unexpected-tag' is not allowed in 'release-test' (tempo.xml:2,22)")
             ;
         }
     }
 
+    public static class LocateNodeTest {
+        @Test
+        public void testTaskCanBeLocate() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause"))
+
+                  .when()
+                  .readScript("tempo.xml",
+                              "<release-test>\n"
+                              + "    <pause/>\n"
+                              + "</release-test>")
+
+                  .then()
+                  .task("pause").hasLocator("pause(tempo.xml:2,13)")
+            ;
+        }
+
+
+        @Test
+        public void testLocateStack() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause"))
+
+                  .when()
+                  .readScript("tempo.xml",
+                              "<release-test>\n"
+                              + "    <pause/>\n"
+                              + "</release-test>")
+
+                  .then()
+                  .task("pause").hasLocatorStack("pause(tempo.xml:2,13)\n"
+                                                 + "at release-test(tempo.xml:1,15)")
+            ;
+        }
+    }
     public static class ToBeImplementedTest {
         @Ignore
         @Test
-        public void testTaskCanBeLocate() throws Exception {
-            // Node can be easily found from a LocateContext : filename and path + line number
-            //    stack trace idea -> /path/file.crt line 327 in tag gui-test [326,/path/file.crt] in tag release-test[1,/path/file.crt]
+        public void testTaskBehaviourAreBuilt() throws Exception {
         }
     }
 

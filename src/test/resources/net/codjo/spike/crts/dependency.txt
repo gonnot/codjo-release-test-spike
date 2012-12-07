@@ -7,6 +7,7 @@ net.codjo.spike.crts.api.execution
 	
 net.codjo.spike.crts.api.model
 	-> net.codjo.spike.crts.api.model.behaviour
+	-> net.codjo.spike.crts.api.model.locator
 
 net.codjo.spike.crts.api.parser
 	-> net.codjo.spike.crts.api.definition
