@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.sample.reader;
+package net.codjo.spike.crts.sample.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -42,11 +42,11 @@ import org.xml.sax.helpers.XMLReaderFactory;
 /**
  *
  */
-public class XmlScriptReader {
+public class XmlScriptParser {
     private final ScriptParser scriptParser;
 
 
-    public XmlScriptReader(Node grammarTree) {
+    public XmlScriptParser(Node grammarTree) {
         scriptParser = new ScriptParser(grammarTree);
     }
 

@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.sample.reader;
+package net.codjo.spike.crts.sample.parser;
 import java.io.File;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.api.model.Script;
@@ -32,14 +32,14 @@ import static org.junit.Assert.assertThat;
 /**
  *
  */
-class ReaderTestStory {
+class ParserTestStory {
     private final RuleEngine engine = new RuleEngine();
     private Exception thrownException;
     private Script loadedScript;
 
 
-    static ReaderTestStory init() {
-        return new ReaderTestStory();
+    static ParserTestStory init() {
+        return new ParserTestStory();
     }
 
 
@@ -67,9 +67,9 @@ class ReaderTestStory {
     }
     class TestStoryWhen {
         public TestStoryWhen readScriptFrom(File file) throws Exception {
-            XmlScriptReader scriptReader = new XmlScriptReader(engine.getRootNode());
+            XmlScriptParser scriptParser = new XmlScriptParser(engine.getRootNode());
             try {
-                loadedScript = scriptReader.readScript(file);
+                loadedScript = scriptParser.readScript(file);
             }
             catch (Exception e) {
                 thrownException = e;

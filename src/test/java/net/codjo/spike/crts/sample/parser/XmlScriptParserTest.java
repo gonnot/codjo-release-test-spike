@@ -17,7 +17,7 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.sample.reader;
+package net.codjo.spike.crts.sample.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import net.codjo.spike.crts.api.parser.SyntaxErrorException;
@@ -27,7 +27,7 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import static net.codjo.spike.crts.api.definition.DefinitionBuilder.node;
 @RunWith(Enclosed.class)
-public class XmlScriptReaderTest {
+public class XmlScriptParserTest {
     public static class BasicTest {
         @Test
         public void testFileNotFound() throws Exception {
@@ -155,7 +155,7 @@ public class XmlScriptReaderTest {
     }
 
 
-    private static ReaderTestStory story() {
-        return ReaderTestStory.init();
+    private static ParserTestStory story() {
+        return ParserTestStory.init();
     }
 }
