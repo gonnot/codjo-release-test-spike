@@ -20,8 +20,8 @@
 package net.codjo.spike.crts.sample.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
+import net.codjo.spike.crts.api.parser.BasicTaskBehaviour;
 import net.codjo.spike.crts.api.parser.SyntaxErrorException;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -182,10 +182,21 @@ public class XmlScriptParserTest {
             ;
         }
     }
-    public static class ToBeImplementedTest {
-        @Ignore
+    public static class ExecutionTest {
         @Test
-        public void testTaskBehaviourAreBuilt() throws Exception {
+        public void testOneNodeExecution() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause", BasicTaskBehaviour.class))
+
+                  .when()
+                  .readScript("<release-test>\n"
+                              + "    <pause/>\n"
+                              + "</release-test>")
+
+                  .then()
+                  .task("pause").hasBehaviourInstanceOf(BasicTaskBehaviour.class)
+            ;
         }
     }
 

@@ -26,6 +26,7 @@ import net.codjo.spike.crts.api.definition.model.LinkDefinition.Type;
 import net.codjo.spike.crts.api.definition.model.LinkToChildrenDefinition;
 import net.codjo.spike.crts.api.definition.model.NodeDefinition;
 import net.codjo.spike.crts.api.model.behaviour.EmptyBehaviour;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 import static net.codjo.spike.crts.api.definition.model.LinkDefinition.Type.BY_ID;
 import static net.codjo.spike.crts.api.definition.model.LinkDefinition.Type.REGEXP;
 /**
@@ -37,7 +38,12 @@ public final class DefinitionBuilder {
 
 
     public static DefinitionBuilder node(final String nodeId) {
-        return new DefinitionBuilder(new NodeDefinition(nodeId, EmptyBehaviour.class));
+        return node(nodeId, EmptyBehaviour.class);
+    }
+
+
+    public static DefinitionBuilder node(final String nodeId, Class<? extends TaskBehaviour> behaviour) {
+        return new DefinitionBuilder(new NodeDefinition(nodeId, behaviour));
     }
 
 

@@ -24,6 +24,7 @@ import net.codjo.spike.crts.api.definition.GrammarVisitor;
 import net.codjo.spike.crts.api.definition.Node;
 import net.codjo.spike.crts.api.definition.model.NodeDefinition;
 import net.codjo.spike.crts.api.model.behaviour.EmptyBehaviour;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 
 public class NodeImpl implements GraphElement, Node {
     private final NodeChildrenImpl children;
@@ -43,6 +44,11 @@ public class NodeImpl implements GraphElement, Node {
 
     public String getId() {
         return nodeDefinition.getId();
+    }
+
+
+    public Class<? extends TaskBehaviour> getBehaviour() {
+        return nodeDefinition.getBehaviour();
     }
 
 

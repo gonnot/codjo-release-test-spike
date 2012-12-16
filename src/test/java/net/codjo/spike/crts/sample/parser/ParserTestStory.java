@@ -22,6 +22,7 @@ import java.io.File;
 import net.codjo.spike.crts.api.definition.DefinitionBuilder;
 import net.codjo.spike.crts.api.model.Script;
 import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 import net.codjo.spike.crts.api.parser.StringTaskVisitor;
 import net.codjo.spike.crts.kernel.definition.RuleEngine;
 import net.codjo.spike.crts.kernel.model.TaskFinder;
@@ -138,14 +139,28 @@ class ParserTestStory {
 
 
         public TestStoryThen hasLocator(String expectedStackFormat) throws Exception {
+            ensureTaskHasBeenCalled();
             assertThat(currentTask.getLocator().toShortDescription(), is(expectedStackFormat));
             return this;
         }
 
 
         public TestStoryThen hasLocatorStack(String expectedStackFormat) throws Exception {
+            ensureTaskHasBeenCalled();
             assertThat(currentTask.getLocator().toLongDescription(), is(expectedStackFormat));
             return this;
+        }
+
+
+        public void hasBehaviourInstanceOf(Class<? extends TaskBehaviour> behaviourClass) {
+            ensureTaskHasBeenCalled();
+            assertThat(currentTask.getBehaviour(), is(notNullValue()));
+            assertThat(currentTask.getBehaviour(), is(behaviourClass));
+        }
+
+
+        private void ensureTaskHasBeenCalled() {
+            assertThat(currentTask, describedAs("please call .task(<name>) before using this method", is(notNullValue())));
         }
     }
 }

@@ -22,6 +22,7 @@ import net.codjo.spike.crts.api.definition.GrammarVisitor;
 import net.codjo.spike.crts.api.definition.Node;
 import net.codjo.spike.crts.api.definition.NodeChildren;
 import net.codjo.spike.crts.api.model.Task;
+import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 import net.codjo.spike.crts.api.model.locator.TaskLocator;
 /**
  *
@@ -44,10 +45,21 @@ public class TaskBuilder {
             throw new SyntaxErrorException(String.format("'%s' is not allowed in '%s'", taskName, parentTask.getName()), locator);
         }
 
-        Task subTask = new Task(taskName, null);
+        Task subTask = new Task(taskName, createBehaviour(grammarNodeForSubTask));
         setLocator(locator, subTask, parentTask);
         parentTask.addTask(subTask);
         return new TaskBuilder(subTask, grammarNodeForSubTask);
+    }
+
+
+    private static TaskBehaviour createBehaviour(Node grammarNodeForSubTask) {
+        Class<? extends TaskBehaviour> behaviourClass = grammarNodeForSubTask.getBehaviour();
+        try {
+            return behaviourClass.newInstance();
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Unable to create behaviour " + behaviourClass.getSimpleName(), e);
+        }
     }
 
 

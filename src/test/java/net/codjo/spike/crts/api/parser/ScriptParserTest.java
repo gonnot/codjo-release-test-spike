@@ -234,6 +234,25 @@ public class ScriptParserTest {
                                                  + "at release-test(script.xml:1,0)");
         }
     }
+    public static class TaskHasBehaviourTest {
+        @Test
+        public void testNoLocator() throws Exception {
+            story()
+                  .given()
+                  .pluginDeclare(node("pause", BasicTaskBehaviour.class))
+
+                  .when()
+                  .run(new ParserUseCase() {
+                      public void perform(ScriptParser parser) throws Exception {
+                          parser.readTask("release-test", NO_LOCATOR)
+                                .readSubTask("pause", NO_LOCATOR);
+                      }
+                  })
+
+                  .then()
+                  .task("pause").hasBehaviourInstanceOf(BasicTaskBehaviour.class);
+        }
+    }
 
 
     private static ParserTestStory story() {

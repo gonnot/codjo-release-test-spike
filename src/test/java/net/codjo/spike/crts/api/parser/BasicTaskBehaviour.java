@@ -17,18 +17,13 @@
  *    and limitations under the License.
  */
 
-package net.codjo.spike.crts.api.definition;
+package net.codjo.spike.crts.api.parser;
+import net.codjo.spike.crts.api.model.behaviour.ExecutionContext;
 import net.codjo.spike.crts.api.model.behaviour.TaskBehaviour;
 /**
  *
  */
-public interface Node extends GrammarElement {
-
-    String getId();
-
-
-    Class<? extends TaskBehaviour> getBehaviour();
-
-
-    NodeChildren getChildren();
+public class BasicTaskBehaviour implements TaskBehaviour {
+    public void run(ExecutionContext context) throws Exception {
+    }
 }
